@@ -12,13 +12,11 @@ public class Unit : MonoBehaviour
     [SerializeField] public int maxHealthPoints;
     [SerializeField] public int currentHealthPoints;
 
-    [SerializeField] private Animator animator;
+    [SerializeField] public Animator animator;
 
     [SerializeField] private Healthbar _healthbar;
 
     [SerializeField] private int _unitID;
-
-    [SerializeField] private EffectsManager _effects;
 
     //[SerializeField] private BaseAttack _attack;
 
@@ -31,7 +29,9 @@ public class Unit : MonoBehaviour
 
     public List<StatusEffect> effects = new List<StatusEffect>();
 
-    //private BattleSystem _battleSystem;
+    private BattleSystem _battleSystem;
+
+    private bool _hadEffectsLastTurn = false;
 
     private MessageSystem _messageSystem;
 
@@ -42,9 +42,9 @@ public class Unit : MonoBehaviour
         _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
     }
 
-    public void Init(/*BattleSystem battleSystem, */MessageSystem messages)
+    public void Init(BattleSystem battleSystem, MessageSystem messages)
     {
-        //_battleSystem = battleSystem;
+        _battleSystem = battleSystem;
         _messageSystem = messages;
     }
 
@@ -69,34 +69,38 @@ public class Unit : MonoBehaviour
         attack.AttackEnemy(this, target);
     }
 
-    public void PlayAttackAnimation()
-    {
-        animator.SetTrigger("attack");
-    }
-
-    public void PlayDeathAnimation()
-    {
-        animator.SetTrigger("isDead");
-    }
-
-    public void PlayVictoryAnimation()
-    {
-        animator.SetTrigger("isWinner");
-    }
-
-    public void PlayStunAnimation()
-    {
-        animator.SetTrigger("isStunned");
-    }
-
-    public void AddEffect(StatusEffect effect)
+    public void ApplyEffect(StatusEffect effect)
     {
         effects.Add(effect);
+        effect.Apply(this);
     }
 
-    public List<StatusEffect> GetEffects()
+    public void ProcessEffects()
     {
-        return effects;
+        if (effects.Count == 0)
+        {
+            if (_hadEffectsLastTurn)
+            {
+                Log(unitName + " has no active negative effects");
+            }
+
+            _hadEffectsLastTurn = false;
+            return;
+        }
+
+        _hadEffectsLastTurn = true;
+
+        foreach (var effect in effects.ToList())
+        {
+            effect.OnTurnStart(this);
+
+            if (effect.duration <= 0)
+            {
+                effect.Remove(this);
+                Log(unitName + " no longer has any negative effects");
+                effects.Remove(effect);
+            }
+        }
     }
 
     public void Log(string message)

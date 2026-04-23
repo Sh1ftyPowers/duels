@@ -13,7 +13,7 @@ public class StunningAttack : StatusEffect
     {
         target.isStunned = true;
         //target.animator.SetTrigger("isStunned");
-        target.PlayStunAnimation();
+        target.animator.SetBool("isStunned", true);
 
         target.Log(target.unitName + " is stunned!");
     }
