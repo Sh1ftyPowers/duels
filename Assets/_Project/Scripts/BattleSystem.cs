@@ -13,13 +13,11 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private GameObject _gameOverCanvas;
     [SerializeField] private GameObject[] teamOnePrefabs;
     [SerializeField] private GameObject[] teamTwoPrefabs;
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioClip _battleTheme;
-    [SerializeField] private AudioClip _victorySound;
-    [SerializeField] private AudioClip _restartMenuTheme;
+
     [SerializeField] private BattleUI _battleUI;
     [SerializeField] private MessageSystem _message;
     [SerializeField] private UnitSpawner _spawner;
+    [SerializeField] private AudioManager _audio;
 
     public BattleState State;
 
@@ -42,9 +40,7 @@ public class BattleSystem : MonoBehaviour
         _teamTwoHeroID = UnityEngine.Random.Range(0, teamTwoPrefabs.Length);
         _teamTwoHeroPrefab = teamTwoPrefabs[_teamTwoHeroID];
 
-        _musicSource.clip = _battleTheme;
-        _musicSource.loop = true;
-        _musicSource.Play();
+        _audio.PlayBattleMusic();
 
         State = BattleState.Start;
         StartCoroutine(SetUpBattle());
@@ -157,22 +153,10 @@ public class BattleSystem : MonoBehaviour
 
     private void EndBattle()
     {
-        StartCoroutine(PlayEndBattleMusic());
+        StartCoroutine(_audio.PlayEndBattleMusic());
         _gameOverCanvas.SetActive(true);
     }
 
-    IEnumerator PlayEndBattleMusic()
-    {
-        _musicSource.loop = false;
-        _musicSource.clip = _victorySound;
-        _musicSource.Play();
-
-        yield return new WaitForSeconds(_victorySound.length - 0.5f);
-
-        _musicSource.clip = _restartMenuTheme;
-        _musicSource.loop = true;
-        _musicSource.Play();
-    }
 
     public void RestartGame()
     {
