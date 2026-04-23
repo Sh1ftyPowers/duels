@@ -9,7 +9,7 @@ public class UnitSpawner : MonoBehaviour
     {
         GameObject obj = Instantiate(prefab, point);
         Unit unit = obj.GetComponent<Unit>();
-        unit.Init(system, messages);
+        unit.Init(/*system,*/ messages);
         return unit;
     }
 

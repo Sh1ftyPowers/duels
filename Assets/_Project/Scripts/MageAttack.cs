@@ -2,14 +2,23 @@ using UnityEngine;
 
 public class MageAttack : BaseAttack
 {
-    public override void AttackEnemy(Unit attacker, Unit target)
+        public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
-        attacker.animator.SetTrigger("attack");
+        attacker.PlayAttackAnimation();
+
         target.TakeDamage(attacker.damage);
+
+        StatusEffect effect = null;
 
         if (UnityEngine.Random.value < 0.3f)
         {
-            target.ApplyEffect(new WeakeningAttack(5));
+            effect = new WeakeningAttack(5);
         }
+
+        return new AttackResult
+        {
+            Damage = attacker.damage,
+            Effect = effect
+        };
     }
 }
