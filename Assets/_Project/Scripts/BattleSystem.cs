@@ -18,10 +18,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private AudioClip _victorySound;
     [SerializeField] private AudioClip _restartMenuTheme;
     [SerializeField] private BattleUI _battleUI;
-
-
-    public Transform TeamOneSpawnPoint;
-    public Transform TeamTwoSpawnPoint;
+    [SerializeField] private MessageSystem _message;
+    [SerializeField] private UnitSpawner _spawner;
 
     public BattleState State;
 
@@ -35,9 +33,6 @@ public class BattleSystem : MonoBehaviour
 
     private int _teamOneHeroID;
     private int _teamTwoHeroID;
-
-    private Queue<string> _messages = new Queue<string>();
-    private bool _isShowingMessage = false;
 
     void Start()
     {
@@ -57,13 +52,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetUpBattle()
     {
-        GameObject TeamOneGameObject = Instantiate(_teamOneHeroPrefab, TeamOneSpawnPoint);
-        _teamOneHero = TeamOneGameObject.GetComponent<Unit>();
-        _teamOneHero.Init(this);
-
-        GameObject TeamTwoGameObject = Instantiate(_teamTwoHeroPrefab, TeamTwoSpawnPoint);
-        _teamTwoHero = TeamTwoGameObject.GetComponent<Unit>();
-        _teamTwoHero.Init(this);
+        _teamOneHero = _spawner.SpawnTeamOne(_teamOneHeroPrefab, this, _message);
+        _teamTwoHero = _spawner.SpawnTeamTwo(_teamTwoHeroPrefab, this, _message);
 
         _battleUI.SetTurnText("The Battle Begins!");
 
@@ -97,12 +87,12 @@ public class BattleSystem : MonoBehaviour
         _isTurnInProgress = true;
 
         _battleUI.SetTurnText(attacker.unitName + " attacks!");
-        yield return StartCoroutine(WaitForMessages());
+        yield return StartCoroutine(_message.WaitForMessages());
         Debug.Log("Ход: " + attacker.unitName);
 
         attacker.ProcessEffects();
         defender.ProcessEffects();
-        yield return StartCoroutine(WaitForMessages());
+        yield return StartCoroutine(_message.WaitForMessages());
 
         if (defender.currentHealthPoints <= 0)
         {
@@ -128,10 +118,10 @@ public class BattleSystem : MonoBehaviour
         if (State != BattleState.TeamOneVictory && State != BattleState.TeamTwoVictory)
         {
             yield return new WaitForSeconds(1f);
-            yield return StartCoroutine(WaitForMessages());
+            yield return StartCoroutine(_message.WaitForMessages());
 
             attacker.PerformAttack(defender);
-            yield return StartCoroutine(WaitForMessages());
+            yield return StartCoroutine(_message.WaitForMessages());
             //yield return StartCoroutine(WaitForReturnToIdle(attacker.animator));
         }
 
@@ -164,35 +154,6 @@ public class BattleSystem : MonoBehaviour
             animator.GetCurrentAnimatorStateInfo(0).IsName("CombatIdle")
         );
     }*/
-
-    public IEnumerator WaitForMessages()
-    {
-        while (_isShowingMessage || _messages.Count > 0)
-        {
-            yield return null;
-        }
-    }
-
-    IEnumerator ShowMessages()
-    {
-        _isShowingMessage = true;
-
-        while (_messages.Count > 0)
-        {
-            _battleUI.SetStatusText(_messages.Dequeue());
-            yield return new WaitForSeconds(2f);
-        }
-
-        _isShowingMessage = false;
-    }
-
-    public void ShowBattleInfo(string message)
-    {
-        _messages.Enqueue(message);
-
-        if (!_isShowingMessage)
-            StartCoroutine(ShowMessages());
-    }
 
     private void EndBattle()
     {

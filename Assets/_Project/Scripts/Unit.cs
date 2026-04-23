@@ -33,6 +33,8 @@ public class Unit : MonoBehaviour
 
     private bool _hadEffectsLastTurn = false;
 
+    private MessageSystem _messageSystem;
+
     private void Start()
     {
         maxHealthPoints = currentHealthPoints;
@@ -40,9 +42,10 @@ public class Unit : MonoBehaviour
         _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
     }
 
-    public void Init(BattleSystem battleSystem)
+    public void Init(BattleSystem battleSystem, MessageSystem messages)
     {
         _battleSystem = battleSystem;
+        _messageSystem = messages;
     }
 
     public void TakeDamage(int damage)
@@ -102,6 +105,6 @@ public class Unit : MonoBehaviour
 
     public void Log(string message)
     {
-        _battleSystem.ShowBattleInfo(message);
+        _messageSystem.ShowMessageText(message);
     }
 }
