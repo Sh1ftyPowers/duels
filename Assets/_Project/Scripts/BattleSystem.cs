@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum BattleState { Start, TeamOneTurn, TeamTwoTurn, TeamOneVictory, TeamTwoVictory }
 
@@ -27,18 +23,10 @@ public class BattleSystem : MonoBehaviour
     private Unit _teamOneHero;
     private Unit _teamTwoHero;
 
-    private bool _isTurnInProgress = false;
-
-    private int _teamOneHeroID;
-    private int _teamTwoHeroID;
-
     void Start()
     {
-        _teamOneHeroID = UnityEngine.Random.Range(0, teamOnePrefabs.Length);
-        _teamOneHeroPrefab = teamOnePrefabs[_teamOneHeroID];
-
-        _teamTwoHeroID = UnityEngine.Random.Range(0, teamTwoPrefabs.Length);
-        _teamTwoHeroPrefab = teamTwoPrefabs[_teamTwoHeroID];
+        _teamOneHeroPrefab = teamOnePrefabs[Random.Range(0, teamOnePrefabs.Length)];
+        _teamTwoHeroPrefab = teamTwoPrefabs[Random.Range(0, teamTwoPrefabs.Length)];
 
         _audio.PlayBattleMusic();
 
@@ -53,7 +41,6 @@ public class BattleSystem : MonoBehaviour
 
         _battleUI.SetTurnText("The Battle Begins!");
 
-        //yield return new WaitForSeconds(2f);
         yield return new WaitForSeconds(0.5f);
 
         State = BattleState.TeamOneTurn;
@@ -62,10 +49,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator BattleLoop()
     {
-        while (State != BattleState.TeamOneVictory && State != BattleState.TeamTwoVictory)
+        while (!IsBattleOver())
         {
-            if (_isTurnInProgress) yield return null;
-
             if (State == BattleState.TeamOneTurn)
             {
                 yield return StartCoroutine(PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn));
@@ -79,84 +64,68 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
     {
-        if (_isTurnInProgress) yield break;
-        _isTurnInProgress = true;
-
         _battleUI.SetTurnText(attacker.unitName + " attacks!");
         yield return StartCoroutine(_message.WaitForMessages());
+
         Debug.Log("Ход: " + attacker.unitName);
 
         attacker.ProcessEffects();
         defender.ProcessEffects();
         yield return StartCoroutine(_message.WaitForMessages());
 
-        if (defender.currentHealthPoints <= 0)
-        {
-            State = attacker == _teamOneHero ? BattleState.TeamOneVictory : BattleState.TeamTwoVictory;
-            EndBattle();
-            _isTurnInProgress = false;
+        if (CheckVictory(attacker, defender))
             yield break;
-        }
 
         if (attacker.isStunned)
         {
-            //Debug.Log(attacker.unitName + " is stunned. His turn is skipped");
-
             attacker.isStunned = false;
             State = nextState;
-
-            _isTurnInProgress = false;
             yield break;
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
 
-        if (State != BattleState.TeamOneVictory && State != BattleState.TeamTwoVictory)
+        if (!IsBattleOver())
         {
-            yield return new WaitForSeconds(1f);
-            yield return StartCoroutine(_message.WaitForMessages());
-
             attacker.PerformAttack(defender);
             yield return StartCoroutine(_message.WaitForMessages());
-            //yield return StartCoroutine(WaitForReturnToIdle(attacker.animator));
         }
 
-        if (defender.currentHealthPoints <= 0)
-        {
-            State = attacker == _teamOneHero ? BattleState.TeamOneVictory : BattleState.TeamTwoVictory;
+        if (CheckVictory(attacker, defender))
+            yield break;
 
-            attacker.animator.SetTrigger("isWinner");
-            defender.animator.SetBool("isDead", true);
-
-            _battleUI.SetTurnText(attacker.unitName + " killed " + defender.unitName + "!");
-            _battleUI.SetStatusText("Gloty to the Winner!");
-
-            EndBattle();
-        }
-        else
-        {
-            State = nextState;
-        }
-
-        _isTurnInProgress = false;
+        State = nextState;
     }
 
-    // Что с ней, что без нее анимации атаки все равно работают криво.
-    /*IEnumerator WaitForReturnToIdle(Animator animator)
+    private bool CheckVictory(Unit attacker, Unit defender)
     {
-        yield return null;
+        if (defender.currentHealthPoints > 0)
+            return false;
 
-        yield return new WaitUntil(() =>
-            animator.GetCurrentAnimatorStateInfo(0).IsName("CombatIdle")
-        );
-    }*/
+        State = attacker == _teamOneHero
+            ? BattleState.TeamOneVictory
+            : BattleState.TeamTwoVictory;
+
+        attacker.animator.SetTrigger("isWinner");
+        defender.animator.SetBool("isDead", true);
+
+        _battleUI.SetTurnText(attacker.unitName + " killed " + defender.unitName + "!");
+        _battleUI.SetStatusText("Glory to the Winner!");
+
+        EndBattle();
+        return true;
+    }
+
+    private bool IsBattleOver()
+    {
+        return State == BattleState.TeamOneVictory || State == BattleState.TeamTwoVictory;
+    }
 
     private void EndBattle()
     {
         StartCoroutine(_audio.PlayEndBattleMusic());
         _gameOverCanvas.SetActive(true);
     }
-
 
     public void RestartGame()
     {
