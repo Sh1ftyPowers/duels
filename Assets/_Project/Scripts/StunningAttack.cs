@@ -4,7 +4,7 @@ public class StunningAttack : StatusEffect
 {
     public new string statusName = "stunned";
 
-    public StunningAttack(int duration)
+    public StunningAttack()
     {
         duration = 1;
     }

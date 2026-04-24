@@ -50,6 +50,9 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isWeakened)
+            damage += damageReduction;
+
         currentHealthPoints -= damage;
 
         //animator.SetTrigger("takeDamage");
@@ -64,9 +67,9 @@ public class Unit : MonoBehaviour
         _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
     }
 
-    public void PerformAttack(Unit target)
+    public AttackResult PerformAttack(Unit target)
     {
-        attack.AttackEnemy(this, target);
+        return attack.AttackEnemy(this, target);
     }
 
     public void PlayAttackAnimation()

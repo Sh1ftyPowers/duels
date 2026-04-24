@@ -88,7 +88,14 @@ public class BattleSystem : MonoBehaviour
 
         if (!IsBattleOver())
         {
-            attacker.PerformAttack(defender);
+            AttackResult result = attacker.PerformAttack(defender);
+            yield return StartCoroutine(_message.WaitForMessages());
+
+            if (result.Effect != null)
+            {
+                _effects.ApplyEffect(defender, result.Effect);
+            }
+
             yield return StartCoroutine(_message.WaitForMessages());
         }
 

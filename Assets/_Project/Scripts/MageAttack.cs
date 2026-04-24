@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MageAttack : BaseAttack
 {
-        public override AttackResult AttackEnemy(Unit attacker, Unit target)
+    public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
         attacker.PlayAttackAnimation();
 

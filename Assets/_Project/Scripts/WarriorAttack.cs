@@ -12,7 +12,7 @@ public class WarriorAttack : BaseAttack
         if (UnityEngine.Random.value < 0.3f)
         {
             //attacker.animator.SetTrigger("secondAttack"); // Было бы круто для стан атаки подключить своб анимацию
-            effect = new StunningAttack(5);
+            effect = new StunningAttack();
         }
 
         return new AttackResult
