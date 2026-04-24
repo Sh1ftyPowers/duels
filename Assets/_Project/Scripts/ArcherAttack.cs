@@ -1,12 +1,19 @@
+using NUnit.Framework.Constraints;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class ArcherAttack : BaseAttack
 {
-    public override void AttackEnemy(Unit attacker, Unit target)
+    public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
-        attacker.animator.SetTrigger("attack");
+        attacker.PlayAttackAnimation();
+
         target.TakeDamage(attacker.damage);
-        target.ApplyEffect(new PoisonedArrows(2));
+
+        return new AttackResult
+        {
+            Damage = attacker.damage,
+            Effect = new PoisonedArrows(2)
+        };
     }
 }

@@ -10,6 +10,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private GameObject[] teamOnePrefabs;
     [SerializeField] private GameObject[] teamTwoPrefabs;
 
+    [SerializeField] private EffectsManager _effects;
     [SerializeField] private BattleUI _battleUI;
     [SerializeField] private MessageSystem _message;
     [SerializeField] private UnitSpawner _spawner;
@@ -69,8 +70,8 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("Ход: " + attacker.unitName);
 
-        attacker.ProcessEffects();
-        defender.ProcessEffects();
+        _effects.ProcessEffects(attacker);
+        _effects.ProcessEffects(defender);
         yield return StartCoroutine(_message.WaitForMessages());
 
         if (CheckVictory(attacker, defender))
@@ -83,7 +84,7 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         if (!IsBattleOver())
         {
@@ -106,8 +107,8 @@ public class BattleSystem : MonoBehaviour
             ? BattleState.TeamOneVictory
             : BattleState.TeamTwoVictory;
 
-        attacker.animator.SetTrigger("isWinner");
-        defender.animator.SetBool("isDead", true);
+        attacker.PlayVictoryAnimation();
+        defender.PlayDeathAnimation();
 
         _battleUI.SetTurnText(attacker.unitName + " killed " + defender.unitName + "!");
         _battleUI.SetStatusText("Glory to the Winner!");

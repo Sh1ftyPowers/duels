@@ -12,11 +12,13 @@ public class Unit : MonoBehaviour
     [SerializeField] public int maxHealthPoints;
     [SerializeField] public int currentHealthPoints;
 
-    [SerializeField] public Animator animator;
+    [SerializeField] private Animator animator;
 
     [SerializeField] private Healthbar _healthbar;
 
     [SerializeField] private int _unitID;
+
+    [SerializeField] private EffectsManager _effects;
 
     //[SerializeField] private BaseAttack _attack;
 
@@ -29,9 +31,7 @@ public class Unit : MonoBehaviour
 
     public List<StatusEffect> effects = new List<StatusEffect>();
 
-    private BattleSystem _battleSystem;
-
-    private bool _hadEffectsLastTurn = false;
+    //private BattleSystem _battleSystem;
 
     private MessageSystem _messageSystem;
 
@@ -42,9 +42,9 @@ public class Unit : MonoBehaviour
         _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
     }
 
-    public void Init(BattleSystem battleSystem, MessageSystem messages)
+    public void Init(/*BattleSystem battleSystem, */MessageSystem messages)
     {
-        _battleSystem = battleSystem;
+        //_battleSystem = battleSystem;
         _messageSystem = messages;
     }
 
@@ -69,38 +69,34 @@ public class Unit : MonoBehaviour
         attack.AttackEnemy(this, target);
     }
 
-    public void ApplyEffect(StatusEffect effect)
+    public void PlayAttackAnimation()
     {
-        effects.Add(effect);
-        effect.Apply(this);
+        animator.SetTrigger("attack");
     }
 
-    public void ProcessEffects()
+    public void PlayDeathAnimation()
     {
-        if (effects.Count == 0)
-        {
-            if (_hadEffectsLastTurn)
-            {
-                Log(unitName + " has no active negative effects");
-            }
+        animator.SetTrigger("isDead");
+    }
 
-            _hadEffectsLastTurn = false;
-            return;
-        }
+    public void PlayVictoryAnimation()
+    {
+        animator.SetTrigger("isWinner");
+    }
 
-        _hadEffectsLastTurn = true;
+    public void PlayStunAnimation()
+    {
+        animator.SetTrigger("isStunned");
+    }
 
-        foreach (var effect in effects.ToList())
-        {
-            effect.OnTurnStart(this);
+    public void AddEffect(StatusEffect effect)
+    {
+        effects.Add(effect);
+    }
 
-            if (effect.duration <= 0)
-            {
-                effect.Remove(this);
-                Log(unitName + " no longer has any negative effects");
-                effects.Remove(effect);
-            }
-        }
+    public List<StatusEffect> GetEffects()
+    {
+        return effects;
     }
 
     public void Log(string message)
