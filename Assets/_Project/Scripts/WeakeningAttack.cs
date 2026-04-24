@@ -12,12 +12,12 @@ public class WeakeningAttack : StatusEffect
         duration = 1;
     }
 
-    public override void Apply(Unit target)
+    public override void Apply(Unit target, MessageSystem message)
     {
         target.isWeakened = true;
         target.damageReduction = -reduction;
 
-        target.Log(target.unitName + " is weakened!");
+        message.ShowMessageText(target.unitName + " is weakened!");
     }
 
     public override void OnTurnStart(Unit target)

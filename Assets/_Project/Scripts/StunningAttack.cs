@@ -9,13 +9,13 @@ public class StunningAttack : StatusEffect
         duration = 1;
     }
 
-    public override void Apply(Unit target)
+    public override void Apply(Unit target, MessageSystem message)
     {
         target.isStunned = true;
         //target.animator.SetTrigger("isStunned");
         target.PlayStunAnimation();
 
-        target.Log(target.unitName + " is stunned!");
+        message.ShowMessageText(target.unitName + " is stunned!");
     }
 
     public override void OnTurnStart(Unit target)

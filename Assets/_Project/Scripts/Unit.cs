@@ -31,21 +31,11 @@ public class Unit : MonoBehaviour
 
     public List<StatusEffect> effects = new List<StatusEffect>();
 
-    //private BattleSystem _battleSystem;
-
-    private MessageSystem _messageSystem;
-
     private void Start()
     {
         maxHealthPoints = currentHealthPoints;
 
         _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
-    }
-
-    public void Init(/*BattleSystem battleSystem, */MessageSystem messages)
-    {
-        //_battleSystem = battleSystem;
-        _messageSystem = messages;
     }
 
     public void TakeDamage(int damage)
@@ -100,10 +90,5 @@ public class Unit : MonoBehaviour
     public List<StatusEffect> GetEffects()
     {
         return effects;
-    }
-
-    public void Log(string message)
-    {
-        _messageSystem.ShowMessageText(message);
     }
 }

@@ -10,7 +10,7 @@ public class EffectsManager : MonoBehaviour
     public void ApplyEffect(Unit unit, StatusEffect effect)
     {
         unit.AddEffect(effect);
-        effect.Apply(unit);
+        effect.Apply(unit, _message);
     }
 
     public void ProcessEffects(Unit unit)

@@ -14,9 +14,9 @@ public class PoisonedArrows : StatusEffect
         poisonDamagePerTick = damage;
     }
 
-    public override void Apply(Unit target)
+    public override void Apply(Unit target, MessageSystem message)
     {
-        target.Log(target.unitName + " is poisoned!");
+        message.ShowMessageText(target.unitName + " is poisoned!");
         target.StartCoroutine(PoisonedArrowsCoroutine(target));
     }
 
