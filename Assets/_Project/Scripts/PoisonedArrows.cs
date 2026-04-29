@@ -5,18 +5,18 @@ public class PoisonedArrows : StatusEffect
 {
     public new string statusName = "poisoned";
     
-    private int poisonDamagePerTick;
-    private float tickInterval = 1f;
-    private float duration = 5f;
+    private int _poisonDamagePerTick;
+    private float _tickInterval = 1f;
+    private float _duration = 5f;
 
     public PoisonedArrows(int damage)
     {
-        poisonDamagePerTick = damage;
+        _poisonDamagePerTick = damage;
     }
 
     public override void Apply(Unit target, MessageSystem message)
     {
-        message.ShowMessageText(target.unitName + " is poisoned!");
+        message.ShowMessageText(target.UnitName + " is poisoned!");
         target.StartCoroutine(PoisonedArrowsCoroutine(target));
     }
 
@@ -24,12 +24,12 @@ public class PoisonedArrows : StatusEffect
     {
         float timer = 0f;
 
-        while ( timer < duration )
+        while ( timer < _duration )
         {
-            target.TakePoisonDamage(poisonDamagePerTick);
+            target.TakePoisonDamage(_poisonDamagePerTick);
 
-            yield return new WaitForSecondsRealtime(tickInterval);  // Можно поменять на WaitForSeconds()
-            timer += tickInterval;
+            yield return new WaitForSecondsRealtime(_tickInterval);  // Можно поменять на WaitForSeconds()
+            timer += _tickInterval;
         }
     }
 

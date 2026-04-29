@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class StunningAttack : StatusEffect
 {
-    public new string statusName = "stunned";
+    public new string StatusName = "stunned";
 
     public StunningAttack()
     {
-        duration = 1;
+        Duration = 1;
     }
 
     public override void Apply(Unit target, MessageSystem message)
     {
-        target.isStunned = true;
+        target.IsStunned = true;
         //target.animator.SetTrigger("isStunned");
         target.PlayStunAnimation();
 
-        message.ShowMessageText(target.unitName + " is stunned!");
+        message.ShowMessageText(target.UnitName + " is stunned!");
     }
 
     public override void OnTurnStart(Unit target)
     {
-        duration--;
+        Duration--;
     }
 
     public override void Remove(Unit target)
     {
-        target.isStunned = false;
+        target.IsStunned = false;
     }
 }

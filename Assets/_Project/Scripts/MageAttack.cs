@@ -6,7 +6,7 @@ public class MageAttack : BaseAttack
     {
         attacker.PlayAttackAnimation();
 
-        target.TakeDamage(attacker.damage);
+        target.TakeDamage(attacker.Damage);
 
         StatusEffect effect = null;
 
@@ -17,7 +17,7 @@ public class MageAttack : BaseAttack
 
         return new AttackResult
         {
-            Damage = attacker.damage,
+            Damage = attacker.Damage,
             Effect = effect
         };
     }

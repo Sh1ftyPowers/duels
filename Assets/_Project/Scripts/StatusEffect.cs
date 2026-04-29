@@ -2,8 +2,8 @@ using UnityEngine;
 
 public abstract class StatusEffect
 {
-    public int duration;
-    public string statusName;
+    public int Duration;
+    public string StatusName;
 
     public abstract void Apply(Unit target, MessageSystem message);
     public abstract void OnTurnStart(Unit target);

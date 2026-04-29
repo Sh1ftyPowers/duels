@@ -15,25 +15,25 @@ public class EffectsManager : MonoBehaviour
 
     public void ProcessEffects(Unit unit)
     {
-        if (unit.effects.Count == 0)
+        if (unit.EffectsList.Count == 0)
             return;
 
-        foreach (var effect in unit.effects.ToList())
+        foreach (var effect in unit.EffectsList.ToList())
         {
             effect.OnTurnStart(unit);
 
-            if (effect.duration <= 0)
+            if (effect.Duration <= 0)
             {
                 effect.Remove(unit);
-                unit.effects.Remove(effect);
+                unit.EffectsList.Remove(effect);
 
-                _message.ShowMessageText($"{unit.unitName} lost an effect");
+                _message.ShowMessageText($"{unit.UnitName} lost an effect");
             }
         }
 
-        if (unit.effects.Count == 0)
+        if (unit.EffectsList.Count == 0)
         {
-            _message.ShowMessageText($"{unit.unitName} has no active effects");
+            _message.ShowMessageText($"{unit.UnitName} has no active effects");
         }
     }
 }

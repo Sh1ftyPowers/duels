@@ -3195,6 +3195,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155f7ca1cd56992459b14b01975e5167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSpawner
+  _teamOnePrefabs:
+  - {fileID: 5296033423310677109, guid: d6c892e685e7b884891671bd2860f84e, type: 3}
+  - {fileID: 8034188758242461285, guid: df355bb5680331148bfd60f3ed32efb1, type: 3}
+  - {fileID: 6919150486055061385, guid: 2a03a569ead48194c9c83de6fe778827, type: 3}
+  _teamTwoPrefabs:
+  - {fileID: 732189283612700696, guid: af736642d51f3674baf19e58c9ed0251, type: 3}
+  - {fileID: 1853458126628407486, guid: a91a3d3e258a1fa4ba15bbadb5996806, type: 3}
+  - {fileID: 3821071726118106241, guid: f34f3b3cd4a6992458dae3fe41ad873c, type: 3}
   _teamOneSpawnPoint: {fileID: 733378370}
   _teamTwoSpawnPoint: {fileID: 1668640578}
 --- !u!1 &832575517
@@ -6829,8 +6837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0bbeaf677e52340900bcd1413d5d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
-  turnInfoText: {fileID: 654546806}
-  statusInfoText: {fileID: 1600142468}
+  TurnInfoText: {fileID: 654546806}
+  StatusInfoText: {fileID: 1600142468}
 --- !u!1 &1752090426
 GameObject:
   m_ObjectHideFlags: 0
@@ -6862,20 +6870,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleSystem
   _gameOverCanvas: {fileID: 1823444681}
-  teamOnePrefabs:
-  - {fileID: 5296033423310677109, guid: d6c892e685e7b884891671bd2860f84e, type: 3}
-  - {fileID: 8034188758242461285, guid: df355bb5680331148bfd60f3ed32efb1, type: 3}
-  - {fileID: 6919150486055061385, guid: 2a03a569ead48194c9c83de6fe778827, type: 3}
-  teamTwoPrefabs:
-  - {fileID: 732189283612700696, guid: af736642d51f3674baf19e58c9ed0251, type: 3}
-  - {fileID: 1853458126628407486, guid: a91a3d3e258a1fa4ba15bbadb5996806, type: 3}
-  - {fileID: 3821071726118106241, guid: f34f3b3cd4a6992458dae3fe41ad873c, type: 3}
   _effects: {fileID: 1570615511}
   _battleUI: {fileID: 1703717329}
   _message: {fileID: 1948794377}
   _spawner: {fileID: 819551044}
   _audio: {fileID: 1229041311}
-  State: 3
+  State: 2
 --- !u!4 &1752090428
 Transform:
   m_ObjectHideFlags: 0

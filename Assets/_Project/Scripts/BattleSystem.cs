@@ -1,14 +1,13 @@
+using Assets._Project.Scripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum BattleState { Start, TeamOneTurn, TeamTwoTurn, TeamOneVictory, TeamTwoVictory }
+/*public enum BattleState { Start, TeamOneTurn, TeamTwoTurn, TeamOneVictory, TeamTwoVictory }*/
 
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOverCanvas;
-    [SerializeField] private GameObject[] teamOnePrefabs;
-    [SerializeField] private GameObject[] teamTwoPrefabs;
 
     [SerializeField] private EffectsManager _effects;
     [SerializeField] private BattleUI _battleUI;
@@ -24,31 +23,31 @@ public class BattleSystem : MonoBehaviour
     private Unit _teamOneHero;
     private Unit _teamTwoHero;
 
-    void Start()
-    {
-        _teamOneHeroPrefab = teamOnePrefabs[Random.Range(0, teamOnePrefabs.Length)];
-        _teamTwoHeroPrefab = teamTwoPrefabs[Random.Range(0, teamTwoPrefabs.Length)];
+    private readonly WaitForSeconds _startDelay = new WaitForSeconds(0.5f);
+    private readonly WaitForSeconds _attackDelay = new WaitForSeconds(3f);
 
+    private void Start()
+    {
         _audio.PlayBattleMusic();
 
         State = BattleState.Start;
         StartCoroutine(SetUpBattle());
     }
 
-    IEnumerator SetUpBattle()
+    public IEnumerator SetUpBattle()
     {
         _teamOneHero = _spawner.SpawnTeamOne(_teamOneHeroPrefab, this, _message);
         _teamTwoHero = _spawner.SpawnTeamTwo(_teamTwoHeroPrefab, this, _message);
 
         _battleUI.SetTurnText("The Battle Begins!");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return _startDelay;
 
         State = BattleState.TeamOneTurn;
         StartCoroutine(BattleLoop());
     }
 
-    IEnumerator BattleLoop()
+    public IEnumerator BattleLoop()
     {
         while (!IsBattleOver())
         {
@@ -63,12 +62,12 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
+    public IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
     {
-        _battleUI.SetTurnText(attacker.unitName + " attacks!");
+        _battleUI.SetTurnText(attacker.UnitName + " attacks!");
         yield return StartCoroutine(_message.WaitForMessages());
 
-        Debug.Log("Ход: " + attacker.unitName);
+        Debug.Log("Ход: " + attacker.UnitName);
 
         _effects.ProcessEffects(attacker);
         _effects.ProcessEffects(defender);
@@ -77,14 +76,14 @@ public class BattleSystem : MonoBehaviour
         if (CheckVictory(attacker, defender))
             yield break;
 
-        if (attacker.isStunned)
+        if (attacker.IsStunned)
         {
-            attacker.isStunned = false;
+            attacker.IsStunned = false;
             State = nextState;
             yield break;
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return _attackDelay;
 
         if (!IsBattleOver())
         {
@@ -107,7 +106,7 @@ public class BattleSystem : MonoBehaviour
 
     private bool CheckVictory(Unit attacker, Unit defender)
     {
-        if (defender.currentHealthPoints > 0)
+        if (defender.CurrentHealthPoints > 0)
             return false;
 
         State = attacker == _teamOneHero
@@ -117,7 +116,7 @@ public class BattleSystem : MonoBehaviour
         attacker.PlayVictoryAnimation();
         defender.PlayDeathAnimation();
 
-        _battleUI.SetTurnText(attacker.unitName + " killed " + defender.unitName + "!");
+        _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
         _battleUI.SetStatusText("Glory to the Winner!");
 
         EndBattle();
@@ -135,7 +134,7 @@ public class BattleSystem : MonoBehaviour
         _gameOverCanvas.SetActive(true);
     }
 
-    public void RestartGame()
+    private void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

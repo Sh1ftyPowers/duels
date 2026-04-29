@@ -5,90 +5,88 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] public string unitName;
+    [SerializeField] public string UnitName;
 
-    [SerializeField] public int damage;
+    [SerializeField] public int Damage;
 
-    [SerializeField] public int maxHealthPoints;
-    [SerializeField] public int currentHealthPoints;
+    [SerializeField] public int MaxHealthPoints;
+    [SerializeField] public int CurrentHealthPoints;
 
-    [SerializeField] private Animator animator;
+    [SerializeField] public int DamageReduction = -5;
+
+    public BaseAttack Attack;
+
+    public List<StatusEffect> EffectsList = new List<StatusEffect>();
+
+    [SerializeField] private Animator _animator;
 
     [SerializeField] private Healthbar _healthbar;
 
     [SerializeField] private int _unitID;
 
-    [SerializeField] private EffectsManager _effects;
-
-    //[SerializeField] private BaseAttack _attack;
-
-    public bool isStunned = false;
-    public bool isWeakened = false;
-
-    public int damageReduction = -5;
-
-    public BaseAttack attack;
-
-    public List<StatusEffect> effects = new List<StatusEffect>();
+    public bool IsStunned = false;
+    public bool IsWeakened = false;
 
     private void Start()
     {
-        maxHealthPoints = currentHealthPoints;
+        MaxHealthPoints = CurrentHealthPoints;
 
-        _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
+        _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
     }
 
     public void TakeDamage(int damage)
     {
-        if (isWeakened)
-            damage += damageReduction;
+        if (IsWeakened)
+            damage += DamageReduction;
 
-        currentHealthPoints -= damage;
+        CurrentHealthPoints -= damage;
+
+        Debug.Log("Получен урон: " + damage);
 
         //animator.SetTrigger("takeDamage");
 
-        _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
+        _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
     }
 
     public void TakePoisonDamage(int poisonDamage)
     {
-        currentHealthPoints -= poisonDamage;
+        CurrentHealthPoints -= poisonDamage;
 
-        _healthbar.UpdateHealthBar(currentHealthPoints, maxHealthPoints);
+        _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
     }
 
     public AttackResult PerformAttack(Unit target)
     {
-        return attack.AttackEnemy(this, target);
+        return Attack.AttackEnemy(this, target);
     }
 
     public void PlayAttackAnimation()
     {
-        animator.SetTrigger("attack");
+        _animator.SetTrigger("attack");
     }
 
     public void PlayDeathAnimation()
     {
-        animator.SetTrigger("isDead");
+        _animator.SetTrigger("isDead");
     }
 
     public void PlayVictoryAnimation()
     {
-        animator.SetTrigger("isWinner");
+        _animator.SetTrigger("isWinner");
     }
 
     public void PlayStunAnimation()
     {
-        animator.SetTrigger("isStunned");
+        _animator.SetTrigger("isStunned");
     }
 
     public void AddEffect(StatusEffect effect)
     {
-        effects.Add(effect);
+        EffectsList.Add(effect);
     }
 
     public List<StatusEffect> GetEffects()
     {
-        return effects;
+        return EffectsList;
     }
 }

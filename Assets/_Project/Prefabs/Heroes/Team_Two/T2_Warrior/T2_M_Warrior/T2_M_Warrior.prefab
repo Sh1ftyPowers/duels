@@ -1524,7 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb83f9c4e18ccb4e8d74cdf5771e912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Healthbar
-  _healthbarSprite: {fileID: 4759555454066817058}
+  HealthbarSprite: {fileID: 4759555454066817058}
 --- !u!1 &2141231566747775212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2424,17 +2424,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  unitName: Blue Team Warrior
-  damage: 20
-  maxHealthPoints: 100
-  currentHealthPoints: 100
+  UnitName: Blue Team Warrior
+  Damage: 20
+  MaxHealthPoints: 100
+  CurrentHealthPoints: 100
+  DamageReduction: -5
+  Attack: {fileID: 4129433331476816811}
+  _animator: {fileID: 13229588159597785}
   _healthbar: {fileID: 7724475778055600815}
-  animator: {fileID: 13229588159597785}
+  _effectsManager: {fileID: 0}
   _unitID: 2
-  isStunned: 1
-  isWeakened: 0
-  damageReduction: 5
-  attack: {fileID: 4129433331476816811}
+  IsStunned: 0
+  IsWeakened: 0
 --- !u!1 &3942609020630197049
 GameObject:
   m_ObjectHideFlags: 0

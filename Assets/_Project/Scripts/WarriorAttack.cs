@@ -5,7 +5,7 @@ public class WarriorAttack : BaseAttack
     public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
         attacker.PlayAttackAnimation();
-        target.TakeDamage(attacker.damage);
+        target.TakeDamage(attacker.Damage);
 
         StatusEffect effect = null;
 
@@ -17,7 +17,7 @@ public class WarriorAttack : BaseAttack
 
         return new AttackResult
         {
-            Damage = attacker.damage,
+            Damage = attacker.Damage,
             Effect = effect
         };
     }

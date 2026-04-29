@@ -2,31 +2,31 @@ using UnityEngine;
 
 public class WeakeningAttack : StatusEffect
 {
-    public new string statusName = "weakened";
+    public new string StatusName = "weakened";
 
-    private int reduction;
+    private int _reduction;
 
     public WeakeningAttack(int reduction)
     {
-        this.reduction = reduction;
-        duration = 1;
+        this._reduction = reduction;
+        Duration = 1;
     }
 
     public override void Apply(Unit target, MessageSystem message)
     {
-        target.isWeakened = true;
-        target.damageReduction = -reduction;
+        target.IsWeakened = true;
+        target.DamageReduction = -_reduction;
 
-        message.ShowMessageText(target.unitName + " is weakened!");
+        message.ShowMessageText(target.UnitName + " is weakened!");
     }
 
     public override void OnTurnStart(Unit target)
     {
-        duration--;
+        Duration--;
     }
 
     public override void Remove(Unit target)
     {
-        target.isWeakened = false;
+        target.IsWeakened = false;
     }
 }

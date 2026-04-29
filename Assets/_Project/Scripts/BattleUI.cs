@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class BattleUI : MonoBehaviour
 {
-    [SerializeField] public TextMeshProUGUI turnInfoText;
-    [SerializeField] public TextMeshProUGUI statusInfoText;
+    [SerializeField] public TextMeshProUGUI TurnInfoText;
+    [SerializeField] public TextMeshProUGUI StatusInfoText;
 
     public void SetTurnText(string turnText)
     {
-        turnInfoText.text = turnText;
+        TurnInfoText.text = turnText;
     }
 
     public void SetStatusText(string statusText)
     {
-        statusInfoText.text = statusText;
+        StatusInfoText.text = statusText;
     }
 }

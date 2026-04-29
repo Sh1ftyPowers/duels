@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    [SerializeField] public Image _healthbarSprite;
+    [SerializeField] public Image HealthbarSprite;
 
     private Camera _camera;
 
@@ -19,6 +19,6 @@ public class Healthbar : MonoBehaviour
 
     public void UpdateHealthBar(float currentHealth, float maxHealth)
     {
-        _healthbarSprite.fillAmount = currentHealth / maxHealth;
+        HealthbarSprite.fillAmount = currentHealth / maxHealth;
     }
 }

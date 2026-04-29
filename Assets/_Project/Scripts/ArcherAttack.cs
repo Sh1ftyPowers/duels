@@ -8,11 +8,11 @@ public class ArcherAttack : BaseAttack
     {
         attacker.PlayAttackAnimation();
 
-        target.TakeDamage(attacker.damage);
+        target.TakeDamage(attacker.Damage);
 
         return new AttackResult
         {
-            Damage = attacker.damage,
+            Damage = attacker.Damage,
             Effect = new PoisonedArrows(2)
         };
     }
