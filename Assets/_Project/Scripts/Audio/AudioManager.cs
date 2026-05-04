@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 public class AudioManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip _battleTheme;
     [SerializeField] private AudioClip _victorySound;
     [SerializeField] private AudioClip _restartMenuTheme;
+
+    private float _delayBetweenVictorySoundAndRestartTheme = 0.5f;
 
     public void PlayBattleMusic()
     {
@@ -21,7 +24,7 @@ public class AudioManager : MonoBehaviour
         _musicSource.clip = _victorySound;
         _musicSource.Play();
 
-        yield return new WaitForSeconds(_victorySound.length - 0.5f);
+        yield return new WaitForSeconds(_victorySound.length - _delayBetweenVictorySoundAndRestartTheme);
 
         _musicSource.clip = _restartMenuTheme;
         _musicSource.loop = true;

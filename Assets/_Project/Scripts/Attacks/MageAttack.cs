@@ -1,5 +1,7 @@
 public class MageAttack : BaseAttack
 {
+    private float _chanceToWeaken = 0.3f;
+
     public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
         attacker.PlayAttackAnimation();
@@ -8,7 +10,7 @@ public class MageAttack : BaseAttack
 
         StatusEffect effect = null;
 
-        if (UnityEngine.Random.value < 0.3f)
+        if (UnityEngine.Random.value < _chanceToWeaken)
         {
             effect = new WeakeningAttack(5);
         }

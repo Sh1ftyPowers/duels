@@ -1,5 +1,7 @@
 public class WarriorAttack : BaseAttack
 {
+    private float _chanceToStun = 0.3f;
+    
     public override AttackResult AttackEnemy(Unit attacker, Unit target)
     {
         attacker.PlayAttackAnimation();
@@ -7,7 +9,7 @@ public class WarriorAttack : BaseAttack
 
         StatusEffect effect = null;
 
-        if (UnityEngine.Random.value < 0.3f)
+        if (UnityEngine.Random.value < _chanceToStun)
         {
             effect = new StunningAttack();
         }
