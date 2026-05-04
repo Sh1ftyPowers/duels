@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class WeakeningAttack : StatusEffect
 {
     public new string StatusName = "weakened";

@@ -27,4 +27,3 @@ public class UnitSpawner : MonoBehaviour
         return Spawn(prefab, _teamTwoSpawnPoint, system, messages);
     }
 }
-

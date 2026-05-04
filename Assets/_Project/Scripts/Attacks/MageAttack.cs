@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class MageAttack : BaseAttack
 {
     public override AttackResult AttackEnemy(Unit attacker, Unit target)

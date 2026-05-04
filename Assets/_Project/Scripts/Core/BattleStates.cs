@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Assets._Project.Scripts
 {
     public enum BattleState

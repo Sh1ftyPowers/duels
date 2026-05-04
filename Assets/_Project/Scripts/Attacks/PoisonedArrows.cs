@@ -28,7 +28,7 @@ public class PoisonedArrows : StatusEffect
         {
             target.TakePoisonDamage(_poisonDamagePerTick);
 
-            yield return new WaitForSecondsRealtime(_tickInterval);  // Можно поменять на WaitForSeconds()
+            yield return new WaitForSecondsRealtime(_tickInterval); 
             timer += _tickInterval;
         }
     }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class StunningAttack : StatusEffect
 {
     public new string StatusName = "stunned";
@@ -12,7 +10,6 @@ public class StunningAttack : StatusEffect
     public override void Apply(Unit target, MessageSystem message)
     {
         target.IsStunned = true;
-        //target.animator.SetTrigger("isStunned");
         target.PlayStunAnimation();
 
         message.ShowMessageText(target.UnitName + " is stunned!");

@@ -3,8 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*public enum BattleState { Start, TeamOneTurn, TeamTwoTurn, TeamOneVictory, TeamTwoVictory }*/
-
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOverCanvas;

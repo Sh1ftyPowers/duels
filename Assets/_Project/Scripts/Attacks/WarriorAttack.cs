@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class WarriorAttack : BaseAttack
 {
     public override AttackResult AttackEnemy(Unit attacker, Unit target)
@@ -11,7 +9,6 @@ public class WarriorAttack : BaseAttack
 
         if (UnityEngine.Random.value < 0.3f)
         {
-            //attacker.animator.SetTrigger("secondAttack"); // Было бы круто для стан атаки подключить своб анимацию
             effect = new StunningAttack();
         }
 

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -42,8 +40,6 @@ public class Unit : MonoBehaviour
         CurrentHealthPoints -= damage;
 
         Debug.Log("Получен урон: " + damage);
-
-        //animator.SetTrigger("takeDamage");
 
         _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
     }
