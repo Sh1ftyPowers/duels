@@ -19,15 +19,15 @@ namespace Duels.Units
             return unit;
         }
 
-        public Unit SpawnTeamOne(GameObject prefab, BattleSystem system, MessageSystem messages)
+        public Unit SpawnTeamOne(BattleSystem system, MessageSystem messages)
         {
-            prefab = _teamOnePrefabs[Random.Range(0, _teamOnePrefabs.Length)];
+            GameObject prefab = _teamOnePrefabs[Random.Range(0, _teamOnePrefabs.Length)];
             return Spawn(prefab, _teamOneSpawnPoint, system, messages);
         }
 
-        public Unit SpawnTeamTwo(GameObject prefab, BattleSystem system, MessageSystem messages)
+        public Unit SpawnTeamTwo(BattleSystem system, MessageSystem messages)
         {
-            prefab = _teamTwoPrefabs[Random.Range(0, _teamOnePrefabs.Length)];
+            GameObject prefab = _teamTwoPrefabs[Random.Range(0, _teamTwoPrefabs.Length)];
             return Spawn(prefab, _teamTwoSpawnPoint, system, messages);
         }
     }

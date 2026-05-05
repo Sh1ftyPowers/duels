@@ -40,8 +40,8 @@ namespace Duels.Core
 
         public IEnumerator SetUpBattle()
         {
-            _teamOneHero = _spawner.SpawnTeamOne(_teamOneHeroPrefab, this, _message);
-            _teamTwoHero = _spawner.SpawnTeamTwo(_teamTwoHeroPrefab, this, _message);
+            _teamOneHero = _spawner.SpawnTeamOne(this, _message);
+            _teamTwoHero = _spawner.SpawnTeamTwo(this, _message);
 
             _battleUI.SetTurnText("The Battle Begins!");
 
