@@ -38,7 +38,7 @@ namespace Duels.Core
             StartCoroutine(SetUpBattle());
         }
 
-        public IEnumerator SetUpBattle()
+        private IEnumerator SetUpBattle()
         {
             _teamOneHero = _spawner.SpawnTeamOne(this, _message);
             _teamTwoHero = _spawner.SpawnTeamTwo(this, _message);
@@ -51,7 +51,7 @@ namespace Duels.Core
             StartCoroutine(BattleLoop());
         }
 
-        public IEnumerator BattleLoop()
+        private IEnumerator BattleLoop()
         {
             while (!IsBattleOver())
             {
@@ -66,7 +66,7 @@ namespace Duels.Core
             }
         }
 
-        public IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
+        private IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
         {
             _battleUI.SetTurnText(attacker.UnitName + " attacks!");
             yield return StartCoroutine(_message.WaitForMessages());
