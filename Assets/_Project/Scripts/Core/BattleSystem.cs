@@ -21,11 +21,10 @@ namespace Duels.Core
 
         public BattleState State;
 
-        private GameObject _teamOneHeroPrefab;
-        private GameObject _teamTwoHeroPrefab;
-
         private Unit _teamOneHero;
         private Unit _teamTwoHero;
+
+        private VictoryHandler _victoryHandler;
 
         private readonly WaitForSeconds _startDelay = new WaitForSeconds(0.5f);
         private readonly WaitForSeconds _attackDelay = new WaitForSeconds(3f);
@@ -33,6 +32,8 @@ namespace Duels.Core
         private void Start()
         {
             _audio.PlayBattleMusic();
+
+            _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas);
 
             State = BattleState.Start;
             StartCoroutine(SetUpBattle());
@@ -77,8 +78,16 @@ namespace Duels.Core
             _effects.ProcessEffects(defender);
             yield return StartCoroutine(_message.WaitForMessages());
 
-            if (CheckVictory(attacker, defender))
+            if (_victoryHandler.CheckVictory(attacker, defender))
+            {
+                State = attacker == _teamOneHero
+                    ? BattleState.TeamOneVictory
+                    : BattleState.TeamTwoVictory;
+
+                EndBattle();
                 yield break;
+            }
+            
 
             if (attacker.IsStunned)
             {
@@ -102,29 +111,17 @@ namespace Duels.Core
                 yield return StartCoroutine(_message.WaitForMessages());
             }
 
-            if (CheckVictory(attacker, defender))
+            if (_victoryHandler.CheckVictory(attacker, defender))
+            {
+                State = attacker == _teamOneHero
+                    ? BattleState.TeamOneVictory
+                    : BattleState.TeamTwoVictory;
+
+                EndBattle();
                 yield break;
+            }
 
             State = nextState;
-        }
-
-        private bool CheckVictory(Unit attacker, Unit defender)
-        {
-            if (defender.CurrentHealthPoints > 0)
-                return false;
-
-            State = attacker == _teamOneHero
-                ? BattleState.TeamOneVictory
-                : BattleState.TeamTwoVictory;
-
-            attacker.PlayVictoryAnimation();
-            defender.PlayDeathAnimation();
-
-            _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
-            _battleUI.SetStatusText("Glory to the Winner!");
-
-            EndBattle();
-            return true;
         }
 
         private bool IsBattleOver()
