@@ -1,23 +1,29 @@
-public class WarriorAttack : BaseAttack
+using Duels.Effects;
+using Duels.Units;
+
+namespace Duels.Attacks
 {
-    private float _chanceToStun = 0.3f;
-    
-    public override AttackResult AttackEnemy(Unit attacker, Unit target)
+    public class WarriorAttack : BaseAttack
     {
-        attacker.PlayAttackAnimation();
-        target.TakeDamage(attacker.Damage);
-
-        StatusEffect effect = null;
-
-        if (UnityEngine.Random.value < _chanceToStun)
+        private float _chanceToStun = 0.3f;
+    
+        public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
-            effect = new StunningAttack();
+            attacker.PlayAttackAnimation();
+            target.TakeDamage(attacker.Damage);
+
+            StatusEffect effect = null;
+
+            if (UnityEngine.Random.value < _chanceToStun)
+            {
+                effect = new StunningAttack();
+            }
+
+            return new AttackResult
+            {
+                Damage = attacker.Damage,
+                Effect = effect
+            };
         }
-
-        return new AttackResult
-        {
-            Damage = attacker.Damage,
-            Effect = effect
-        };
     }
 }

@@ -1,38 +1,44 @@
 using System.Collections;
 using UnityEngine;
+using Duels.Effects;
+using Duels.UI;
+using Duels.Units;
 
-public class PoisonedArrows : StatusEffect
+namespace Duels.Attacks
 {
-    public new string statusName = "poisoned";
+    public class PoisonedArrows : StatusEffect
+    {
+        public new string statusName = "poisoned";
     
-    private int _poisonDamagePerTick;
-    private float _tickInterval = 1f;
-    private float _duration = 5f;
+        private int _poisonDamagePerTick;
+        private float _tickInterval = 1f;
+        private float _duration = 5f;
 
-    public PoisonedArrows(int damage)
-    {
-        _poisonDamagePerTick = damage;
-    }
-
-    public override void Apply(Unit target, MessageSystem message)
-    {
-        message.ShowMessageText(target.UnitName + " is poisoned!");
-        target.StartCoroutine(PoisonedArrowsCoroutine(target));
-    }
-
-    private IEnumerator PoisonedArrowsCoroutine(Unit target)
-    {
-        float timer = 0f;
-
-        while ( timer < _duration )
+        public PoisonedArrows(int damage)
         {
-            target.TakePoisonDamage(_poisonDamagePerTick);
-
-            yield return new WaitForSecondsRealtime(_tickInterval); 
-            timer += _tickInterval;
+            _poisonDamagePerTick = damage;
         }
-    }
 
-    public override void OnTurnStart(Unit target) { }
-    public override void Remove(Unit target) { }
+        public override void Apply(Unit target, MessageSystem message)
+        {
+            message.ShowMessageText(target.UnitName + " is poisoned!");
+            target.StartCoroutine(PoisonedArrowsCoroutine(target));
+        }
+
+        private IEnumerator PoisonedArrowsCoroutine(Unit target)
+        {
+            float timer = 0f;
+
+            while ( timer < _duration )
+            {
+                target.TakePoisonDamage(_poisonDamagePerTick);
+
+                yield return new WaitForSecondsRealtime(_tickInterval); 
+                timer += _tickInterval;
+            }
+        }
+
+        public override void OnTurnStart(Unit target) { }
+        public override void Remove(Unit target) { }
+    }
 }

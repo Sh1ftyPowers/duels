@@ -1,9 +1,15 @@
-public abstract class StatusEffect
-{
-    public int Duration;
-    public string StatusName;
+using Duels.UI;
+using Duels.Units;
 
-    public abstract void Apply(Unit target, MessageSystem message);
-    public virtual void OnTurnStart(Unit target) { }
-    public virtual void Remove(Unit target) { }
+namespace Duels.Effects
+{
+    public abstract class StatusEffect
+    {
+        public int Duration;
+        public string StatusName;
+
+        public abstract void Apply(Unit target, MessageSystem message);
+        public virtual void OnTurnStart(Unit target) { }
+        public virtual void Remove(Unit target) { }
+    }
 }

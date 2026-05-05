@@ -1,24 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Healthbar : MonoBehaviour
+namespace Duels.UI
 {
-    [SerializeField] public Image HealthbarSprite;
-
-    private Camera _camera;
-
-    private void Awake()
+    public class Healthbar : MonoBehaviour
     {
-        _camera = Camera.main;
-    }
+        [SerializeField] public Image HealthbarSprite;
 
-    void LateUpdate()
-    {
-        transform.LookAt(_camera.transform);
-    }
+        private Camera _camera;
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
-    {
-        HealthbarSprite.fillAmount = currentHealth / maxHealth;
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
+
+        void LateUpdate()
+        {
+            transform.LookAt(_camera.transform);
+        }
+
+        public void UpdateHealthBar(float currentHealth, float maxHealth)
+        {
+            HealthbarSprite.fillAmount = currentHealth / maxHealth;
+        }
     }
 }

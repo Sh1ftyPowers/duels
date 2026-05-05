@@ -1,30 +1,37 @@
-public class WeakeningAttack : StatusEffect
+using Duels.Effects;
+using Duels.UI;
+using Duels.Units;
+
+namespace Duels.Attacks
 {
-    public new string StatusName = "weakened";
-
-    private int _reduction;
-
-    public WeakeningAttack(int reduction)
+    public class WeakeningAttack : StatusEffect
     {
-        this._reduction = reduction;
-        Duration = 1;
-    }
+        public new string StatusName = "weakened";
 
-    public override void Apply(Unit target, MessageSystem message)
-    {
-        target.IsWeakened = true;
-        target.DamageReduction = -_reduction;
+        private int _reduction;
 
-        message.ShowMessageText(target.UnitName + " is weakened!");
-    }
+        public WeakeningAttack(int reduction)
+        {
+            this._reduction = reduction;
+            Duration = 1;
+        }
 
-    public override void OnTurnStart(Unit target)
-    {
-        Duration--;
-    }
+        public override void Apply(Unit target, MessageSystem message)
+        {
+            target.IsWeakened = true;
+            target.DamageReduction = -_reduction;
 
-    public override void Remove(Unit target)
-    {
-        target.IsWeakened = false;
+            message.ShowMessageText(target.UnitName + " is weakened!");
+        }
+
+        public override void OnTurnStart(Unit target)
+        {
+            Duration--;
+        }
+
+        public override void Remove(Unit target)
+        {
+            target.IsWeakened = false;
+        }
     }
 }

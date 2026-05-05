@@ -1,37 +1,42 @@
+using Duels.UI;
+using Duels.Units;
 using System.Linq;
 using UnityEngine;
 
-public class EffectsManager : MonoBehaviour
+namespace Duels.Effects
 {
-    [SerializeField] private MessageSystem _message;
-
-    public void ApplyEffect(Unit unit, StatusEffect effect)
+    public class EffectsManager : MonoBehaviour
     {
-        unit.AddEffect(effect);
-        effect.Apply(unit, _message);
-    }
+        [SerializeField] private MessageSystem _message;
 
-    public void ProcessEffects(Unit unit)
-    {
-        if (unit.EffectsList.Count == 0)
-            return;
-
-        foreach (var effect in unit.EffectsList.ToList())
+        public void ApplyEffect(Unit unit, StatusEffect effect)
         {
-            effect.OnTurnStart(unit);
-
-            if (effect.Duration <= 0)
-            {
-                effect.Remove(unit);
-                unit.EffectsList.Remove(effect);
-
-                _message.ShowMessageText($"{unit.UnitName} lost an effect");
-            }
+            unit.AddEffect(effect);
+            effect.Apply(unit, _message);
         }
 
-        if (unit.EffectsList.Count == 0)
+        public void ProcessEffects(Unit unit)
         {
-            _message.ShowMessageText($"{unit.UnitName} has no active effects");
+            if (unit.EffectsList.Count == 0)
+                return;
+
+            foreach (var effect in unit.EffectsList.ToList())
+            {
+                effect.OnTurnStart(unit);
+
+                if (effect.Duration <= 0)
+                {
+                    effect.Remove(unit);
+                    unit.EffectsList.Remove(effect);
+
+                    _message.ShowMessageText($"{unit.UnitName} lost an effect");
+                }
+            }
+
+            if (unit.EffectsList.Count == 0)
+            {
+                _message.ShowMessageText($"{unit.UnitName} has no active effects");
+            }
         }
     }
 }

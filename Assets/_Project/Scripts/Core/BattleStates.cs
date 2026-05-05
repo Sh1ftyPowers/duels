@@ -1,4 +1,4 @@
-namespace Assets._Project.Scripts
+namespace Duels.Core
 {
     public enum BattleState
     {

@@ -1,27 +1,34 @@
-public class StunningAttack : StatusEffect
+using Duels.Effects;
+using Duels.UI;
+using Duels.Units;
+
+namespace Duels.Attacks
 {
-    public new string StatusName = "stunned";
-
-    public StunningAttack()
+    public class StunningAttack : StatusEffect
     {
-        Duration = 1;
-    }
+        public new string StatusName = "stunned";
 
-    public override void Apply(Unit target, MessageSystem message)
-    {
-        target.IsStunned = true;
-        target.PlayStunAnimation();
+        public StunningAttack()
+        {
+            Duration = 1;
+        }
 
-        message.ShowMessageText(target.UnitName + " is stunned!");
-    }
+        public override void Apply(Unit target, MessageSystem message)
+        {
+            target.IsStunned = true;
+            target.PlayStunAnimation();
 
-    public override void OnTurnStart(Unit target)
-    {
-        Duration--;
-    }
+            message.ShowMessageText(target.UnitName + " is stunned!");
+        }
 
-    public override void Remove(Unit target)
-    {
-        target.IsStunned = false;
+        public override void OnTurnStart(Unit target)
+        {
+            Duration--;
+        }
+
+        public override void Remove(Unit target)
+        {
+            target.IsStunned = false;
+        }
     }
 }

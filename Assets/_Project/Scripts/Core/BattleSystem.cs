@@ -1,139 +1,146 @@
-using Assets._Project.Scripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Duels.Units;
+using Duels.UI;
+using Duels.Effects;
+using Duels.Audio;
+using Duels.Attacks;
 
-public class BattleSystem : MonoBehaviour
+namespace Duels.Core
 {
-    [SerializeField] private GameObject _gameOverCanvas;
-
-    [SerializeField] private EffectsManager _effects;
-    [SerializeField] private BattleUI _battleUI;
-    [SerializeField] private MessageSystem _message;
-    [SerializeField] private UnitSpawner _spawner;
-    [SerializeField] private AudioManager _audio;
-
-    public BattleState State;
-
-    private GameObject _teamOneHeroPrefab;
-    private GameObject _teamTwoHeroPrefab;
-
-    private Unit _teamOneHero;
-    private Unit _teamTwoHero;
-
-    private readonly WaitForSeconds _startDelay = new WaitForSeconds(0.5f);
-    private readonly WaitForSeconds _attackDelay = new WaitForSeconds(3f);
-
-    private void Start()
+    public class BattleSystem : MonoBehaviour
     {
-        _audio.PlayBattleMusic();
+        [SerializeField] private GameObject _gameOverCanvas;
 
-        State = BattleState.Start;
-        StartCoroutine(SetUpBattle());
-    }
+        [SerializeField] private EffectsManager _effects;
+        [SerializeField] private BattleUI _battleUI;
+        [SerializeField] private MessageSystem _message;
+        [SerializeField] private UnitSpawner _spawner;
+        [SerializeField] private AudioManager _audio;
 
-    public IEnumerator SetUpBattle()
-    {
-        _teamOneHero = _spawner.SpawnTeamOne(_teamOneHeroPrefab, this, _message);
-        _teamTwoHero = _spawner.SpawnTeamTwo(_teamTwoHeroPrefab, this, _message);
+        public BattleState State;
 
-        _battleUI.SetTurnText("The Battle Begins!");
+        private GameObject _teamOneHeroPrefab;
+        private GameObject _teamTwoHeroPrefab;
 
-        yield return _startDelay;
+        private Unit _teamOneHero;
+        private Unit _teamTwoHero;
 
-        State = BattleState.TeamOneTurn;
-        StartCoroutine(BattleLoop());
-    }
+        private readonly WaitForSeconds _startDelay = new WaitForSeconds(0.5f);
+        private readonly WaitForSeconds _attackDelay = new WaitForSeconds(3f);
 
-    public IEnumerator BattleLoop()
-    {
-        while (!IsBattleOver())
+        private void Start()
         {
-            if (State == BattleState.TeamOneTurn)
+            _audio.PlayBattleMusic();
+
+            State = BattleState.Start;
+            StartCoroutine(SetUpBattle());
+        }
+
+        public IEnumerator SetUpBattle()
+        {
+            _teamOneHero = _spawner.SpawnTeamOne(_teamOneHeroPrefab, this, _message);
+            _teamTwoHero = _spawner.SpawnTeamTwo(_teamTwoHeroPrefab, this, _message);
+
+            _battleUI.SetTurnText("The Battle Begins!");
+
+            yield return _startDelay;
+
+            State = BattleState.TeamOneTurn;
+            StartCoroutine(BattleLoop());
+        }
+
+        public IEnumerator BattleLoop()
+        {
+            while (!IsBattleOver())
             {
-                yield return StartCoroutine(PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn));
-            }
-            else if (State == BattleState.TeamTwoTurn)
-            {
-                yield return StartCoroutine(PerformTurn(_teamTwoHero, _teamOneHero, BattleState.TeamOneTurn));
+                if (State == BattleState.TeamOneTurn)
+                {
+                    yield return StartCoroutine(PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn));
+                }
+                else if (State == BattleState.TeamTwoTurn)
+                {
+                    yield return StartCoroutine(PerformTurn(_teamTwoHero, _teamOneHero, BattleState.TeamOneTurn));
+                }
             }
         }
-    }
 
-    public IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
-    {
-        _battleUI.SetTurnText(attacker.UnitName + " attacks!");
-        yield return StartCoroutine(_message.WaitForMessages());
-
-        Debug.Log("Ход: " + attacker.UnitName);
-
-        _effects.ProcessEffects(attacker);
-        _effects.ProcessEffects(defender);
-        yield return StartCoroutine(_message.WaitForMessages());
-
-        if (CheckVictory(attacker, defender))
-            yield break;
-
-        if (attacker.IsStunned)
+        public IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
         {
-            attacker.IsStunned = false;
+            _battleUI.SetTurnText(attacker.UnitName + " attacks!");
+            yield return StartCoroutine(_message.WaitForMessages());
+
+            Debug.Log("Ход: " + attacker.UnitName);
+
+            _effects.ProcessEffects(attacker);
+            _effects.ProcessEffects(defender);
+            yield return StartCoroutine(_message.WaitForMessages());
+
+            if (CheckVictory(attacker, defender))
+                yield break;
+
+            if (attacker.IsStunned)
+            {
+                attacker.IsStunned = false;
+                State = nextState;
+                yield break;
+            }
+
+            yield return _attackDelay;
+
+            if (!IsBattleOver())
+            {
+                AttackResult result = attacker.PerformAttack(defender);
+                yield return StartCoroutine(_message.WaitForMessages());
+
+                if (result.Effect != null)
+                {
+                    _effects.ApplyEffect(defender, result.Effect);
+                }
+
+                yield return StartCoroutine(_message.WaitForMessages());
+            }
+
+            if (CheckVictory(attacker, defender))
+                yield break;
+
             State = nextState;
-            yield break;
         }
 
-        yield return _attackDelay;
-
-        if (!IsBattleOver())
+        private bool CheckVictory(Unit attacker, Unit defender)
         {
-            AttackResult result = attacker.PerformAttack(defender);
-            yield return StartCoroutine(_message.WaitForMessages());
+            if (defender.CurrentHealthPoints > 0)
+                return false;
 
-            if (result.Effect != null)
-            {
-                _effects.ApplyEffect(defender, result.Effect);
-            }
+            State = attacker == _teamOneHero
+                ? BattleState.TeamOneVictory
+                : BattleState.TeamTwoVictory;
 
-            yield return StartCoroutine(_message.WaitForMessages());
+            attacker.PlayVictoryAnimation();
+            defender.PlayDeathAnimation();
+
+            _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
+            _battleUI.SetStatusText("Glory to the Winner!");
+
+            EndBattle();
+            return true;
         }
 
-        if (CheckVictory(attacker, defender))
-            yield break;
+        private bool IsBattleOver()
+        {
+            return State == BattleState.TeamOneVictory || State == BattleState.TeamTwoVictory;
+        }
 
-        State = nextState;
-    }
+        private void EndBattle()
+        {
+            StartCoroutine(_audio.PlayEndBattleMusic());
+            _gameOverCanvas.SetActive(true);
+        }
 
-    private bool CheckVictory(Unit attacker, Unit defender)
-    {
-        if (defender.CurrentHealthPoints > 0)
-            return false;
-
-        State = attacker == _teamOneHero
-            ? BattleState.TeamOneVictory
-            : BattleState.TeamTwoVictory;
-
-        attacker.PlayVictoryAnimation();
-        defender.PlayDeathAnimation();
-
-        _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
-        _battleUI.SetStatusText("Glory to the Winner!");
-
-        EndBattle();
-        return true;
-    }
-
-    private bool IsBattleOver()
-    {
-        return State == BattleState.TeamOneVictory || State == BattleState.TeamTwoVictory;
-    }
-
-    private void EndBattle()
-    {
-        StartCoroutine(_audio.PlayEndBattleMusic());
-        _gameOverCanvas.SetActive(true);
-    }
-
-    private void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        private void RestartGame()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

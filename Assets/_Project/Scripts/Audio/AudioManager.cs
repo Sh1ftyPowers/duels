@@ -1,33 +1,35 @@
 using UnityEngine;
 using System.Collections;
-using System.Runtime.CompilerServices;
 
-public class AudioManager : MonoBehaviour
+namespace Duels.Audio
 {
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioClip _battleTheme;
-    [SerializeField] private AudioClip _victorySound;
-    [SerializeField] private AudioClip _restartMenuTheme;
-
-    private float _delayBetweenVictorySoundAndRestartTheme = 0.5f;
-
-    public void PlayBattleMusic()
+    public class AudioManager : MonoBehaviour
     {
-        _musicSource.clip = _battleTheme;
-        _musicSource.loop = true;
-        _musicSource.Play();
-    }
+        [SerializeField] private AudioSource _musicSource;
+        [SerializeField] private AudioClip _battleTheme;
+        [SerializeField] private AudioClip _victorySound;
+        [SerializeField] private AudioClip _restartMenuTheme;
 
-    public IEnumerator PlayEndBattleMusic()
-    {
-        _musicSource.loop = false;
-        _musicSource.clip = _victorySound;
-        _musicSource.Play();
+        private float _delayBetweenVictorySoundAndRestartTheme = 0.5f;
 
-        yield return new WaitForSeconds(_victorySound.length - _delayBetweenVictorySoundAndRestartTheme);
+        public void PlayBattleMusic()
+        {
+            _musicSource.clip = _battleTheme;
+            _musicSource.loop = true;
+            _musicSource.Play();
+        }
 
-        _musicSource.clip = _restartMenuTheme;
-        _musicSource.loop = true;
-        _musicSource.Play();
+        public IEnumerator PlayEndBattleMusic()
+        {
+            _musicSource.loop = false;
+            _musicSource.clip = _victorySound;
+            _musicSource.Play();
+
+            yield return new WaitForSeconds(_victorySound.length - _delayBetweenVictorySoundAndRestartTheme);
+
+            _musicSource.clip = _restartMenuTheme;
+            _musicSource.loop = true;
+            _musicSource.Play();
+        }
     }
 }

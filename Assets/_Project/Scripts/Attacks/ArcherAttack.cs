@@ -1,15 +1,20 @@
-public class ArcherAttack : BaseAttack
+using Duels.Units;
+
+namespace Duels.Attacks
 {
-    public override AttackResult AttackEnemy(Unit attacker, Unit target)
+    public class ArcherAttack : BaseAttack
     {
-        attacker.PlayAttackAnimation();
-
-        target.TakeDamage(attacker.Damage);
-
-        return new AttackResult
+        public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
-            Damage = attacker.Damage,
-            Effect = new PoisonedArrows(2)
-        };
+            attacker.PlayAttackAnimation();
+
+            target.TakeDamage(attacker.Damage);
+
+            return new AttackResult
+            {
+                Damage = attacker.Damage,
+                Effect = new PoisonedArrows(2)
+            };
+        }
     }
 }

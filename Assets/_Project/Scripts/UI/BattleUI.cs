@@ -1,18 +1,21 @@
 using TMPro;
 using UnityEngine;
 
-public class BattleUI : MonoBehaviour
+namespace Duels.UI
 {
-    [SerializeField] public TextMeshProUGUI TurnInfoText;
-    [SerializeField] public TextMeshProUGUI StatusInfoText;
-
-    public void SetTurnText(string turnText)
+    public class BattleUI : MonoBehaviour
     {
-        TurnInfoText.text = turnText;
-    }
+        [SerializeField] public TextMeshProUGUI TurnInfoText;
+        [SerializeField] public TextMeshProUGUI StatusInfoText;
 
-    public void SetStatusText(string statusText)
-    {
-        StatusInfoText.text = statusText;
+        public void SetTurnText(string turnText)
+        {
+            TurnInfoText.text = turnText;
+        }
+
+        public void SetStatusText(string statusText)
+        {
+            StatusInfoText.text = statusText;
+        }
     }
 }

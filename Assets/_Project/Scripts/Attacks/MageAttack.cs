@@ -1,24 +1,30 @@
-public class MageAttack : BaseAttack
+using Duels.Effects;
+using Duels.Units;
+
+namespace Duels.Attacks
 {
-    private float _chanceToWeaken = 0.3f;
-
-    public override AttackResult AttackEnemy(Unit attacker, Unit target)
+    public class MageAttack : BaseAttack
     {
-        attacker.PlayAttackAnimation();
+        private float _chanceToWeaken = 0.3f;
 
-        target.TakeDamage(attacker.Damage);
-
-        StatusEffect effect = null;
-
-        if (UnityEngine.Random.value < _chanceToWeaken)
+        public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
-            effect = new WeakeningAttack(5);
+            attacker.PlayAttackAnimation();
+
+            target.TakeDamage(attacker.Damage);
+
+            StatusEffect effect = null;
+
+            if (UnityEngine.Random.value < _chanceToWeaken)
+            {
+                effect = new WeakeningAttack(5);
+            }
+
+            return new AttackResult
+            {
+                Damage = attacker.Damage,
+                Effect = effect
+            };
         }
-
-        return new AttackResult
-        {
-            Damage = attacker.Damage,
-            Effect = effect
-        };
     }
 }
