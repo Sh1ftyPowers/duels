@@ -6,20 +6,18 @@ namespace Duels.Attacks
 {
     public class WeakeningAttack : StatusEffect
     {
-        public new string StatusName = "weakened";
-
         private int _reduction;
 
         public WeakeningAttack(int reduction)
         {
-            this._reduction = reduction;
-            Duration = 1;
+            _reduction = reduction;
+            Duration = 2;
         }
 
         public override void Apply(Unit target, MessageSystem message)
         {
             target.IsWeakened = true;
-            target.DamageReduction = -_reduction;
+            target.DamageReduction = _reduction;
 
             message.ShowMessageText(target.UnitName + " is weakened!");
         }
@@ -31,7 +29,8 @@ namespace Duels.Attacks
 
         public override void Remove(Unit target)
         {
-            target.IsWeakened = false;
+            target.IsWeakened = false; 
+            target.DamageReduction = 0;
         }
     }
 }

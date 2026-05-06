@@ -3762,6 +3762,7 @@ GameObject:
   m_Component:
   - component: {fileID: 909451417374820426}
   - component: {fileID: 5910063862611718460}
+  - component: {fileID: 5773738943247403035}
   - component: {fileID: 1451507197645517293}
   - component: {fileID: 6816892570622454893}
   m_Layer: 0
@@ -3812,6 +3813,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5773738943247403035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296033423310677109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589b0182d00f7b643963748837ec035f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
+  _animator: {fileID: 5910063862611718460}
 --- !u!114 &1451507197645517293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3836,16 +3850,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  UnitName: Red Team Archer
-  Damage: 20
-  MaxHealthPoints: 100
-  CurrentHealthPoints: 100
-  DamageReduction: -5
+  <UnitName>k__BackingField: Red Team Archer
+  <Damage>k__BackingField: 20
+  <MaxHealthPoints>k__BackingField: 100
+  <CurrentHealthPoints>k__BackingField: 100
+  <UnitID>k__BackingField: 0
+  DamageReduction: 5
   Attack: {fileID: 1451507197645517293}
-  _animator: {fileID: 5910063862611718460}
+  _unitAnimationManager: {fileID: 5773738943247403035}
   _healthbar: {fileID: 2268046888942262933}
-  _effectsManager: {fileID: 0}
-  _unitID: 0
   IsStunned: 0
   IsWeakened: 0
 --- !u!1 &5334976677225711139

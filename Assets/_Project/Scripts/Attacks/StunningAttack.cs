@@ -6,8 +6,6 @@ namespace Duels.Attacks
 {
     public class StunningAttack : StatusEffect
     {
-        public new string StatusName = "stunned";
-
         public StunningAttack()
         {
             Duration = 1;

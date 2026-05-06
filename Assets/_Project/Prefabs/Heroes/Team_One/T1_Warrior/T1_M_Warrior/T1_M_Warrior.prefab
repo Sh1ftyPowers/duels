@@ -3751,6 +3751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6764510264168137460}
   - component: {fileID: 3965275858077916438}
+  - component: {fileID: 6711491357862245690}
   - component: {fileID: 8393106972498695851}
   - component: {fileID: 6399913543789629066}
   m_Layer: 0
@@ -3801,6 +3802,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6711491357862245690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919150486055061385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589b0182d00f7b643963748837ec035f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
+  _animator: {fileID: 3965275858077916438}
 --- !u!114 &8393106972498695851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3825,16 +3839,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  UnitName: Red Team Warrior
-  Damage: 20
-  MaxHealthPoints: 100
-  CurrentHealthPoints: 100
+  <UnitName>k__BackingField: Red Team Warrior
+  <Damage>k__BackingField: 20
+  <MaxHealthPoints>k__BackingField: 100
+  <CurrentHealthPoints>k__BackingField: 100
+  <UnitID>k__BackingField: 2
   DamageReduction: -5
   Attack: {fileID: 8393106972498695851}
-  _animator: {fileID: 3965275858077916438}
+  _unitAnimationManager: {fileID: 6711491357862245690}
   _healthbar: {fileID: 6391607246159835849}
-  _effectsManager: {fileID: 0}
-  _unitID: 2
   IsStunned: 0
   IsWeakened: 0
 --- !u!1 &6947970215390229004

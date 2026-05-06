@@ -10,6 +10,7 @@ namespace Duels.Attacks
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
             attacker.PlayAttackAnimation();
+
             target.TakeDamage(attacker.Damage);
 
             StatusEffect effect = null;

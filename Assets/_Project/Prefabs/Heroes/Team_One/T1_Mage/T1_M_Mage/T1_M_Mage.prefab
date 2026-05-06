@@ -4873,6 +4873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6691929215249408708}
   - component: {fileID: 6853314279999080181}
+  - component: {fileID: 6281730412073197040}
   - component: {fileID: 5801354149010361784}
   - component: {fileID: 3980571538064056112}
   m_Layer: 0
@@ -4923,6 +4924,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6281730412073197040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034188758242461285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589b0182d00f7b643963748837ec035f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
+  _animator: {fileID: 6853314279999080181}
 --- !u!114 &5801354149010361784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4947,16 +4961,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  UnitName: Red Team Mage
-  Damage: 20
-  MaxHealthPoints: 100
-  CurrentHealthPoints: 100
-  DamageReduction: -5
+  <UnitName>k__BackingField: Red Team Mage
+  <Damage>k__BackingField: 20
+  <MaxHealthPoints>k__BackingField: 100
+  <CurrentHealthPoints>k__BackingField: 100
+  <UnitID>k__BackingField: 1
+  DamageReduction: 5
   Attack: {fileID: 5801354149010361784}
-  _animator: {fileID: 6853314279999080181}
+  _unitAnimationManager: {fileID: 6281730412073197040}
   _healthbar: {fileID: 8774597244474480086}
-  _effectsManager: {fileID: 0}
-  _unitID: 1
   IsStunned: 0
   IsWeakened: 0
 --- !u!1 &8040634047067813688

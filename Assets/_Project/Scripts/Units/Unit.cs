@@ -8,27 +8,28 @@ namespace Duels.Units
 {
     public class Unit : MonoBehaviour
     {
-        [SerializeField] public string UnitName;
+        [field:SerializeField] public string UnitName { get; private set; }
 
-        [SerializeField] public int Damage;
+        [field:SerializeField] public int Damage { get; private set; }
 
-        [SerializeField] public int MaxHealthPoints;
-        [SerializeField] public int CurrentHealthPoints;
+        [field:SerializeField] public int MaxHealthPoints { get; private set; }
+        [field:SerializeField] public int CurrentHealthPoints { get; private set; }
 
-        [SerializeField] public int DamageReduction = -5;
+        [field:SerializeField] public int UnitID { get; private set; }
+
+        [SerializeField] public int DamageReduction = 0;
 
         public BaseAttack Attack;
 
-        public List<StatusEffect> EffectsList = new List<StatusEffect>();
+        private EffectsHolder _effects = new EffectsHolder();
+        public EffectsHolder Effects => _effects;
 
-        [SerializeField] private Animator _animator;
+        [SerializeField] private UnitAnimationManager _unitAnimationManager;
 
         [SerializeField] private Healthbar _healthbar;
 
-        [SerializeField] private int _unitID;
-
-        public bool IsStunned = false;
-        public bool IsWeakened = false;
+        public bool IsStunned;
+        public bool IsWeakened;
 
         private void Start()
         {
@@ -39,12 +40,7 @@ namespace Duels.Units
 
         public void TakeDamage(int damage)
         {
-            if (IsWeakened)
-                damage += DamageReduction;
-
             CurrentHealthPoints -= damage;
-
-            Debug.Log("Получен урон: " + damage);
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
@@ -58,37 +54,48 @@ namespace Duels.Units
 
         public AttackResult PerformAttack(Unit target)
         {
-            return Attack.AttackEnemy(this, target);
+            AttackResult result = Attack.AttackEnemy(this, target);
+
+            int damageDealt = result.Damage;
+
+            if (IsWeakened)
+            {
+                damageDealt -= DamageReduction;
+            }
+
+            Debug.Log(target.UnitName + " получил урон: " + damageDealt);
+
+            return result;
         }
 
         public void PlayAttackAnimation()
         {
-            _animator.SetTrigger("attack");
+            _unitAnimationManager.PlayAttackAnimation();
         }
 
         public void PlayDeathAnimation()
         {
-            _animator.SetTrigger("isDead");
+            _unitAnimationManager.PlayDeathAnimation();
         }
 
         public void PlayVictoryAnimation()
         {
-            _animator.SetTrigger("isWinner");
+            _unitAnimationManager.PlayVictoryAnimation();
         }
 
         public void PlayStunAnimation()
         {
-            _animator.SetTrigger("isStunned");
+            _unitAnimationManager.PlayStunAnimation();
         }
 
         public void AddEffect(StatusEffect effect)
         {
-            EffectsList.Add(effect);
+            _effects.AddEffect(effect);
         }
 
         public List<StatusEffect> GetEffects()
         {
-            return EffectsList;
+            return _effects.GetEffects();
         }
     }
 }

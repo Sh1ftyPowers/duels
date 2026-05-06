@@ -87,7 +87,6 @@ namespace Duels.Core
                 EndBattle();
                 yield break;
             }
-            
 
             if (attacker.IsStunned)
             {

@@ -8,8 +8,6 @@ namespace Duels.Attacks
 {
     public class PoisonedArrows : StatusEffect
     {
-        public new string statusName = "poisoned";
-    
         private int _poisonDamagePerTick;
         private float _tickInterval = 1f;
         private float _duration = 5f;
