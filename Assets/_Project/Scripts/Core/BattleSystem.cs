@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Duels.Units;
@@ -6,6 +5,7 @@ using Duels.UI;
 using Duels.Effects;
 using Duels.Audio;
 using Duels.Attacks;
+using Cysharp.Threading.Tasks;
 
 namespace Duels.Core
 {
@@ -26,8 +26,8 @@ namespace Duels.Core
 
         private VictoryHandler _victoryHandler;
 
-        private readonly WaitForSeconds _startDelay = new WaitForSeconds(0.5f);
-        private readonly WaitForSeconds _attackDelay = new WaitForSeconds(3f);
+        private int _startDelay = 500;
+        private int _atackDelay = 3000;
 
         private void Start()
         {
@@ -36,47 +36,49 @@ namespace Duels.Core
             _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas);
 
             State = BattleState.Start;
-            StartCoroutine(SetUpBattle());
+            
+            SetUpBattle().Forget();
         }
 
-        private IEnumerator SetUpBattle()
+        private async UniTask SetUpBattle()
         {
             _teamOneHero = _spawner.SpawnTeamOne(this, _message);
             _teamTwoHero = _spawner.SpawnTeamTwo(this, _message);
 
             _battleUI.SetTurnText("The Battle Begins!");
 
-            yield return _startDelay;
+            await UniTask.Delay(_startDelay);
 
             State = BattleState.TeamOneTurn;
-            StartCoroutine(BattleLoop());
+
+            StartBattleLoop().Forget();
         }
 
-        private IEnumerator BattleLoop()
+        private async UniTask StartBattleLoop()
         {
             while (!IsBattleOver())
             {
                 if (State == BattleState.TeamOneTurn)
                 {
-                    yield return StartCoroutine(PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn));
+                    await PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn);
                 }
                 else if (State == BattleState.TeamTwoTurn)
                 {
-                    yield return StartCoroutine(PerformTurn(_teamTwoHero, _teamOneHero, BattleState.TeamOneTurn));
+                    await PerformTurn(_teamTwoHero, _teamOneHero, BattleState.TeamOneTurn);
                 }
             }
         }
 
-        private IEnumerator PerformTurn(Unit attacker, Unit defender, BattleState nextState)
+        private async UniTask PerformTurn(Unit attacker, Unit defender, BattleState nextState)
         {
             _battleUI.SetTurnText(attacker.UnitName + " attacks!");
-            yield return StartCoroutine(_message.WaitForMessages());
+            await _message.WaitForMessages();
 
             Debug.Log("Ход: " + attacker.UnitName);
 
             _effects.ProcessEffects(attacker);
             _effects.ProcessEffects(defender);
-            yield return StartCoroutine(_message.WaitForMessages());
+            await _message.WaitForMessages();
 
             if (_victoryHandler.CheckVictory(attacker, defender))
             {
@@ -85,29 +87,29 @@ namespace Duels.Core
                     : BattleState.TeamTwoVictory;
 
                 EndBattle();
-                yield break;
+                return;
             }
 
             if (attacker.IsStunned)
             {
                 attacker.IsStunned = false;
                 State = nextState;
-                yield break;
+                return;
             }
 
-            yield return _attackDelay;
+            await UniTask.Delay(_atackDelay);
 
             if (!IsBattleOver())
             {
                 AttackResult result = attacker.PerformAttack(defender);
-                yield return StartCoroutine(_message.WaitForMessages());
+                await _message.WaitForMessages();
 
                 if (result.Effect != null)
                 {
                     _effects.ApplyEffect(defender, result.Effect);
                 }
 
-                yield return StartCoroutine(_message.WaitForMessages());
+                await _message.WaitForMessages();
             }
 
             if (_victoryHandler.CheckVictory(attacker, defender))
@@ -117,7 +119,7 @@ namespace Duels.Core
                     : BattleState.TeamTwoVictory;
 
                 EndBattle();
-                yield break;
+                return;
             }
 
             State = nextState;

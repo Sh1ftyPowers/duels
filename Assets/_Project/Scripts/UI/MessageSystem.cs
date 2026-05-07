@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,38 +7,42 @@ namespace Duels.UI
 {
     public class MessageSystem : MonoBehaviour
     {
+        [SerializeField] private BattleUI _battleUI;
+
         private Queue<string> _messages = new Queue<string>();
+
         private bool _isShowingMessage = false;
 
-        [SerializeField] private BattleUI _battleUI;
+        private int _statusTextDelay = 2000;
 
         public void ShowMessageText(string message)
         {
             _messages.Enqueue(message);
 
-            if (!_isShowingMessage)
-                StartCoroutine(ShowMessages());
+            if (_isShowingMessage )
+                return;
+
+            ShowMessages().Forget();
         }
 
-        public IEnumerator ShowMessages()
+        private async UniTask ShowMessages()
         {
             _isShowingMessage = true;
 
             while (_messages.Count > 0)
             {
                 _battleUI.SetStatusText(_messages.Dequeue());
-                yield return new WaitForSeconds(2f);
+
+                await UniTask.Delay(_statusTextDelay);
             }
 
             _isShowingMessage = false;
         }
 
-        public IEnumerator WaitForMessages()
+        public async UniTask WaitForMessages()
         {
-            while (_isShowingMessage || _messages.Count > 0)
-            {
-                yield return null;
-            }
+            await UniTask.WaitUntil(() =>
+                !_isShowingMessage && _messages.Count == 0);
         }
     }
 }
