@@ -8,12 +8,13 @@ namespace Duels.Attacks
     {
         public StunningAttack()
         {
-            Duration = 1;
+            Duration = 2;
         }
 
         public override void Apply(Unit target, MessageSystem message)
         {
-            target.IsStunned = true;
+            target.ApplyStun();
+
             target.PlayStunAnimation();
 
             message.ShowMessageText(target.UnitName + " is stunned!");
@@ -26,7 +27,7 @@ namespace Duels.Attacks
 
         public override void Remove(Unit target)
         {
-            target.IsStunned = false;
+            target.RemoveStun();
         }
     }
 }

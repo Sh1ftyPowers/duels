@@ -2443,12 +2443,10 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 100
   <CurrentHealthPoints>k__BackingField: 100
   <UnitID>k__BackingField: 2
-  DamageReduction: 5
-  Attack: {fileID: 4129433331476816811}
+  <DamageReduction>k__BackingField: 0
+  _baseAttack: {fileID: 4129433331476816811}
   _unitAnimationManager: {fileID: 3077148545769899187}
   _healthbar: {fileID: 7724475778055600815}
-  IsStunned: 0
-  IsWeakened: 0
 --- !u!1 &3942609020630197049
 GameObject:
   m_ObjectHideFlags: 0

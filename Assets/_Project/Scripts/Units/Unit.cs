@@ -17,9 +17,10 @@ namespace Duels.Units
 
         [field:SerializeField] public int UnitID { get; private set; }
 
-        [SerializeField] public int DamageReduction = 0;
+        [field:SerializeField] public int DamageReduction { get; private set; }
 
-        public BaseAttack Attack;
+        [SerializeField] private BaseAttack _baseAttack;
+        public BaseAttack BaseAttack => _baseAttack;
 
         private EffectsHolder _effects = new EffectsHolder();
         public EffectsHolder Effects => _effects;
@@ -28,8 +29,8 @@ namespace Duels.Units
 
         [SerializeField] private Healthbar _healthbar;
 
-        public bool IsStunned;
-        public bool IsWeakened;
+        public bool IsStunned { get; private set; }
+        public bool IsWeakened { get; private set; }
 
         private void Start()
         {
@@ -54,7 +55,7 @@ namespace Duels.Units
 
         public AttackResult PerformAttack(Unit target)
         {
-            AttackResult result = Attack.AttackEnemy(this, target);
+            AttackResult result = _baseAttack.AttackEnemy(this, target);
 
             int damageDealt = result.Damage;
 
@@ -68,9 +69,31 @@ namespace Duels.Units
             return result;
         }
 
+        public void ApplyWeakness(int damageReductionValue)
+        {
+            IsWeakened = true;
+            DamageReduction = damageReductionValue;
+        }
+
+        public void RemoveWeakness()
+        {
+            IsWeakened = false;
+            DamageReduction = 0;
+        }
+
         public void PlayAttackAnimation()
         {
             _unitAnimationManager.PlayAttackAnimation();
+        }
+
+        public void ApplyStun()
+        {
+            IsStunned = true;
+        }
+
+        public void RemoveStun()
+        {
+            IsStunned = false;
         }
 
         public void PlayDeathAnimation()

@@ -92,8 +92,8 @@ namespace Duels.Core
 
             if (attacker.IsStunned)
             {
-                attacker.IsStunned = false;
                 State = nextState;
+
                 return;
             }
 
