@@ -6837,8 +6837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0bbeaf677e52340900bcd1413d5d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
-  TurnInfoText: {fileID: 654546806}
-  StatusInfoText: {fileID: 1600142468}
+  _turnInfoText: {fileID: 654546806}
+  _statusInfoText: {fileID: 1600142468}
 --- !u!1 &1752090426
 GameObject:
   m_ObjectHideFlags: 0
