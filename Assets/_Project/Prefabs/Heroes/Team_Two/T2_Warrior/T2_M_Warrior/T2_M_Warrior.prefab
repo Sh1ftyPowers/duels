@@ -1524,7 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb83f9c4e18ccb4e8d74cdf5771e912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Healthbar
-  HealthbarSprite: {fileID: 4759555454066817058}
+  _healthbarSprite: {fileID: 4759555454066817058}
 --- !u!1 &2141231566747775212
 GameObject:
   m_ObjectHideFlags: 0

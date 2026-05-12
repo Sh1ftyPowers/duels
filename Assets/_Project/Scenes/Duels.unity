@@ -6875,7 +6875,6 @@ MonoBehaviour:
   _message: {fileID: 1948794377}
   _spawner: {fileID: 819551044}
   _audio: {fileID: 1229041311}
-  State: 2
 --- !u!4 &1752090428
 Transform:
   m_ObjectHideFlags: 0

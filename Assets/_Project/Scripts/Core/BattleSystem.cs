@@ -12,17 +12,21 @@ namespace Duels.Core
     public class BattleSystem : MonoBehaviour
     {
         [SerializeField] private GameObject _gameOverCanvas;
-
         [SerializeField] private EffectsManager _effects;
         [SerializeField] private BattleUI _battleUI;
         [SerializeField] private MessageSystem _message;
         [SerializeField] private UnitSpawner _spawner;
         [SerializeField] private AudioManager _audio;
 
-        public BattleState State;
+        private BattleState _state;
 
         private Unit _teamOneHero;
         private Unit _teamTwoHero;
+
+        private Unit _firstTurnUnit;
+        private Unit _secondTurnUnit;
+
+        private int _turnDecider;
 
         private VictoryHandler _victoryHandler;
 
@@ -35,21 +39,34 @@ namespace Duels.Core
 
             _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas);
 
-            State = BattleState.Start;
+            _state = BattleState.Start;
             
             SetUpBattle().Forget();
         }
 
         private async UniTask SetUpBattle()
         {
+            _turnDecider = Random.Range(0, 2);
+
             _teamOneHero = _spawner.SpawnTeamOne(this, _message);
             _teamTwoHero = _spawner.SpawnTeamTwo(this, _message);
+
+            if (_turnDecider == 0)
+            {
+                _firstTurnUnit = _teamOneHero;
+                _secondTurnUnit = _teamTwoHero;
+            }
+            else
+            {
+                _firstTurnUnit = _teamTwoHero;
+                _secondTurnUnit = _teamOneHero;
+            }
 
             _battleUI.SetTurnText("The Battle Begins!");
 
             await UniTask.Delay(_startDelay);
 
-            State = BattleState.TeamOneTurn;
+            _state = BattleState.TeamOneTurn;
 
             StartBattleLoop().Forget();
         }
@@ -58,13 +75,13 @@ namespace Duels.Core
         {
             while (!IsBattleOver())
             {
-                if (State == BattleState.TeamOneTurn)
+                if (_state == BattleState.TeamOneTurn)
                 {
-                    await PerformTurn(_teamOneHero, _teamTwoHero, BattleState.TeamTwoTurn);
+                    await PerformTurn(_firstTurnUnit, _secondTurnUnit, BattleState.TeamTwoTurn);
                 }
-                else if (State == BattleState.TeamTwoTurn)
+                else if (_state == BattleState.TeamTwoTurn)
                 {
-                    await PerformTurn(_teamTwoHero, _teamOneHero, BattleState.TeamOneTurn);
+                    await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.TeamOneTurn);
                 }
             }
         }
@@ -82,7 +99,7 @@ namespace Duels.Core
 
             if (_victoryHandler.CheckVictory(attacker, defender))
             {
-                State = attacker == _teamOneHero
+                _state = attacker == _teamOneHero
                     ? BattleState.TeamOneVictory
                     : BattleState.TeamTwoVictory;
 
@@ -92,7 +109,7 @@ namespace Duels.Core
 
             if (attacker.IsStunned)
             {
-                State = nextState;
+                _state = nextState;
 
                 return;
             }
@@ -114,7 +131,7 @@ namespace Duels.Core
 
             if (_victoryHandler.CheckVictory(attacker, defender))
             {
-                State = attacker == _teamOneHero
+                _state = attacker == _teamOneHero
                     ? BattleState.TeamOneVictory
                     : BattleState.TeamTwoVictory;
 
@@ -122,12 +139,12 @@ namespace Duels.Core
                 return;
             }
 
-            State = nextState;
+            _state = nextState;
         }
 
         private bool IsBattleOver()
         {
-            return State == BattleState.TeamOneVictory || State == BattleState.TeamTwoVictory;
+            return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
         }
 
         private void EndBattle()

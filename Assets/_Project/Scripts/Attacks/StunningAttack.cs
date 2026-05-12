@@ -6,9 +6,11 @@ namespace Duels.Attacks
 {
     public class StunningAttack : StatusEffect
     {
+        private int _stunDuration = 2;
+
         public StunningAttack()
         {
-            Duration = 2;
+            Duration = _stunDuration;
         }
 
         public override void Apply(Unit target, MessageSystem message)
@@ -22,7 +24,7 @@ namespace Duels.Attacks
 
         public override void OnTurnStart(Unit target)
         {
-            Duration--;
+            _stunDuration--;
         }
 
         public override void Remove(Unit target)

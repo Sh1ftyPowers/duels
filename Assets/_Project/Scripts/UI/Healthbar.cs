@@ -5,7 +5,7 @@ namespace Duels.UI
 {
     public class Healthbar : MonoBehaviour
     {
-        [SerializeField] public Image HealthbarSprite;
+        [SerializeField] private Image _healthbarSprite;
 
         private Camera _camera;
 
@@ -21,7 +21,7 @@ namespace Duels.UI
 
         public void UpdateHealthBar(float currentHealth, float maxHealth)
         {
-            HealthbarSprite.fillAmount = currentHealth / maxHealth;
+            _healthbarSprite.fillAmount = currentHealth / maxHealth;
         }
     }
 }

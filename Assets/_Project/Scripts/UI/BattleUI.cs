@@ -5,17 +5,17 @@ namespace Duels.UI
 {
     public class BattleUI : MonoBehaviour
     {
-        [SerializeField] public TextMeshProUGUI TurnInfoText;
-        [SerializeField] public TextMeshProUGUI StatusInfoText;
+        [SerializeField] private TextMeshProUGUI _turnInfoText;
+        [SerializeField] private TextMeshProUGUI _statusInfoText;
 
         public void SetTurnText(string turnText)
         {
-            TurnInfoText.text = turnText;
+            _turnInfoText.text = turnText;
         }
 
         public void SetStatusText(string statusText)
         {
-            StatusInfoText.text = statusText;
+            _statusInfoText.text = statusText;
         }
     }
 }

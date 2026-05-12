@@ -8,7 +8,9 @@ namespace Duels.Attacks
     public class PoisonedArrows : StatusEffect
     {
         private int _poisonDamagePerTick;
+
         private int _tickIntervalInMilliseconds = 1000;
+
         private int _ticksDuration = 5;
 
         public PoisonedArrows(int damage)
