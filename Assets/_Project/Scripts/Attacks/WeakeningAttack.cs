@@ -7,12 +7,12 @@ namespace Duels.Attacks
     public class WeakeningAttack : StatusEffect
     {
         private int _damageReduction;
-        private const int WeakeningDuration = 2;
+        private const int WeakeningEffectLifetime = 2;
 
         public WeakeningAttack(int damageReductionValue)
         {
             _damageReduction = damageReductionValue;
-            Duration = WeakeningDuration;
+            Duration = WeakeningEffectLifetime;
         }
 
         public override void Apply(Unit target, MessageSystem message)
