@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using Duels.Effects;
 using Duels.UI;
 using Duels.Units;
@@ -7,32 +6,30 @@ namespace Duels.Attacks
 {
     public class PoisonedArrows : StatusEffect
     {
-        private int _poisonDamagePerTick;
-
-        private int _tickIntervalInMilliseconds = 1000;
-
-        private int _ticksDuration = 5;
+        private int _poisonDamage;
+        private const int PoisonEffectDuration = 2;
 
         public PoisonedArrows(int damage)
         {
-            _poisonDamagePerTick = damage;
+            _poisonDamage = damage;
+            Duration = PoisonEffectDuration;
         }
 
         public override void Apply(Unit target, MessageSystem message)
         {
+            target.ApplyPoison();
             message.ShowMessageText(target.UnitName + " is poisoned!");
-
-            ApplyPoison(target).Forget();
         }
 
-        private async UniTask ApplyPoison(Unit target)
+        public override void OnTurnStart(Unit target)
         {
-            for (int i = 0; i < _ticksDuration; i++)
-            {
-                target.TakePoisonDamage(_poisonDamagePerTick);
+            target.TakePoisonDamage(_poisonDamage);
+            Duration--;
+        }
 
-                await UniTask.Delay(_tickIntervalInMilliseconds);
-            }
+        public override void Remove(Unit target)
+        {
+            target.RemovePoison();
         }
     }
 }

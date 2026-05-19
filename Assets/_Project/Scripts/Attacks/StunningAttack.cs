@@ -6,11 +6,11 @@ namespace Duels.Attacks
 {
     public class StunningAttack : StatusEffect
     {
-        private const int StunEffectLifetime = 2;
+        private const int StunEffectDuration = 2;
 
         public StunningAttack()
         {
-            Duration = StunEffectLifetime;
+            Duration = StunEffectDuration;
         }
 
         public override void Apply(Unit target, MessageSystem message)

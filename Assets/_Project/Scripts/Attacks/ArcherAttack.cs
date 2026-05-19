@@ -4,7 +4,7 @@ namespace Duels.Attacks
 {
     public class ArcherAttack : BaseAttack
     {
-        private int _poisonDamagePerTick = 2;
+        private int _poisonDamage = 5;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         { 
@@ -15,7 +15,7 @@ namespace Duels.Attacks
             return new AttackResult
             {
                 Damage = attacker.Damage,
-                Effect = new PoisonedArrows(_poisonDamagePerTick)
+                Effect = new PoisonedArrows(_poisonDamage)
             };
         }
     }

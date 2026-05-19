@@ -31,24 +31,11 @@ namespace Duels.Units
 
         public bool IsStunned { get; private set; }
         public bool IsWeakened { get; private set; }
+        public bool IsPoisoned { get; private set; }
 
         private void Start()
         {
             MaxHealthPoints = CurrentHealthPoints;
-
-            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
-        }
-
-        public void TakeDamage(int damage)
-        {
-            CurrentHealthPoints -= damage;
-
-            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
-        }
-
-        public void TakePoisonDamage(int poisonDamage)
-        {
-            CurrentHealthPoints -= poisonDamage;
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
@@ -69,6 +56,31 @@ namespace Duels.Units
             return result;
         }
 
+        public void TakeDamage(int damage)
+        {
+            CurrentHealthPoints -= damage;
+
+            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+        }
+
+        public void TakePoisonDamage(int poisonDamage)
+        {
+            CurrentHealthPoints -= poisonDamage;
+
+            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+        }
+
+        public void ApplyPoison()
+        {
+            IsPoisoned = true;
+
+        }
+
+        public void RemovePoison()
+        {
+            IsPoisoned = false;
+        }
+
         public void ApplyWeakness(int damageReductionValue)
         {
             IsWeakened = true;
@@ -80,12 +92,6 @@ namespace Duels.Units
             IsWeakened = false;
             DamageReduction = 0;
         }
-
-        public void PlayAttackAnimation()
-        {
-            _unitAnimationManager.PlayAttackAnimation();
-        }
-
         public void ApplyStun()
         {
             IsStunned = true;
@@ -94,6 +100,11 @@ namespace Duels.Units
         public void RemoveStun()
         {
             IsStunned = false;
+        }
+
+        public void PlayAttackAnimation()
+        {
+            _unitAnimationManager.PlayAttackAnimation();
         }
 
         public void PlayDeathAnimation()

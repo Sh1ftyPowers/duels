@@ -29,14 +29,10 @@ namespace Duels.Effects
                 if (effect.Duration <= 0) 
                 { 
                     effect.Remove(unit); 
-                    effects.Remove(effect); 
+                    effects.Remove(effect);
+
                     _message.ShowMessageText($"{unit.UnitName} lost an effect"); 
                 } 
-            }
-
-            if (effects.Count == 0)
-            {
-                _message.ShowMessageText($"{unit.UnitName} has no active effects");
             }
         }
     }
