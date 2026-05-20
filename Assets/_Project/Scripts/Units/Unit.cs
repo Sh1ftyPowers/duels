@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Duels.Attacks;
 using Duels.Effects;
@@ -17,8 +16,6 @@ namespace Duels.Units
 
         [field:SerializeField] public int UnitID { get; private set; }
 
-        [field:SerializeField] public int DamageReduction { get; private set; }
-
         [SerializeField] private BaseAttack _baseAttack;
         public BaseAttack BaseAttack => _baseAttack;
 
@@ -28,10 +25,6 @@ namespace Duels.Units
         [SerializeField] private UnitAnimationManager _unitAnimationManager;
 
         [SerializeField] private Healthbar _healthbar;
-
-        public bool IsStunned { get; private set; }
-        public bool IsWeakened { get; private set; }
-        public bool IsPoisoned { get; private set; }
 
         private void Start()
         {
@@ -46,12 +39,16 @@ namespace Duels.Units
 
             int damageDealt = result.Damage;
 
-            if (IsWeakened)
+            WeakeningAttack weakeningEffect = Effects.GetEffect<WeakeningAttack>();
+
+            if (weakeningEffect != null)
             {
-                damageDealt -= DamageReduction;
+                damageDealt -= weakeningEffect.DamageReduction;
             }
 
-            Debug.Log(target.UnitName + " получил урон: " + damageDealt);
+            result.Damage = damageDealt;
+
+            target.TakeDamage(damageDealt);
 
             return result;
         }
@@ -59,6 +56,8 @@ namespace Duels.Units
         public void TakeDamage(int damage)
         {
             CurrentHealthPoints -= damage;
+
+            Debug.Log($"{UnitName} получил урон {damage}");
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
@@ -68,38 +67,6 @@ namespace Duels.Units
             CurrentHealthPoints -= poisonDamage;
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
-        }
-
-        public void ApplyPoison()
-        {
-            IsPoisoned = true;
-
-        }
-
-        public void RemovePoison()
-        {
-            IsPoisoned = false;
-        }
-
-        public void ApplyWeakness(int damageReductionValue)
-        {
-            IsWeakened = true;
-            DamageReduction = damageReductionValue;
-        }
-
-        public void RemoveWeakness()
-        {
-            IsWeakened = false;
-            DamageReduction = 0;
-        }
-        public void ApplyStun()
-        {
-            IsStunned = true;
-        }
-
-        public void RemoveStun()
-        {
-            IsStunned = false;
         }
 
         public void PlayAttackAnimation()
@@ -125,11 +92,6 @@ namespace Duels.Units
         public void AddEffect(StatusEffect effect)
         {
             _effects.AddEffect(effect);
-        }
-
-        public List<StatusEffect> GetEffects()
-        {
-            return _effects.GetEffects();
         }
     }
 }

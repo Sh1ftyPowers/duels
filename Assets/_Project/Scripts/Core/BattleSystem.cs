@@ -106,7 +106,7 @@ namespace Duels.Core
                 return;
             }
 
-            if (attacker.IsStunned)
+            if (attacker.Effects.HasEffect<StunningAttack>())
             {
                 _state = nextState;
 

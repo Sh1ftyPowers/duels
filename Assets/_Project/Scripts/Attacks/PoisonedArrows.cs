@@ -17,19 +17,14 @@ namespace Duels.Attacks
 
         public override void Apply(Unit target, MessageSystem message)
         {
-            target.ApplyPoison();
             message.ShowMessageText(target.UnitName + " is poisoned!");
+            UnityEngine.Debug.Log($"{target.UnitName} отравлен");
         }
 
         public override void OnTurnStart(Unit target)
         {
             target.TakePoisonDamage(_poisonDamage);
             Duration--;
-        }
-
-        public override void Remove(Unit target)
-        {
-            target.RemovePoison();
         }
     }
 }

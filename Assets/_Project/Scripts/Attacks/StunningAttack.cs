@@ -15,21 +15,14 @@ namespace Duels.Attacks
 
         public override void Apply(Unit target, MessageSystem message)
         {
-            target.ApplyStun();
-
-            target.PlayStunAnimation();
-
             message.ShowMessageText(target.UnitName + " is stunned!");
+
+            UnityEngine.Debug.Log($"{target.UnitName} оглушен");
         }
 
         public override void OnTurnStart(Unit target)
         {
             Duration--;
-        }
-
-        public override void Remove(Unit target)
-        {
-            target.RemoveStun();
         }
     }
 }

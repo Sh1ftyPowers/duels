@@ -11,8 +11,6 @@ namespace Duels.Attacks
         {
             attacker.PlayAttackAnimation();
 
-            target.TakeDamage(attacker.Damage);
-
             StatusEffect effect = null;
 
             if (UnityEngine.Random.value < _chanceToWeaken)

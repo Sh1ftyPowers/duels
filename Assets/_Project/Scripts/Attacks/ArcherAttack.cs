@@ -10,8 +10,6 @@ namespace Duels.Attacks
         { 
             attacker.PlayAttackAnimation();
 
-            target.TakeDamage(attacker.Damage);
-
             return new AttackResult
             {
                 Damage = attacker.Damage,
