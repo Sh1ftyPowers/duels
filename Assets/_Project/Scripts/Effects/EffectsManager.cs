@@ -12,7 +12,9 @@ namespace Duels.Effects
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {
             unit.AddEffect(effect);
-            effect.Apply(unit, _message);
+            effect.Apply(unit);
+
+            _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
         }
 
         public void ProcessEffects(Unit unit)

@@ -1,5 +1,4 @@
 using Duels.Effects;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Attacks
@@ -7,16 +6,16 @@ namespace Duels.Attacks
     public class StunningAttack : StatusEffect
     {
         private const int StunEffectDuration = 2;
+        private string _name = "stunned";
 
         public StunningAttack()
         {
             Duration = StunEffectDuration;
+            EffectName = _name;
         }
 
-        public override void Apply(Unit target, MessageSystem message)
+        public override void Apply(Unit target)
         {
-            message.ShowMessageText(target.UnitName + " is stunned!");
-
             UnityEngine.Debug.Log($"{target.UnitName} оглушен");
         }
 

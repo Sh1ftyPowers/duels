@@ -1,5 +1,4 @@
 using Duels.Effects;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Attacks
@@ -8,16 +7,17 @@ namespace Duels.Attacks
     {
         private int _poisonDamage;
         private const int PoisonEffectDuration = 2;
+        private string _name = "poisoned";
 
         public PoisonedArrows(int damage)
         {
             _poisonDamage = damage;
             Duration = PoisonEffectDuration;
+            EffectName = _name;
         }
 
-        public override void Apply(Unit target, MessageSystem message)
+        public override void Apply(Unit target)
         {
-            message.ShowMessageText(target.UnitName + " is poisoned!");
             UnityEngine.Debug.Log($"{target.UnitName} отравлен");
         }
 
