@@ -5,9 +5,14 @@ using UnityEngine;
 
 namespace Duels.Effects
 {
-    public class EffectsManager : MonoBehaviour
+    public class EffectsManager
     {
-        [SerializeField] private MessageSystem _message;
+        private MessageSystem _message;
+
+        public EffectsManager(MessageSystem message)
+        {
+            _message = message;
+        }
 
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {

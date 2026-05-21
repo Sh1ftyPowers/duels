@@ -1362,7 +1362,6 @@ GameObject:
   - component: {fileID: 1365469145362010628}
   - component: {fileID: 9027098363028234369}
   - component: {fileID: 7113295051514964602}
-  - component: {fileID: 8572362852916896349}
   - component: {fileID: 2418243322466398492}
   m_Layer: 0
   m_Name: T2_M_Mage
@@ -1425,18 +1424,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
   _animator: {fileID: 9027098363028234369}
---- !u!114 &8572362852916896349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853458126628407486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e565d99a15773643858a5dccd248f2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MageAttack
 --- !u!114 &2418243322466398492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,8 +1441,7 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 100
   <CurrentHealthPoints>k__BackingField: 100
   <UnitID>k__BackingField: 1
-  <DamageReduction>k__BackingField: 0
-  _baseAttack: {fileID: 8572362852916896349}
+  _baseAttack: {fileID: 11400000, guid: 837165e81287a0a49bbb2be47ab61ee2, type: 2}
   _unitAnimationManager: {fileID: 7113295051514964602}
   _healthbar: {fileID: 432256558975396961}
 --- !u!1 &1876052873651445510

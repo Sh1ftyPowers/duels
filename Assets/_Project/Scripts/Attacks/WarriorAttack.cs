@@ -1,8 +1,10 @@
 using Duels.Effects;
 using Duels.Units;
+using UnityEngine;
 
 namespace Duels.Attacks
 {
+    [CreateAssetMenu(menuName = "Attacks/Warrior Attack")]
     public class WarriorAttack : BaseAttack
     {
         private float _chanceToStun = 0.3f;

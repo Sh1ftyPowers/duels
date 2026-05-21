@@ -13,13 +13,14 @@ namespace Duels.Core
     public class BattleSystem : MonoBehaviour
     {
         [SerializeField] private GameObject _gameOverCanvas;
-        [SerializeField] private EffectsManager _effects;
         [SerializeField] private BattleUI _battleUI;
         [SerializeField] private MessageSystem _message;
         [SerializeField] private UnitSpawner _spawner;
         [SerializeField] private AudioManager _audio;
 
         private BattleState _state;
+
+        private EffectsManager _effects;
 
         private VictoryHandler _victoryHandler;
 
@@ -35,6 +36,8 @@ namespace Duels.Core
         private async UniTaskVoid Start()
         {
             _audio.PlayBattleMusic();
+
+            _effects = new EffectsManager(_message);
 
             _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas);
 

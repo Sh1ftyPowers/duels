@@ -1,8 +1,10 @@
 using Duels.Effects;
 using Duels.Units;
+using UnityEngine;
 
 namespace Duels.Attacks
 {
+    [CreateAssetMenu(menuName = "Attacks/Mage Attack")]
     public class MageAttack : BaseAttack
     {
         private float _chanceToWeaken = 0.3f;

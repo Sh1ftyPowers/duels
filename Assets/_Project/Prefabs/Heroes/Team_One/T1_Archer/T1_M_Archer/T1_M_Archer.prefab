@@ -3763,7 +3763,6 @@ GameObject:
   - component: {fileID: 909451417374820426}
   - component: {fileID: 5910063862611718460}
   - component: {fileID: 5773738943247403035}
-  - component: {fileID: 1451507197645517293}
   - component: {fileID: 6816892570622454893}
   m_Layer: 0
   m_Name: T1_M_Archer
@@ -3826,18 +3825,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
   _animator: {fileID: 5910063862611718460}
---- !u!114 &1451507197645517293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296033423310677109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e479526f56dab504cb2b347b0cf3225d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ArcherAttack
 --- !u!114 &6816892570622454893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3855,8 +3842,7 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 100
   <CurrentHealthPoints>k__BackingField: 100
   <UnitID>k__BackingField: 0
-  <DamageReduction>k__BackingField: 0
-  _baseAttack: {fileID: 1451507197645517293}
+  _baseAttack: {fileID: 11400000, guid: ea643767208ba714d8a93884cc867e1c, type: 2}
   _unitAnimationManager: {fileID: 5773738943247403035}
   _healthbar: {fileID: 2268046888942262933}
 --- !u!1 &5334976677225711139
