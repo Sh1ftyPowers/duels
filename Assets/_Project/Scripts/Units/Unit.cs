@@ -23,6 +23,7 @@ namespace Duels.Units
         public EffectsHolder Effects => _effects;
 
         [SerializeField] private UnitAnimationManager _unitAnimationManager;
+        public UnitAnimationManager UnitAnimationManager => _unitAnimationManager;
 
         [SerializeField] private Healthbar _healthbar;
 
@@ -67,26 +68,6 @@ namespace Duels.Units
             CurrentHealthPoints -= poisonDamage;
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
-        }
-
-        public void PlayAttackAnimation()
-        {
-            _unitAnimationManager.PlayAttackAnimation();
-        }
-
-        public void PlayDeathAnimation()
-        {
-            _unitAnimationManager.PlayDeathAnimation();
-        }
-
-        public void PlayVictoryAnimation()
-        {
-            _unitAnimationManager.PlayVictoryAnimation();
-        }
-
-        public void PlayStunAnimation()
-        {
-            _unitAnimationManager.PlayStunAnimation();
         }
 
         public void AddEffect(StatusEffect effect)

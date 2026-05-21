@@ -20,8 +20,8 @@ namespace Duels.Core
             if (defender.CurrentHealthPoints > 0)
                 return false;
 
-            attacker.PlayVictoryAnimation();
-            defender.PlayDeathAnimation();
+            attacker.UnitAnimationManager.PlayVictoryAnimation();
+            defender.UnitAnimationManager.PlayDeathAnimation();
 
             _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
             _battleUI.SetStatusText("Glory to the Winner!");

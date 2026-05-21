@@ -27,5 +27,3 @@ namespace Duels.Units
         }
     }
 }
-
-

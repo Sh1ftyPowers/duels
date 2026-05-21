@@ -9,8 +9,8 @@ namespace Duels.Attacks
         private int _poisonDamage = 5;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
-        { 
-            attacker.PlayAttackAnimation();
+        {
+            attacker.UnitAnimationManager.PlayAttackAnimation();
 
             return new AttackResult
             {
