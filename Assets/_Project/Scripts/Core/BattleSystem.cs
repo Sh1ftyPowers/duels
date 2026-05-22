@@ -1,12 +1,10 @@
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using Duels.Units;
 using Duels.UI;
 using Duels.Effects;
 using Duels.Audio;
-using Duels.Attacks;
 
 namespace Duels.Core
 {
@@ -20,6 +18,8 @@ namespace Duels.Core
 
         private BattleState _state;
 
+        private TurnHandler _turnHandler;
+
         private EffectsManager _effects;
 
         private VictoryHandler _victoryHandler;
@@ -31,7 +31,6 @@ namespace Duels.Core
         private Unit _secondTurnUnit;
 
         private const int StartDelay = 500;
-        private const int AttackDelay = 3000;
 
         private async UniTaskVoid Start()
         {
@@ -39,7 +38,9 @@ namespace Duels.Core
 
             _effects = new EffectsManager(_message);
 
-            _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas);
+            _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas, _audio);
+
+            _turnHandler = new TurnHandler(_battleUI, _message, _effects, _victoryHandler);
 
             _state = BattleState.Start;
             
@@ -90,74 +91,23 @@ namespace Duels.Core
 
         private async UniTask PerformTurn(Unit attacker, Unit defender, BattleState nextState, CancellationToken cancellationToken)
         {
-            _battleUI.SetTurnText(attacker.UnitName + " attacks!");
-            await _message.WaitForMessages(cancellationToken);
+            bool battleEnded = await _turnHandler.HandleTurn(attacker, defender, cancellationToken);
 
-            Debug.Log("Ход: " + attacker.UnitName);
-
-            _effects.ProcessEffects(attacker);
-            _effects.ProcessEffects(defender);
-            await _message.WaitForMessages(cancellationToken);
-
-            if (_victoryHandler.CheckVictory(attacker, defender))
+            if (battleEnded)
             {
                 _state = attacker == _teamOneHero
                     ? BattleState.TeamOneVictory
                     : BattleState.TeamTwoVictory;
 
-                EndBattle();
-                return;
-            }
-
-            if (attacker.Effects.HasEffect<StunningAttack>())
-            {
-                _state = nextState;
-
-                return;
-            }
-
-            await UniTask.Delay(AttackDelay, cancellationToken: cancellationToken);
-
-            if (!IsBattleOver())
-            {
-                AttackResult result = attacker.PerformAttack(defender);
-                await _message.WaitForMessages(cancellationToken);
-
-                if (result.Effect != null)
-                {
-                    _effects.ApplyEffect(defender, result.Effect);
-                }
-
-                await _message.WaitForMessages(cancellationToken);
-            }
-
-            if (_victoryHandler.CheckVictory(attacker, defender))
-            {
-                _state = attacker == _teamOneHero
-                    ? BattleState.TeamOneVictory
-                    : BattleState.TeamTwoVictory;
-
-                EndBattle();
                 return;
             }
 
             _state = nextState;
         }
-
+        
         private bool IsBattleOver()
         {
             return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
-        }
-
-        private void EndBattle()
-        {
-            StartCoroutine(_audio.PlayEndBattleMusic());
-            _gameOverCanvas.SetActive(true);
-        }
-
-        private void RestartGame()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

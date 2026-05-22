@@ -1,6 +1,9 @@
 using UnityEngine;
 using Duels.UI;
 using Duels.Units;
+using Duels.Audio;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Duels.Core
 {
@@ -8,11 +11,13 @@ namespace Duels.Core
     {
         private BattleUI _battleUI;
         private GameObject _gameOverCanvas;
+        private AudioManager _audio;
 
-        public VictoryHandler(BattleUI battleUI, GameObject gameOverCanvas)
+        public VictoryHandler(BattleUI battleUI, GameObject gameOverCanvas, AudioManager audio)
         {
             _battleUI = battleUI;
             _gameOverCanvas = gameOverCanvas;
+            _audio = audio;
         }
 
         public bool CheckVictory(Unit attacker, Unit defender)
@@ -29,6 +34,12 @@ namespace Duels.Core
             _gameOverCanvas.SetActive(true);
 
             return true;
+        }
+
+        public async Task HandleVictory(CancellationToken cancellationToken)
+        {
+            await _audio.PlayEndBattleMusic(cancellationToken);
+            _gameOverCanvas.SetActive(true);
         }
     }
 }

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using System.Collections;
 
 namespace Duels.Audio
 {
@@ -10,7 +12,8 @@ namespace Duels.Audio
         [SerializeField] private AudioClip _victorySound;
         [SerializeField] private AudioClip _restartMenuTheme;
 
-        private float _delayBetweenVictorySoundAndRestartTheme = 0.5f;
+        private const int ConversionFactorForSecondsToMilliseconds = 1000;
+        private int _delayBetweenVictorySoundAndRestartTheme = 500;
 
         public void PlayBattleMusic()
         {
@@ -19,13 +22,13 @@ namespace Duels.Audio
             _musicSource.Play();
         }
 
-        public IEnumerator PlayEndBattleMusic()
+        public async UniTask PlayEndBattleMusic(CancellationToken token)
         {
             _musicSource.loop = false;
             _musicSource.clip = _victorySound;
             _musicSource.Play();
 
-            yield return new WaitForSeconds(_victorySound.length - _delayBetweenVictorySoundAndRestartTheme);
+            await UniTask.Delay((int)_victorySound.length * ConversionFactorForSecondsToMilliseconds - _delayBetweenVictorySoundAndRestartTheme, cancellationToken: token);
 
             _musicSource.clip = _restartMenuTheme;
             _musicSource.loop = true;
