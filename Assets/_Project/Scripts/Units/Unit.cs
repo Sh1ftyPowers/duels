@@ -69,10 +69,5 @@ namespace Duels.Units
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
-
-        /*public void AddEffect(StatusEffect effect)
-        {
-            _effects.AddEffect(effect);
-        }*/
     }
 }

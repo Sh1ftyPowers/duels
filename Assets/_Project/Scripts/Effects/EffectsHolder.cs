@@ -4,7 +4,9 @@ namespace Duels.Effects
 {
     public class EffectsHolder
     {
-        private List<StatusEffect> _effects = new List<StatusEffect>();
+        private readonly List<StatusEffect> _effects = new();
+
+        public IReadOnlyList<StatusEffect> ActiveEffects => _effects;
 
         public void AddEffect(StatusEffect effect)
         {
@@ -14,11 +16,6 @@ namespace Duels.Effects
         public void RemoveEffect(StatusEffect effect)
         {
             _effects.Remove(effect);
-        }
-
-        public List<StatusEffect> GetEffects()
-        {
-            return _effects;
         }
 
         public bool HasEffect<EffectType>() where EffectType : StatusEffect

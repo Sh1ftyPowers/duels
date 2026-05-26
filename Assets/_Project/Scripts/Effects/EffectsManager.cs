@@ -24,7 +24,8 @@ namespace Duels.Effects
 
         public void ProcessEffects(Unit unit)
         {
-            var effects = unit.Effects.GetEffects();
+            //var effects = unit.Effects.GetEffects();
+            var effects = unit.Effects.ActiveEffects;
 
             if (effects.Count == 0)
                 return;
@@ -36,7 +37,7 @@ namespace Duels.Effects
                 if (effect.Duration <= 0) 
                 { 
                     effect.Remove(unit); 
-                    effects.Remove(effect);
+                    unit.Effects.RemoveEffect(effect);
 
                     _message.ShowMessageText($"{unit.UnitName} lost an effect"); 
                 } 
