@@ -69,5 +69,10 @@ namespace Duels.Units
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
+
+        public bool CanAct()
+        {
+            return !Effects.HasEffect<StunningAttack>();
+        }
     }
 }

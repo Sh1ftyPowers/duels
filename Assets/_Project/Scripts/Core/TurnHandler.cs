@@ -1,6 +1,5 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Duels.Attacks;
 using Duels.Effects;
 using Duels.UI;
 using Duels.Units;
@@ -26,21 +25,38 @@ namespace Duels.Core
 
         public async UniTask<bool> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            _battleUI.SetTurnText($"{attacker.UnitName} attacks!");
+            ShowTurnText(attacker);
 
-            await _message.WaitForMessages(cancellationToken);
+            await WaitForNewMessage(cancellationToken);
 
-            _effects.ProcessEffects(attacker);
-            _effects.ProcessEffects(defender);
+            ProccessTurnStart(attacker, defender);
 
-            await _message.WaitForMessages(cancellationToken);
+            await WaitForNewMessage(cancellationToken);
 
-            if (_victoryHandler.CheckVictory(attacker, defender))
+            if (CheckVictoryCondition(attacker, defender))
                 return true;
 
-            if (attacker.Effects.HasEffect<StunningAttack>())
+            if (!attacker.CanAct())
                 return false;
 
+            await AttackTheEnemy(attacker, defender, cancellationToken);
+
+            return CheckVictoryCondition(attacker, defender);
+        }
+
+        private void ShowTurnText(Unit attacker)
+        {
+            _battleUI.SetTurnText($"{attacker.UnitName} attacks!");
+        }
+
+        private void ProccessTurnStart(Unit attacker, Unit defender)
+        {
+            _effects.ProcessEffects(attacker);
+            _effects.ProcessEffects(defender);
+        }
+
+        private async UniTask AttackTheEnemy(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        {
             await UniTask.Delay(AttackDelay, cancellationToken: cancellationToken);
 
             var result = attacker.PerformAttack(defender);
@@ -51,8 +67,16 @@ namespace Duels.Core
                 _effects.ApplyEffect(defender, result.Effect);
 
             await _message.WaitForMessages(cancellationToken);
+        }
 
+        private bool CheckVictoryCondition(Unit attacker, Unit defender)
+        {
             return _victoryHandler.CheckVictory(attacker, defender);
+        }
+
+        private async UniTask WaitForNewMessage(CancellationToken cancellationToken)
+        {
+            await _message.WaitForMessages(cancellationToken);
         }
     }
 }

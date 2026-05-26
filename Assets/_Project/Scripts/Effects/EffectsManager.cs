@@ -24,7 +24,6 @@ namespace Duels.Effects
 
         public void ProcessEffects(Unit unit)
         {
-            //var effects = unit.Effects.GetEffects();
             var effects = unit.Effects.ActiveEffects;
 
             if (effects.Count == 0)
