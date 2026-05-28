@@ -5,19 +5,26 @@ using UnityEngine;
 
 namespace Duels.Effects
 {
-    public class EffectsManager : MonoBehaviour
+    public class EffectsManager
     {
-        [SerializeField] private MessageSystem _message;
+        private MessageSystem _message;
+
+        public EffectsManager(MessageSystem message)
+        {
+            _message = message;
+        }
 
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {
-            unit.AddEffect(effect);
-            effect.Apply(unit, _message);
+            unit.Effects.AddEffect(effect);
+            effect.Apply(unit);
+
+            _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
         }
 
         public void ProcessEffects(Unit unit)
         {
-            var effects = unit.Effects.GetEffects();
+            var effects = unit.Effects.ActiveEffects;
 
             if (effects.Count == 0)
                 return;
@@ -29,14 +36,10 @@ namespace Duels.Effects
                 if (effect.Duration <= 0) 
                 { 
                     effect.Remove(unit); 
-                    effects.Remove(effect); 
+                    unit.Effects.RemoveEffect(effect);
+
                     _message.ShowMessageText($"{unit.UnitName} lost an effect"); 
                 } 
-            }
-
-            if (effects.Count == 0)
-            {
-                _message.ShowMessageText($"{unit.UnitName} has no active effects");
             }
         }
     }

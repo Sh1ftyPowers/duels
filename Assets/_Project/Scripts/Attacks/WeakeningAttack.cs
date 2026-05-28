@@ -1,35 +1,31 @@
 using Duels.Effects;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Attacks
 {
     public class WeakeningAttack : StatusEffect
     {
+        private const int WeakeningEffectDuration = 2;
         private int _damageReduction;
-        private int _weakeningDuration = 2;
+        private string _name = "weakened";
+
+        public int DamageReduction => _damageReduction;
 
         public WeakeningAttack(int damageReductionValue)
         {
             _damageReduction = damageReductionValue;
-            Duration = _weakeningDuration;
+            Duration = WeakeningEffectDuration;
+            EffectName = _name;
         }
 
-        public override void Apply(Unit target, MessageSystem message)
+        public override void Apply(Unit target)
         {
-            target.ApplyWeakness(_damageReduction);
-
-            message.ShowMessageText(target.UnitName + " is weakened!");
+            UnityEngine.Debug.Log($"{target.UnitName} ослаблен");
         }
 
         public override void OnTurnStart(Unit target)
         {
-            _weakeningDuration--;
-        }
-
-        public override void Remove(Unit target)
-        {
-            target.RemoveWeakness();
+            Duration--;
         }
     }
 }

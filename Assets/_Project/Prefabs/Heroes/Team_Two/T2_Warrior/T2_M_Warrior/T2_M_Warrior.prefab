@@ -2351,7 +2351,6 @@ GameObject:
   - component: {fileID: 4489240907089882683}
   - component: {fileID: 13229588159597785}
   - component: {fileID: 3077148545769899187}
-  - component: {fileID: 4129433331476816811}
   - component: {fileID: 465522511094851027}
   m_Layer: 0
   m_Name: T2_M_Warrior
@@ -2414,18 +2413,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitAnimationManager
   _animator: {fileID: 13229588159597785}
---- !u!114 &4129433331476816811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3821071726118106241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1985c17af6fc2b8428d5ceedf70ca2b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WarriorAttack
 --- !u!114 &465522511094851027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2443,8 +2430,7 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 100
   <CurrentHealthPoints>k__BackingField: 100
   <UnitID>k__BackingField: 2
-  <DamageReduction>k__BackingField: 0
-  _baseAttack: {fileID: 4129433331476816811}
+  _baseAttack: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
   _unitAnimationManager: {fileID: 3077148545769899187}
   _healthbar: {fileID: 7724475778055600815}
 --- !u!1 &3942609020630197049

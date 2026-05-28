@@ -1,7 +1,7 @@
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Duels.UI
 {
@@ -13,7 +13,7 @@ namespace Duels.UI
 
         private bool _isShowingMessage = false;
 
-        private int _statusTextDelay = 2000;
+        private const int StatusTextDelay = 2000;
 
         public void ShowMessageText(string message)
         {
@@ -22,10 +22,10 @@ namespace Duels.UI
             if (_isShowingMessage )
                 return;
 
-            ShowMessages().Forget();
+            ShowMessages(this.GetCancellationTokenOnDestroy()).Forget();
         }
 
-        private async UniTask ShowMessages()
+        private async UniTask ShowMessages(CancellationToken token)
         {
             _isShowingMessage = true;
 
@@ -33,16 +33,17 @@ namespace Duels.UI
             {
                 _battleUI.SetStatusText(_messages.Dequeue());
 
-                await UniTask.Delay(_statusTextDelay);
+                await UniTask.Delay(StatusTextDelay, cancellationToken: token);
             }
 
             _isShowingMessage = false;
         }
 
-        public async UniTask WaitForMessages()
+        public async UniTask WaitForMessages(CancellationToken cancellationToken)
         {
             await UniTask.WaitUntil(() =>
-                !_isShowingMessage && _messages.Count == 0);
+                !_isShowingMessage && _messages.Count == 0,
+                cancellationToken: cancellationToken);
         }
     }
 }

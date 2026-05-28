@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Duels.Attacks;
 using Duels.Effects;
@@ -17,8 +16,6 @@ namespace Duels.Units
 
         [field:SerializeField] public int UnitID { get; private set; }
 
-        [field:SerializeField] public int DamageReduction { get; private set; }
-
         [SerializeField] private BaseAttack _baseAttack;
         public BaseAttack BaseAttack => _baseAttack;
 
@@ -26,11 +23,9 @@ namespace Duels.Units
         public EffectsHolder Effects => _effects;
 
         [SerializeField] private UnitAnimationManager _unitAnimationManager;
+        public UnitAnimationManager UnitAnimationManager => _unitAnimationManager;
 
         [SerializeField] private Healthbar _healthbar;
-
-        public bool IsStunned { get; private set; }
-        public bool IsWeakened { get; private set; }
 
         private void Start()
         {
@@ -39,9 +34,31 @@ namespace Duels.Units
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
 
+        public AttackResult PerformAttack(Unit target)
+        {
+            AttackResult result = _baseAttack.AttackEnemy(this, target);
+
+            int damageDealt = result.Damage;
+
+            WeakeningAttack weakeningEffect = Effects.GetEffect<WeakeningAttack>();
+
+            if (weakeningEffect != null)
+            {
+                damageDealt -= weakeningEffect.DamageReduction;
+            }
+
+            result.Damage = damageDealt;
+
+            target.TakeDamage(damageDealt);
+
+            return result;
+        }
+
         public void TakeDamage(int damage)
         {
             CurrentHealthPoints -= damage;
+
+            Debug.Log($"{UnitName} получил урон {damage}");
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
@@ -53,72 +70,9 @@ namespace Duels.Units
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
 
-        public AttackResult PerformAttack(Unit target)
+        public bool CanAct()
         {
-            AttackResult result = _baseAttack.AttackEnemy(this, target);
-
-            int damageDealt = result.Damage;
-
-            if (IsWeakened)
-            {
-                damageDealt -= DamageReduction;
-            }
-
-            Debug.Log(target.UnitName + " получил урон: " + damageDealt);
-
-            return result;
-        }
-
-        public void ApplyWeakness(int damageReductionValue)
-        {
-            IsWeakened = true;
-            DamageReduction = damageReductionValue;
-        }
-
-        public void RemoveWeakness()
-        {
-            IsWeakened = false;
-            DamageReduction = 0;
-        }
-
-        public void PlayAttackAnimation()
-        {
-            _unitAnimationManager.PlayAttackAnimation();
-        }
-
-        public void ApplyStun()
-        {
-            IsStunned = true;
-        }
-
-        public void RemoveStun()
-        {
-            IsStunned = false;
-        }
-
-        public void PlayDeathAnimation()
-        {
-            _unitAnimationManager.PlayDeathAnimation();
-        }
-
-        public void PlayVictoryAnimation()
-        {
-            _unitAnimationManager.PlayVictoryAnimation();
-        }
-
-        public void PlayStunAnimation()
-        {
-            _unitAnimationManager.PlayStunAnimation();
-        }
-
-        public void AddEffect(StatusEffect effect)
-        {
-            _effects.AddEffect(effect);
-        }
-
-        public List<StatusEffect> GetEffects()
-        {
-            return _effects.GetEffects();
+            return !Effects.HasEffect<StunningAttack>();
         }
     }
 }

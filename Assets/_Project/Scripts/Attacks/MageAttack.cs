@@ -1,17 +1,17 @@
 using Duels.Effects;
 using Duels.Units;
+using UnityEngine;
 
 namespace Duels.Attacks
 {
+    [CreateAssetMenu(menuName = "Attacks/Mage Attack")]
     public class MageAttack : BaseAttack
     {
         private float _chanceToWeaken = 0.3f;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
-            attacker.PlayAttackAnimation();
-
-            target.TakeDamage(attacker.Damage);
+            attacker.UnitAnimationManager.PlayAttackAnimation();
 
             StatusEffect effect = null;
 

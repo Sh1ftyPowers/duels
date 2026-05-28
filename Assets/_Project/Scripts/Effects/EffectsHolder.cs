@@ -4,16 +4,44 @@ namespace Duels.Effects
 {
     public class EffectsHolder
     {
-        private List<StatusEffect> _effects = new List<StatusEffect>();
+        private readonly List<StatusEffect> _effects = new();
+
+        public IReadOnlyList<StatusEffect> ActiveEffects => _effects;
 
         public void AddEffect(StatusEffect effect)
         {
             _effects.Add(effect);
         }
 
-        public List<StatusEffect> GetEffects()
+        public void RemoveEffect(StatusEffect effect)
         {
-            return _effects;
+            _effects.Remove(effect);
+        }
+
+        public bool HasEffect<EffectType>() where EffectType : StatusEffect
+        {
+            foreach (StatusEffect effect in _effects)
+            {
+                if (effect is EffectType)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public EffectType GetEffect<EffectType>() where EffectType : StatusEffect
+        {
+            foreach (StatusEffect effect in _effects)
+            {
+                if (effect is EffectType typedEffect)
+                {
+                    return typedEffect;
+                }
+            }
+
+            return null;
         }
     }
 }

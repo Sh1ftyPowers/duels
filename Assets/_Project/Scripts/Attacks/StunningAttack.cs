@@ -1,35 +1,27 @@
 using Duels.Effects;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Attacks
 {
     public class StunningAttack : StatusEffect
     {
-        private int _stunDuration = 2;
+        private const int StunEffectDuration = 2;
+        private string _name = "stunned";
 
         public StunningAttack()
         {
-            Duration = _stunDuration;
+            Duration = StunEffectDuration;
+            EffectName = _name;
         }
 
-        public override void Apply(Unit target, MessageSystem message)
+        public override void Apply(Unit target)
         {
-            target.ApplyStun();
-
-            target.PlayStunAnimation();
-
-            message.ShowMessageText(target.UnitName + " is stunned!");
+            UnityEngine.Debug.Log($"{target.UnitName} оглушен");
         }
 
         public override void OnTurnStart(Unit target)
         {
-            _stunDuration--;
-        }
-
-        public override void Remove(Unit target)
-        {
-            target.RemoveStun();
+            Duration--;
         }
     }
 }

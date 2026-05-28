@@ -1,38 +1,30 @@
-using Cysharp.Threading.Tasks;
 using Duels.Effects;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Attacks
 {
     public class PoisonedArrows : StatusEffect
     {
-        private int _poisonDamagePerTick;
-
-        private int _tickIntervalInMilliseconds = 1000;
-
-        private int _ticksDuration = 5;
+        private int _poisonDamage;
+        private const int PoisonEffectDuration = 2;
+        private string _name = "poisoned";
 
         public PoisonedArrows(int damage)
         {
-            _poisonDamagePerTick = damage;
+            _poisonDamage = damage;
+            Duration = PoisonEffectDuration;
+            EffectName = _name;
         }
 
-        public override void Apply(Unit target, MessageSystem message)
+        public override void Apply(Unit target)
         {
-            message.ShowMessageText(target.UnitName + " is poisoned!");
-
-            ApplyPoison(target).Forget();
+            UnityEngine.Debug.Log($"{target.UnitName} отравлен");
         }
 
-        private async UniTask ApplyPoison(Unit target)
+        public override void OnTurnStart(Unit target)
         {
-            for (int i = 0; i < _ticksDuration; i++)
-            {
-                target.TakePoisonDamage(_poisonDamagePerTick);
-
-                await UniTask.Delay(_tickIntervalInMilliseconds);
-            }
+            target.TakePoisonDamage(_poisonDamage);
+            Duration--;
         }
     }
 }
