@@ -20,24 +20,19 @@ namespace Duels.Core
             _audio = audio;
         }
 
-        public bool CheckVictory(Unit attacker, Unit defender)
+        public bool IsVictory(Unit defender)
         {
-            if (defender.CurrentHealthPoints > 0)
-                return false;
+            return defender.CurrentHealthPoints <= 0;
+        }
 
+        public async Task HandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        {
             attacker.UnitAnimationManager.PlayVictoryAnimation();
             defender.UnitAnimationManager.PlayDeathAnimation();
 
             _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
             _battleUI.SetStatusText("Glory to the Winner!");
 
-            _gameOverCanvas.SetActive(true);
-
-            return true;
-        }
-
-        public async Task HandleVictory(CancellationToken cancellationToken)
-        {
             await _audio.PlayEndBattleMusic(cancellationToken);
             _gameOverCanvas.SetActive(true);
         }
