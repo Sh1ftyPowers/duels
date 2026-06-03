@@ -16,14 +16,11 @@ namespace Duels.Units
 
         [field:SerializeField] public int UnitID { get; private set; }
 
-        [SerializeField] private BaseAttack _baseAttack;
-        public BaseAttack BaseAttack => _baseAttack;
+        [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
-        private EffectsHolder _effects = new EffectsHolder();
-        public EffectsHolder Effects => _effects;
+        [field:SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
 
-        [SerializeField] private UnitAnimationManager _unitAnimationManager;
-        public UnitAnimationManager UnitAnimationManager => _unitAnimationManager;
+        public EffectsHolder Effects { get; } = new();
 
         [SerializeField] private Healthbar _healthbar;
 
@@ -36,7 +33,7 @@ namespace Duels.Units
 
         public AttackResult PerformAttack(Unit target)
         {
-            AttackResult result = _baseAttack.AttackEnemy(this, target);
+            AttackResult result = BaseAttack.AttackEnemy(this, target);
 
             int damageDealt = result.Damage;
 

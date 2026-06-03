@@ -2430,8 +2430,8 @@ MonoBehaviour:
   <MaxHealthPoints>k__BackingField: 100
   <CurrentHealthPoints>k__BackingField: 100
   <UnitID>k__BackingField: 2
-  _baseAttack: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
-  _unitAnimationManager: {fileID: 3077148545769899187}
+  <BaseAttack>k__BackingField: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
+  <UnitAnimationManager>k__BackingField: {fileID: 3077148545769899187}
   _healthbar: {fileID: 7724475778055600815}
 --- !u!1 &3942609020630197049
 GameObject:
