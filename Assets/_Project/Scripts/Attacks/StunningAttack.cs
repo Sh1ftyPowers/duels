@@ -5,13 +5,12 @@ namespace Duels.Attacks
 {
     public class StunningAttack : StatusEffect
     {
+        public override string EffectName => "stunned";
         private const int StunEffectDuration = 2;
-        private string _name = "stunned";
 
         public StunningAttack()
         {
             Duration = StunEffectDuration;
-            EffectName = _name;
         }
 
         public override void Apply(Unit target)
