@@ -6,7 +6,7 @@ namespace Duels.Attacks
     [CreateAssetMenu(menuName = "Attacks/Archer Attack")]
     public class ArcherAttack : BaseAttack
     {
-        private int _poisonDamage = 5;
+        [field:SerializeField] private int _poisonDamage = 5;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {

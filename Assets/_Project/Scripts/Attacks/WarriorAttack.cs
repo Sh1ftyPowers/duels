@@ -7,7 +7,8 @@ namespace Duels.Attacks
     [CreateAssetMenu(menuName = "Attacks/Warrior Attack")]
     public class WarriorAttack : BaseAttack
     {
-        private float _chanceToStun = 0.3f;
+        [Range(0, 1)]
+        [field:SerializeField ]private float _chanceToStun = 0.3f;
     
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {

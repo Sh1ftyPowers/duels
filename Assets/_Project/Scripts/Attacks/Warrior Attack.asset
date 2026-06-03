@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1985c17af6fc2b8428d5ceedf70ca2b1, type: 3}
   m_Name: Warrior Attack
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Attacks.WarriorAttack
+  _chanceToStun: 0.3
