@@ -7,26 +7,25 @@ namespace Duels.Units
 {
     public class Unit : MonoBehaviour
     {
-        [field:SerializeField] public string UnitName { get; private set; }
-
-        [field:SerializeField] public int Damage { get; private set; }
-
-        [field:SerializeField] public int MaxHealthPoints { get; private set; }
-        [field:SerializeField] public int CurrentHealthPoints { get; private set; }
-
-        [field:SerializeField] public int UnitID { get; private set; }
-
         [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
         [field:SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
 
+        [SerializeField] private Healthbar _healthbar;
+
+        [SerializeField] private UnitConfig _config;
+
         public EffectsHolder Effects { get; } = new();
 
-        [SerializeField] private Healthbar _healthbar;
+        public string UnitName => _config.Name;
+        public int Damage => _config.Damage;
+        public int MaxHealthPoints => _config.MaxHealthPoints;
+        public int UnitID => _config.UnitID;
+        public int CurrentHealthPoints { get; private set; }
 
         private void Start()
         {
-            MaxHealthPoints = CurrentHealthPoints;
+            CurrentHealthPoints = MaxHealthPoints;
 
             _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
         }
