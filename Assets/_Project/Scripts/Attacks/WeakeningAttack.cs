@@ -17,6 +17,11 @@ namespace Duels.Attacks
             Duration = WeakeningEffectDuration;
         }
 
+        public override int ModifyDamage(int damage)
+        {
+            return damage - DamageReduction;
+        }
+
         public override void Apply(Unit target)
         {
             UnityEngine.Debug.Log($"{target.UnitName} ослаблен");

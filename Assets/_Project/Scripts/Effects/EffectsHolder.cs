@@ -18,6 +18,16 @@ namespace Duels.Effects
             _effects.Remove(effect);
         }
 
+        public int ModifyDamage(int damage)
+        {
+            foreach (var effect in _effects)
+            {
+                damage = effect.ModifyDamage(damage);
+            }
+
+            return damage;
+        }
+
         public bool HasEffect<EffectType>() where EffectType : StatusEffect
         {
             foreach (StatusEffect effect in _effects)

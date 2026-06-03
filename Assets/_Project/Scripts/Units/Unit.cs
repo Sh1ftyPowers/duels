@@ -35,14 +35,7 @@ namespace Duels.Units
         {
             AttackResult result = BaseAttack.AttackEnemy(this, target);
 
-            int damageDealt = result.Damage;
-
-            WeakeningAttack weakeningEffect = Effects.GetEffect<WeakeningAttack>();
-
-            if (weakeningEffect != null)
-            {
-                damageDealt -= weakeningEffect.DamageReduction;
-            }
+            int damageDealt = Effects.ModifyDamage(result.Damage);
 
             result.Damage = damageDealt;
 

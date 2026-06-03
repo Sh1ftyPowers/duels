@@ -10,5 +10,10 @@ namespace Duels.Effects
         public abstract void Apply(Unit target);
         public virtual void OnTurnStart(Unit target) { }
         public virtual void Remove(Unit target) { }
+        
+        public virtual int ModifyDamage(int damage)
+        {
+            return damage;
+        }
     }
 }
