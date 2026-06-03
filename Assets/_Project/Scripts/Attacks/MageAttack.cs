@@ -7,9 +7,7 @@ namespace Duels.Attacks
     [CreateAssetMenu(menuName = "Attacks/Mage Attack")]
     public class MageAttack : BaseAttack
     {
-        [Range(0, 1)]
-        [field:SerializeField] private float _chanceToWeaken = 0.3f;
-        [field: SerializeField] private int _damageReduction = 5;
+        [SerializeField] private WeakeningAttackConfig _config;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
@@ -17,9 +15,9 @@ namespace Duels.Attacks
 
             StatusEffect effect = null;
 
-            if (UnityEngine.Random.value < _chanceToWeaken)
+            if (UnityEngine.Random.value < _config.ChanceToWeaken)
             {
-                effect = new WeakeningAttack(_damageReduction);
+                effect = new WeakeningAttack(_config.DamageReduction);
             }
 
             return new AttackResult

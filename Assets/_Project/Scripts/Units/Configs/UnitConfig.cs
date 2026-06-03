@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Configs/UnitConfig")]
-public class UnitConfig : ScriptableObject
+namespace Duels.Units
 {
-    public string Name;
+    [CreateAssetMenu(menuName = "Configs/UnitConfig")]
+    public class UnitConfig : ScriptableObject
+    {
+        public string Name;
 
-    public int MaxHealthPoints;
+        public int MaxHealthPoints;
 
-    public int Damage;
+        public int Damage;
 
-    public int UnitID;
+        public int UnitID;
+    }
 }

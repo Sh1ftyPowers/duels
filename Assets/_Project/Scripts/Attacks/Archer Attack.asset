@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e479526f56dab504cb2b347b0cf3225d, type: 3}
   m_Name: Archer Attack
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Attacks.ArcherAttack
+  _config: {fileID: 11400000, guid: 858c4763ed735f74ca72741d90890af2, type: 2}
