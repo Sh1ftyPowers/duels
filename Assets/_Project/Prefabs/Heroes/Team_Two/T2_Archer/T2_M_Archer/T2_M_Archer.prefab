@@ -307,14 +307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  <UnitName>k__BackingField: Blue Team Archer
-  <Damage>k__BackingField: 20
-  <MaxHealthPoints>k__BackingField: 100
-  <CurrentHealthPoints>k__BackingField: 100
-  <UnitID>k__BackingField: 0
-  _baseAttack: {fileID: 11400000, guid: ea643767208ba714d8a93884cc867e1c, type: 2}
-  _unitAnimationManager: {fileID: 1488351117857215460}
+  <BaseAttack>k__BackingField: {fileID: 11400000, guid: ea643767208ba714d8a93884cc867e1c, type: 2}
+  <UnitAnimationManager>k__BackingField: {fileID: 1488351117857215460}
   _healthbar: {fileID: 1044958230220885079}
+  _config: {fileID: 11400000, guid: fa5489b443c3f3d48b9b5e1de1a02a48, type: 2}
 --- !u!1 &738763869389033539
 GameObject:
   m_ObjectHideFlags: 0

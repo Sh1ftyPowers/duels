@@ -3826,14 +3826,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  <UnitName>k__BackingField: Red Team Warrior
-  <Damage>k__BackingField: 20
-  <MaxHealthPoints>k__BackingField: 100
-  <CurrentHealthPoints>k__BackingField: 100
-  <UnitID>k__BackingField: 2
-  _baseAttack: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
-  _unitAnimationManager: {fileID: 6711491357862245690}
+  <BaseAttack>k__BackingField: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
+  <UnitAnimationManager>k__BackingField: {fileID: 6711491357862245690}
   _healthbar: {fileID: 6391607246159835849}
+  _config: {fileID: 11400000, guid: aacb14319717c70429237608bc0dfa6c, type: 2}
 --- !u!1 &6947970215390229004
 GameObject:
   m_ObjectHideFlags: 0

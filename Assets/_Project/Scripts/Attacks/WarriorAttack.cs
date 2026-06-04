@@ -7,7 +7,7 @@ namespace Duels.Attacks
     [CreateAssetMenu(menuName = "Attacks/Warrior Attack")]
     public class WarriorAttack : BaseAttack
     {
-        private float _chanceToStun = 0.3f;
+        [SerializeField] private StunningAttackConfig _config;
     
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
@@ -15,7 +15,7 @@ namespace Duels.Attacks
 
             StatusEffect effect = null;
 
-            if (UnityEngine.Random.value < _chanceToStun)
+            if (UnityEngine.Random.value < _config.ChanceToStun)
             {
                 effect = new StunningAttack();
             }

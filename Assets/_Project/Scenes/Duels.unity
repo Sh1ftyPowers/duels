@@ -3070,6 +3070,7 @@ Transform:
   - {fileID: 1948794376}
   - {fileID: 1703717328}
   - {fileID: 1076879663}
+  - {fileID: 1763978513}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &819067696
@@ -4680,7 +4681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   _musicSource: {fileID: 1752090429}
   _battleTheme: {fileID: 8300000, guid: 0dd1f91011b945748ac111d63f961016, type: 3}
-  _victorySound: {fileID: 8300000, guid: c3d2e3ad46980084b9411faf361a613c, type: 3}
+  _victorySound: {fileID: 8300000, guid: c8c4c8fe1f978b04ab4b36b288c68269, type: 3}
   _restartMenuTheme: {fileID: 8300000, guid: 5ab60fa9d5aa1bd478a3bfb1c96a2784, type: 3}
 --- !u!4 &1229041312
 Transform:
@@ -6985,6 +6986,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1763978512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763978513}
+  - component: {fileID: 1763978514}
+  m_Layer: 0
+  m_Name: GameRestarter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1763978513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763978512}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.3660502, y: 0, z: -10.205032}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 807099976}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1763978514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763978512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb8a46cf1b49f284d9de540f3560ab72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.GameRestarter
+  _restartButton: {fileID: 1796992557}
 --- !u!1 &1796992555
 GameObject:
   m_ObjectHideFlags: 0
@@ -7066,19 +7112,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1796992558}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1076879662}
-        m_TargetAssemblyTypeName: Duels.UI.GameRestarter, Assembly-CSharp
-        m_MethodName: RestartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1796992558
 MonoBehaviour:
   m_ObjectHideFlags: 0

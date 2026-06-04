@@ -5,15 +5,14 @@ namespace Duels.Attacks
 {
     public class PoisonedArrows : StatusEffect
     {
+        public override string EffectName => "poisoned";
         private int _poisonDamage;
         private const int PoisonEffectDuration = 2;
-        private string _name = "poisoned";
 
         public PoisonedArrows(int damage)
         {
             _poisonDamage = damage;
             Duration = PoisonEffectDuration;
-            EffectName = _name;
         }
 
         public override void Apply(Unit target)

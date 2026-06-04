@@ -2425,14 +2425,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef7aa8998f7da438cb7bdf5ee3f5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  <UnitName>k__BackingField: Blue Team Warrior
-  <Damage>k__BackingField: 20
-  <MaxHealthPoints>k__BackingField: 100
-  <CurrentHealthPoints>k__BackingField: 100
-  <UnitID>k__BackingField: 2
-  _baseAttack: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
-  _unitAnimationManager: {fileID: 3077148545769899187}
+  <BaseAttack>k__BackingField: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
+  <UnitAnimationManager>k__BackingField: {fileID: 3077148545769899187}
   _healthbar: {fileID: 7724475778055600815}
+  _config: {fileID: 11400000, guid: 90a828517a6f3094f9b5f5a0a4d264d2, type: 2}
 --- !u!1 &3942609020630197049
 GameObject:
   m_ObjectHideFlags: 0

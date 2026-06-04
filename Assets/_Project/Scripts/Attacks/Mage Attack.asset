@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e565d99a15773643858a5dccd248f2f, type: 3}
   m_Name: Mage Attack
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Attacks.MageAttack
+  _config: {fileID: 11400000, guid: 5406628ce69d82a478eb2307744bcfc7, type: 2}

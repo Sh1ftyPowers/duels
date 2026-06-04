@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1985c17af6fc2b8428d5ceedf70ca2b1, type: 3}
-  m_Name: Warrior Attack
-  m_EditorClassIdentifier: Assembly-CSharp::Duels.Attacks.WarriorAttack
-  _config: {fileID: 11400000, guid: 95ed4019ff48e4e4eab46743afbb2496, type: 2}
+  m_Script: {fileID: 11500000, guid: 37e0a9cc2c6990248ac53c1522746830, type: 3}
+  m_Name: Stunning Attack Config
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Attacks.StunningAttackConfig
+  ChanceToStun: 0.3

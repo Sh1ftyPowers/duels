@@ -6,7 +6,7 @@ namespace Duels.Attacks
     [CreateAssetMenu(menuName = "Attacks/Archer Attack")]
     public class ArcherAttack : BaseAttack
     {
-        private int _poisonDamage = 5;
+        [SerializeField] private PoisonedArrowsConfig _config;
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
@@ -15,7 +15,7 @@ namespace Duels.Attacks
             return new AttackResult
             {
                 Damage = attacker.Damage,
-                Effect = new PoisonedArrows(_poisonDamage)
+                Effect = new PoisonedArrows(_config.PoisonDamage)
             };
         }
     }

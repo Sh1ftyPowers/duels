@@ -12,7 +12,7 @@ namespace Duels.Units
         [SerializeField] private Transform _teamOneSpawnPoint;
         [SerializeField] private Transform _teamTwoSpawnPoint;
 
-        public Unit Spawn(GameObject prefab, Transform point, BattleSystem system, MessageSystem messages)
+        public Unit Spawn(GameObject prefab, Transform point)
         {
             GameObject obj = Instantiate(prefab, point);
             Unit unit = obj.GetComponent<Unit>();
@@ -22,13 +22,13 @@ namespace Duels.Units
         public Unit SpawnTeamOne(BattleSystem system, MessageSystem messages)
         {
             GameObject prefab = _teamOnePrefabs[Random.Range(0, _teamOnePrefabs.Length)];
-            return Spawn(prefab, _teamOneSpawnPoint, system, messages);
+            return Spawn(prefab, _teamOneSpawnPoint);
         }
 
         public Unit SpawnTeamTwo(BattleSystem system, MessageSystem messages)
         {
             GameObject prefab = _teamTwoPrefabs[Random.Range(0, _teamTwoPrefabs.Length)];
-            return Spawn(prefab, _teamTwoSpawnPoint, system, messages);
+            return Spawn(prefab, _teamTwoSpawnPoint);
         }
     }
 }

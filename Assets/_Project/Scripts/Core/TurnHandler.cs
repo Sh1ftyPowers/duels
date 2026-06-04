@@ -29,11 +29,11 @@ namespace Duels.Core
 
             await WaitForNewMessage(cancellationToken);
 
-            ProccessTurnStart(attacker, defender);
+            ProcessTurnStart(attacker, defender);
 
             await WaitForNewMessage(cancellationToken);
 
-            if (CheckVictoryCondition(attacker, defender))
+            if (await TryHandleVictory(attacker, defender, cancellationToken))
                 return true;
 
             if (!attacker.CanAct())
@@ -41,7 +41,7 @@ namespace Duels.Core
 
             await AttackTheEnemy(attacker, defender, cancellationToken);
 
-            return CheckVictoryCondition(attacker, defender);
+            return await TryHandleVictory(attacker, defender, cancellationToken);
         }
 
         private void ShowTurnText(Unit attacker)
@@ -49,7 +49,7 @@ namespace Duels.Core
             _battleUI.SetTurnText($"{attacker.UnitName} attacks!");
         }
 
-        private void ProccessTurnStart(Unit attacker, Unit defender)
+        private void ProcessTurnStart(Unit attacker, Unit defender)
         {
             _effects.ProcessEffects(attacker);
             _effects.ProcessEffects(defender);
@@ -69,9 +69,14 @@ namespace Duels.Core
             await _message.WaitForMessages(cancellationToken);
         }
 
-        private bool CheckVictoryCondition(Unit attacker, Unit defender)
+        private async UniTask<bool> TryHandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            return _victoryHandler.CheckVictory(attacker, defender);
+            if (!_victoryHandler.IsVictory(defender))
+                return false;
+
+            await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
+
+            return true;
         }
 
         private async UniTask WaitForNewMessage(CancellationToken cancellationToken)
