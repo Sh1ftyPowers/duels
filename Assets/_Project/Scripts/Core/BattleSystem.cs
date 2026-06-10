@@ -51,8 +51,8 @@ namespace Duels.Core
         {
             int turnDecider = Random.Range(0, 2);
 
-            _teamOneHero = _spawner.SpawnTeamOne(this, _message);
-            _teamTwoHero = _spawner.SpawnTeamTwo(this, _message);
+            _teamOneHero = _spawner.SpawnTeamOne();
+            _teamTwoHero = _spawner.SpawnTeamTwo();
 
             if (turnDecider == 0)
             {
