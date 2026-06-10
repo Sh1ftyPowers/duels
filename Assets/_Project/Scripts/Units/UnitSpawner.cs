@@ -1,6 +1,4 @@
 using UnityEngine;
-using Duels.UI;
-using Duels.Core;
 
 namespace Duels.Units
 {
