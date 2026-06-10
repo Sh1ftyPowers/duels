@@ -1,6 +1,4 @@
 using UnityEngine;
-using Duels.UI;
-using Duels.Core;
 
 namespace Duels.Units
 {
@@ -19,13 +17,13 @@ namespace Duels.Units
             return unit;
         }
 
-        public Unit SpawnTeamOne(BattleSystem system, MessageSystem messages)
+        public Unit SpawnTeamOne()
         {
             GameObject prefab = _teamOnePrefabs[Random.Range(0, _teamOnePrefabs.Length)];
             return Spawn(prefab, _teamOneSpawnPoint);
         }
 
-        public Unit SpawnTeamTwo(BattleSystem system, MessageSystem messages)
+        public Unit SpawnTeamTwo()
         {
             GameObject prefab = _teamTwoPrefabs[Random.Range(0, _teamTwoPrefabs.Length)];
             return Spawn(prefab, _teamTwoSpawnPoint);

@@ -20,7 +20,6 @@ namespace Duels.Units
         public string UnitName => _config.Name;
         public int Damage => _config.Damage;
         public int MaxHealthPoints => _config.MaxHealthPoints;
-        public int UnitID => _config.UnitID;
         public int CurrentHealthPoints { get; private set; }
 
         private void Start()
