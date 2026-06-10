@@ -9,9 +9,9 @@ namespace Duels.Core
 {
     public class VictoryHandler
     {
-        private BattleUI _battleUI;
-        private GameObject _gameOverCanvas;
-        private AudioManager _audio;
+        private readonly BattleUI _battleUI;
+        private readonly GameObject _gameOverCanvas;
+        private readonly AudioManager _audio;
 
         public VictoryHandler(BattleUI battleUI, GameObject gameOverCanvas, AudioManager audio)
         {

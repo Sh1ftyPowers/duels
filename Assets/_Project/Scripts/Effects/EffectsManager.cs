@@ -7,7 +7,7 @@ namespace Duels.Effects
 {
     public class EffectsManager
     {
-        private MessageSystem _message;
+        private readonly MessageSystem _message;
 
         public EffectsManager(MessageSystem message)
         {
