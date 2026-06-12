@@ -1,7 +1,6 @@
 using System.Linq;
 using Duels.UI;
 using Duels.Units;
-using UnityEngine;
 
 namespace Duels.Effects
 {
@@ -16,7 +15,7 @@ namespace Duels.Effects
 
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {
-            unit.Effects.AddEffect(effect);
+            unit.AddEffect(effect);
             effect.Apply(unit);
 
             _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
@@ -24,7 +23,7 @@ namespace Duels.Effects
 
         public void ProcessEffects(Unit unit)
         {
-            var effects = unit.Effects.ActiveEffects;
+            var effects = unit.ActiveEffects;
 
             if (effects.Count == 0)
                 return;
@@ -36,7 +35,7 @@ namespace Duels.Effects
                 if (effect.Duration <= 0) 
                 { 
                     effect.Remove(unit); 
-                    unit.Effects.RemoveEffect(effect);
+                    unit.RemoveEffect(effect);
 
                     _message.ShowMessageText($"{unit.UnitName} lost an effect"); 
                 } 
