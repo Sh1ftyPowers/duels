@@ -27,11 +27,7 @@ namespace Duels.Core
         {
             ShowTurnText(attacker);
 
-            await WaitForNewMessage(cancellationToken);
-
             ProcessTurnStart(attacker, defender);
-
-            await WaitForNewMessage(cancellationToken);
 
             if (await TryHandleVictory(attacker, defender, cancellationToken))
                 return true;
@@ -61,12 +57,8 @@ namespace Duels.Core
 
             var result = attacker.PerformAttack(defender);
 
-            await _message.WaitForMessages(cancellationToken);
-
             if (result.Effect != null)
                 _effects.ApplyEffect(defender, result.Effect);
-
-            await _message.WaitForMessages(cancellationToken);
         }
 
         private async UniTask<bool> TryHandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
@@ -77,11 +69,6 @@ namespace Duels.Core
             await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
 
             return true;
-        }
-
-        private async UniTask WaitForNewMessage(CancellationToken cancellationToken)
-        {
-            await _message.WaitForMessages(cancellationToken);
         }
     }
 }

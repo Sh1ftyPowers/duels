@@ -11,39 +11,20 @@ namespace Duels.UI
 
         private Queue<string> _messages = new Queue<string>();
 
-        private bool _isShowingMessage = false;
-
-        private const int StatusTextDelay = 2000;
+        private const int StatusTextDelay = 1000;
 
         public void ShowMessageText(string message)
         {
             _messages.Enqueue(message);
-
-            if (_isShowingMessage )
-                return;
 
             ShowMessages(this.GetCancellationTokenOnDestroy()).Forget();
         }
 
         private async UniTask ShowMessages(CancellationToken token)
         {
-            _isShowingMessage = true;
+            _battleUI.SetStatusText(_messages.Dequeue());
 
-            while (_messages.Count > 0)
-            {
-                _battleUI.SetStatusText(_messages.Dequeue());
-
-                await UniTask.Delay(StatusTextDelay, cancellationToken: token);
-            }
-
-            _isShowingMessage = false;
-        }
-
-        public async UniTask WaitForMessages(CancellationToken cancellationToken)
-        {
-            await UniTask.WaitUntil(() =>
-                !_isShowingMessage && _messages.Count == 0,
-                cancellationToken: cancellationToken);
+            await UniTask.Delay(StatusTextDelay, cancellationToken: token);
         }
     }
 }
