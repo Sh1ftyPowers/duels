@@ -2,6 +2,7 @@ using UnityEngine;
 using Duels.Attacks;
 using Duels.Effects;
 using Duels.UI;
+using System.Collections.Generic;
 
 namespace Duels.Units
 {
@@ -9,13 +10,13 @@ namespace Duels.Units
     {
         [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
-        [field:SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
+        [field: SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
 
         [SerializeField] private Healthbar _healthbar;
 
         [SerializeField] private UnitConfig _config;
 
-        public EffectsHolder Effects { get; } = new();
+        private readonly EffectsHolder _effects = new();
 
         public string UnitName => _config.Name;
         public int Damage => _config.Damage;
@@ -33,7 +34,7 @@ namespace Duels.Units
         {
             AttackResult result = BaseAttack.AttackEnemy(this, target);
 
-            int damageDealt = Effects.ModifyDamage(result.Damage);
+            int damageDealt = _effects.ModifyDamage(result.Damage);
 
             result.Damage = damageDealt;
 
@@ -60,7 +61,19 @@ namespace Duels.Units
 
         public bool CanAct()
         {
-            return !Effects.HasEffect<StunningAttack>();
+            return !_effects.HasEffect<StunningAttack>();
         }
+
+        public void AddEffect(StatusEffect effect)
+        {
+            _effects.AddEffect(effect);
+        }
+
+        public void RemoveEffect(StatusEffect effect)
+        {
+            _effects.RemoveEffect(effect);
+        }
+
+        public IReadOnlyList<StatusEffect> ActiveEffects => _effects.ActiveEffects;
     }
 }
