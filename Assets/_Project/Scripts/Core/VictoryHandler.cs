@@ -30,7 +30,7 @@ namespace Duels.Core
             attacker.UnitAnimationManager.PlayVictoryAnimation();
             defender.UnitAnimationManager.PlayDeathAnimation();
 
-            _battleUI.SetTurnText(attacker.UnitName + " killed " + defender.UnitName + "!");
+            _battleUI.SetTurnText(attacker.UnitName + " defeated " + defender.UnitName + "!");
             _battleUI.SetStatusText("Glory to the Winner!");
 
             await _audio.PlayEndBattleMusic(cancellationToken);
