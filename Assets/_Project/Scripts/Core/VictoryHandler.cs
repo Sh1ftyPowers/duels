@@ -1,9 +1,9 @@
+using System.Threading;
 using UnityEngine;
 using Duels.UI;
 using Duels.Units;
 using Duels.Audio;
-using System.Threading.Tasks;
-using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace Duels.Core
 {
@@ -25,7 +25,7 @@ namespace Duels.Core
             return defender.CurrentHealthPoints <= 0;
         }
 
-        public async Task HandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        public async UniTask HandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
             attacker.PlayVictoryAnimation();
             defender.PlayDeathAnimation();
