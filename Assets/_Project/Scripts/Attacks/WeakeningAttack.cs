@@ -5,15 +5,14 @@ namespace Duels.Attacks
 {
     public class WeakeningAttack : StatusEffect
     {
+        public int DamageReduction { get; }
+
         public override string EffectName => "weakened";
         private const int WeakeningEffectDuration = 2;
-        private int _damageReduction;
-
-        public int DamageReduction => _damageReduction;
 
         public WeakeningAttack(int damageReductionValue)
         {
-            _damageReduction = damageReductionValue;
+            DamageReduction = damageReductionValue;
             Duration = WeakeningEffectDuration;
         }
 
