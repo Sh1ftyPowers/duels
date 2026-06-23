@@ -27,8 +27,8 @@ namespace Duels.Core
 
         public async Task HandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            attacker.UnitAnimationManager.PlayVictoryAnimation();
-            defender.UnitAnimationManager.PlayDeathAnimation();
+            attacker.PlayVictoryAnimation();
+            defender.PlayDeathAnimation();
 
             _battleUI.SetTurnText(attacker.UnitName + " defeated " + defender.UnitName + "!");
             _battleUI.SetStatusText("Glory to the Winner!");

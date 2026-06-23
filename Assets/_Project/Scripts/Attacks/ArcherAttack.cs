@@ -10,7 +10,7 @@ namespace Duels.Attacks
 
         public override AttackResult AttackEnemy(Unit attacker, Unit target)
         {
-            attacker.UnitAnimationManager.PlayAttackAnimation();
+            attacker.PlayAttackAnimation();
 
             return new AttackResult
             {

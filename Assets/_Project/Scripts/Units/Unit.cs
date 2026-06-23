@@ -75,5 +75,25 @@ namespace Duels.Units
         }
 
         public IReadOnlyList<StatusEffect> ActiveEffects => _effects.ActiveEffects;
+
+        public void PlayAttackAnimation()
+        {
+            UnitAnimationManager.PlayAttackAnimation();
+        }
+
+        public void PlayDeathAnimation()
+        {
+            UnitAnimationManager.PlayDeathAnimation();
+        }
+
+        public void PlayVictoryAnimation()
+        {
+            UnitAnimationManager.PlayVictoryAnimation();
+        }
+
+        public void PlayStunAnimation()
+        {
+            UnitAnimationManager.PlayStunAnimation();
+        }
     }
 }
