@@ -1,8 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Duels.Attacks;
 using Duels.Effects;
 using Duels.UI;
-using System.Collections.Generic;
 
 namespace Duels.Units
 {
@@ -23,11 +24,13 @@ namespace Duels.Units
         public int MaxHealthPoints => _config.MaxHealthPoints;
         public int CurrentHealthPoints { get; private set; }
 
+        public event Action<float, float> HealthPointsChanged;
+
         private void Start()
         {
             CurrentHealthPoints = MaxHealthPoints;
 
-            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
         }
 
         public AttackResult PerformAttack(Unit target)
@@ -49,14 +52,14 @@ namespace Duels.Units
 
             Debug.Log($"{UnitName} получил урон {damage}");
 
-            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
         }
 
         public void TakePoisonDamage(int poisonDamage)
         {
             CurrentHealthPoints -= poisonDamage;
 
-            _healthbar.UpdateHealthBar(CurrentHealthPoints, MaxHealthPoints);
+            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
         }
 
         public bool CanAct()

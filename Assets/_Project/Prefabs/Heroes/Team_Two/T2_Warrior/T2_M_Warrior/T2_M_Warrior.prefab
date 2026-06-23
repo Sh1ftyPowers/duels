@@ -1525,6 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Healthbar
   _healthbarSprite: {fileID: 4759555454066817058}
+  _unit: {fileID: 465522511094851027}
 --- !u!1 &2141231566747775212
 GameObject:
   m_ObjectHideFlags: 0
