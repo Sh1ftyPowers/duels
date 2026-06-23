@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -28,7 +27,7 @@ namespace Duels.Audio
             _musicSource.clip = _victorySound;
             _musicSource.Play();
 
-            await UniTask.Delay((int)_victorySound.length * ConversionFactorForSecondsToMilliseconds - _delayBetweenVictorySoundAndRestartTheme, cancellationToken: token);
+            await UniTask.Delay(Mathf.RoundToInt(_victorySound.length * ConversionFactorForSecondsToMilliseconds) - _delayBetweenVictorySoundAndRestartTheme, cancellationToken: token);
 
             _musicSource.clip = _restartMenuTheme;
             _musicSource.loop = true;
