@@ -13,7 +13,12 @@ namespace Duels.Units
         public Unit Spawn(GameObject prefab, Transform point)
         {
             GameObject obj = Instantiate(prefab, point);
-            Unit unit = obj.GetComponent<Unit>();
+
+            if (!obj.TryGetComponent<Unit>(out Unit unit))
+            {
+                throw new MissingComponentException($"Prefab {prefab.name} has no Unit component");
+            }
+
             return unit;
         }
 
