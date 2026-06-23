@@ -9,16 +9,14 @@ namespace Duels.Core
     public class TurnHandler
     {
         private readonly BattleUI _battleUI;
-        private readonly MessageSystem _message;
         private readonly EffectsManager _effects;
         private readonly VictoryHandler _victoryHandler;
 
         private const int AttackDelay = 3000;
 
-        public TurnHandler(BattleUI battleUI, MessageSystem message, EffectsManager effects, VictoryHandler victoryHandler)
+        public TurnHandler(BattleUI battleUI, EffectsManager effects, VictoryHandler victoryHandler)
         {
             _battleUI = battleUI;
-            _message = message;
             _effects = effects;
             _victoryHandler = victoryHandler;
         }

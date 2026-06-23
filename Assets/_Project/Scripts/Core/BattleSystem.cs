@@ -40,7 +40,7 @@ namespace Duels.Core
 
             _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas, _audio);
 
-            _turnHandler = new TurnHandler(_battleUI, _message, _effects, _victoryHandler);
+            _turnHandler = new TurnHandler(_battleUI, _effects, _victoryHandler);
 
             _state = BattleState.Start;
             
