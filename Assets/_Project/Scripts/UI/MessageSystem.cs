@@ -11,15 +11,17 @@ namespace Duels.UI
 
         private Queue<string> _messages = new Queue<string>();
 
+        private UniTask _showTask;
+
         private const int StatusTextDelay = 1000;
 
-        private bool _isShowingMessage;
+        private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
         public void ShowMessageText(string message)
         {
             _messages.Enqueue(message);
 
-            if (_isShowingMessage)
+            if (_isBusy)
                 return;
 
             ShowMessages(this.GetCancellationTokenOnDestroy()).Forget();
@@ -27,16 +29,12 @@ namespace Duels.UI
 
         private async UniTask ShowMessages(CancellationToken token)
         {
-            _isShowingMessage = true;
-
             while (_messages.Count > 0)
             {
                 _battleUI.SetStatusText(_messages.Dequeue());
 
                 await UniTask.Delay(StatusTextDelay, cancellationToken: token);
             }
-
-            _isShowingMessage = false;
         }
     }
 }
