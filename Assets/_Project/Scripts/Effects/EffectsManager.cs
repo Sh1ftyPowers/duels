@@ -1,24 +1,20 @@
-using System.Linq;
-using Duels.UI;
 using Duels.Units;
+using System;
+using System.Linq;
 
 namespace Duels.Effects
 {
     public class EffectsManager
     {
-        private readonly MessageSystem _message;
-
-        public EffectsManager(MessageSystem message)
-        {
-            _message = message;
-        }
+        public event Action<Unit, StatusEffect> EffectApplied;
+        public event Action<Unit, StatusEffect> EffectExpired;
 
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {
             unit.AddEffect(effect);
             effect.Apply(unit);
 
-            _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
+            EffectApplied?.Invoke(unit, effect);
         }
 
         public void ProcessEffects(Unit unit)
@@ -37,7 +33,7 @@ namespace Duels.Effects
                     effect.Remove(unit); 
                     unit.RemoveEffect(effect);
 
-                    _message.ShowMessageText($"{unit.UnitName} lost an effect"); 
+                    EffectExpired?.Invoke(unit, effect);
                 } 
             }
         }

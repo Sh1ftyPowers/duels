@@ -36,11 +36,11 @@ namespace Duels.Core
         {
             _audio.PlayBattleMusic();
 
-            _effects = new EffectsManager(_message);
+            _effects = new EffectsManager();
 
             _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas, _audio);
 
-            _turnHandler = new TurnHandler(_battleUI, _effects, _victoryHandler);
+            _turnHandler = new TurnHandler(_battleUI, _effects, _victoryHandler, _message);
 
             _state = BattleState.Start;
             
@@ -87,6 +87,8 @@ namespace Duels.Core
                     await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.TeamOneTurn, cancellationToken);
                 }
             }
+
+            CleanBattleUp();
         }
 
         private async UniTask PerformTurn(Unit attacker, Unit defender, BattleState nextState, CancellationToken cancellationToken)
@@ -108,6 +110,11 @@ namespace Duels.Core
         private bool IsBattleOver()
         {
             return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
+        }
+
+        private void CleanBattleUp()
+        {
+            _turnHandler?.Dispose();
         }
     }
 }

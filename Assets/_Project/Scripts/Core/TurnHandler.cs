@@ -11,14 +11,19 @@ namespace Duels.Core
         private readonly BattleUI _battleUI;
         private readonly EffectsManager _effects;
         private readonly VictoryHandler _victoryHandler;
+        private readonly MessageSystem _message;
 
         private const int AttackDelay = 3000;
 
-        public TurnHandler(BattleUI battleUI, EffectsManager effects, VictoryHandler victoryHandler)
+        public TurnHandler(BattleUI battleUI, EffectsManager effects, VictoryHandler victoryHandler, MessageSystem message)
         {
             _battleUI = battleUI;
             _effects = effects;
             _victoryHandler = victoryHandler;
+            _message = message;
+
+            _effects.EffectApplied += OnEffectApplied;
+            _effects.EffectExpired += OnEffectExpired;
         }
 
         public async UniTask<bool> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
@@ -67,6 +72,22 @@ namespace Duels.Core
             await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
 
             return true;
+        }
+
+        private void OnEffectApplied(Unit unit, StatusEffect effect)
+        {
+            _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
+        }
+
+        private void OnEffectExpired(Unit unit, StatusEffect effect)
+        {
+            _message.ShowMessageText($"{unit.UnitName} lost {effect.EffectName}");
+        }
+
+        public void Dispose()
+        {
+            _effects.EffectApplied -= OnEffectApplied;
+            _effects.EffectExpired -= OnEffectExpired;
         }
     }
 }
