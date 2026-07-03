@@ -3,26 +3,18 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Duels.Units;
 using Duels.UI;
-using Duels.Effects;
 using Duels.Audio;
 
 namespace Duels.Core
 {
-    public class BattleSystem : MonoBehaviour
+    public class BattleSystem
     {
-        [SerializeField] private GameObject _gameOverCanvas;
-        [SerializeField] private BattleUI _battleUI;
-        [SerializeField] private MessageSystem _message;
-        [SerializeField] private UnitSpawner _spawner;
-        [SerializeField] private AudioManager _audio;
+        private AudioManager _audioManager;
+        private BattleUI _battleUI;
+        private TurnHandler _turnHandler;
+        private UnitSpawner _spawner;
 
         private BattleState _state;
-
-        private TurnHandler _turnHandler;
-
-        private EffectsManager _effects;
-
-        private VictoryHandler _victoryHandler;
 
         private Unit _teamOneHero;
         private Unit _teamTwoHero;
@@ -32,19 +24,21 @@ namespace Duels.Core
 
         private const int StartDelay = 500;
 
-        private async UniTaskVoid Start()
+        public async UniTaskVoid Run(CancellationToken cancellationToken)
         {
-            _audio.PlayBattleMusic();
-
-            _effects = new EffectsManager();
-
-            _victoryHandler = new VictoryHandler(_battleUI, _gameOverCanvas, _audio);
-
-            _turnHandler = new TurnHandler(_battleUI, _effects, _victoryHandler, _message);
+            _audioManager.PlayBattleMusic();
 
             _state = BattleState.Start;
             
-            await SetUpBattle(this.GetCancellationTokenOnDestroy());
+            await SetUpBattle(cancellationToken);
+        }
+
+        public void Initialize(BattleUI battleUI, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        {
+            _audioManager = audioManager;
+            _battleUI = battleUI;
+            _spawner = spawner;
+            _turnHandler = turnHandler;
         }
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
@@ -106,7 +100,7 @@ namespace Duels.Core
 
             _state = nextState;
         }
-        
+
         private bool IsBattleOver()
         {
             return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
