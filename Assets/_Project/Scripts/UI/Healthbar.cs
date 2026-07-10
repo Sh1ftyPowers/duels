@@ -15,6 +15,7 @@ namespace Duels.UI
         private void Awake()
         {
             _camera = Camera.main;
+            _unit.HealthPointsChanged += UpdateHealthBar;
         }
 
         private void LateUpdate()
@@ -22,12 +23,7 @@ namespace Duels.UI
             transform.LookAt(_camera.transform);
         }
 
-        private void OnEnable()
-        {
-            _unit.HealthPointsChanged += UpdateHealthBar;
-        }
-
-        private void OnDisable()
+        private void OnDestroy()
         {
             _unit.HealthPointsChanged -= UpdateHealthBar;
         }
