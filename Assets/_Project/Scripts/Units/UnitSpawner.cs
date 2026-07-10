@@ -10,7 +10,7 @@ namespace Duels.Units
         [SerializeField] private Transform _teamOneSpawnPoint;
         [SerializeField] private Transform _teamTwoSpawnPoint;
 
-        public Unit Spawn(GameObject prefab, Transform point)
+        private Unit Spawn(GameObject prefab, Transform point)
         {
             GameObject obj = Instantiate(prefab, point);
 
