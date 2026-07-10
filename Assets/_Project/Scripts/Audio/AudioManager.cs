@@ -4,15 +4,23 @@ using UnityEngine;
 
 namespace Duels.Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager
     {
-        [SerializeField] private AudioSource _musicSource;
-        [SerializeField] private AudioClip _battleTheme;
-        [SerializeField] private AudioClip _victorySound;
-        [SerializeField] private AudioClip _restartMenuTheme;
+        private readonly AudioSource _musicSource;
+        private readonly AudioClip _battleTheme;
+        private readonly AudioClip _victorySound;
+        private readonly AudioClip _restartMenuTheme;
 
         private const int ConversionFactorForSecondsToMilliseconds = 1000;
         private int _delayBetweenVictorySoundAndRestartTheme = 500;
+
+        public AudioManager(AudioSource musicSource, AudioClip battleTheme, AudioClip victorySound, AudioClip restartMenuTheme)
+        {
+            _musicSource = musicSource;
+            _battleTheme = battleTheme;
+            _victorySound = victorySound;
+            _restartMenuTheme = restartMenuTheme;
+        }
 
         public void PlayBattleMusic()
         {

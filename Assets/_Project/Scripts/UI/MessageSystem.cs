@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 namespace Duels.UI
 {
-    public class MessageSystem : MonoBehaviour
+    public class MessageSystem
     {
-        [SerializeField] private BattleUI _battleUI;
+        private readonly BattleUI _battleUI;
+        private readonly CancellationToken _token;
 
         private Queue<string> _messages = new Queue<string>();
 
@@ -17,6 +17,12 @@ namespace Duels.UI
 
         private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
+        public MessageSystem(BattleUI battleUI, CancellationToken token)
+        {
+            _battleUI = battleUI;
+            _token = token;
+        }
+
         public void ShowMessageText(string message)
         {
             _messages.Enqueue(message);
@@ -24,7 +30,7 @@ namespace Duels.UI
             if (_isBusy)
                 return;
 
-            ShowMessages(this.GetCancellationTokenOnDestroy()).Forget();
+            ShowMessages(_token).Forget();
         }
 
         private async UniTask ShowMessages(CancellationToken token)

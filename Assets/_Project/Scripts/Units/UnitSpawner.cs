@@ -2,17 +2,25 @@ using UnityEngine;
 
 namespace Duels.Units
 {
-    public class UnitSpawner : MonoBehaviour
+    public class UnitSpawner
     {
-        [SerializeField] private GameObject[] _teamOnePrefabs;
-        [SerializeField] private GameObject[] _teamTwoPrefabs;
+        private readonly GameObject[] _teamOnePrefabs;
+        private readonly GameObject[] _teamTwoPrefabs;
 
-        [SerializeField] private Transform _teamOneSpawnPoint;
-        [SerializeField] private Transform _teamTwoSpawnPoint;
+        private readonly Transform _teamOneSpawnPoint;
+        private readonly Transform _teamTwoSpawnPoint;
+
+        public UnitSpawner(GameObject[] teamOnePrefabs, GameObject[] teamTwoPrefabs, Transform teamOneSpawnPoint, Transform teamTwoSpawnPoint)
+        {
+            _teamOnePrefabs = teamOnePrefabs;
+            _teamTwoPrefabs = teamTwoPrefabs;
+            _teamOneSpawnPoint = teamOneSpawnPoint;
+            _teamTwoSpawnPoint = teamTwoSpawnPoint;
+        }
 
         private Unit Spawn(GameObject prefab, Transform point)
         {
-            GameObject obj = Instantiate(prefab, point);
+            GameObject obj = Object.Instantiate(prefab, point);
 
             if (!obj.TryGetComponent<Unit>(out Unit unit))
             {
@@ -24,13 +32,13 @@ namespace Duels.Units
 
         public Unit SpawnTeamOne()
         {
-            GameObject prefab = _teamOnePrefabs[Random.Range(0, _teamOnePrefabs.Length)];
+            GameObject prefab = _teamOnePrefabs[UnityEngine.Random.Range(0, _teamOnePrefabs.Length)];
             return Spawn(prefab, _teamOneSpawnPoint);
         }
 
         public Unit SpawnTeamTwo()
         {
-            GameObject prefab = _teamTwoPrefabs[Random.Range(0, _teamTwoPrefabs.Length)];
+            GameObject prefab = _teamTwoPrefabs[UnityEngine.Random.Range(0, _teamTwoPrefabs.Length)];
             return Spawn(prefab, _teamTwoSpawnPoint);
         }
     }

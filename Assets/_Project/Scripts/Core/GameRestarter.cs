@@ -1,24 +1,25 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Duels.Core
 {
-    public class GameRestarter : MonoBehaviour
+    public class GameRestarter
     {
-        [SerializeField] private Button _restartButton;
+        private readonly Button _restartButton;
+
+        public GameRestarter(Button restartButton)
+        {
+            _restartButton = restartButton;
+
+            _restartButton.onClick.AddListener(RestartGame);
+        }
 
         private void RestartGame()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        private void OnEnable()
-        {
-            _restartButton.onClick.AddListener(RestartGame);
-        }
-
-        private void OnDisable()
+        public void Dispose()
         {
             _restartButton.onClick.RemoveListener(RestartGame);
         }
