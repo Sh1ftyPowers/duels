@@ -17,7 +17,7 @@ namespace Duels.UI
             _camera = Camera.main;
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             transform.LookAt(_camera.transform);
         }
