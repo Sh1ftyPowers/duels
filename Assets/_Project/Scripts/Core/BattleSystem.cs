@@ -10,7 +10,7 @@ namespace Duels.Core
     public class BattleSystem
     {
         private AudioManager _audioManager;
-        private BattleUI _battleUI;
+        private BattleView _battleView;
         private TurnHandler _turnHandler;
         private UnitSpawner _spawner;
 
@@ -33,10 +33,10 @@ namespace Duels.Core
             await SetUpBattle(cancellationToken);
         }
 
-        public void Initialize(BattleUI battleUI, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        public void Initialize(BattleView battleView, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
         {
             _audioManager = audioManager;
-            _battleUI = battleUI;
+            _battleView = battleView;
             _spawner = spawner;
             _turnHandler = turnHandler;
         }
@@ -59,7 +59,7 @@ namespace Duels.Core
                 _secondTurnUnit = _teamOneHero;
             }
 
-            _battleUI.SetTurnText("The Battle Begins!");
+            _battleView.SetTurnText("The Battle Begins!");
 
             await UniTask.Delay(StartDelay, cancellationToken: cancellationToken);
 

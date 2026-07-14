@@ -6,7 +6,7 @@ namespace Duels.UI
 {
     public class MessageSystem
     {
-        private readonly BattleUI _battleUI;
+        private readonly BattleView _battleView;
         private readonly CancellationToken _token;
 
         private Queue<string> _messages = new Queue<string>();
@@ -17,9 +17,9 @@ namespace Duels.UI
 
         private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
-        public MessageSystem(BattleUI battleUI, CancellationToken token)
+        public MessageSystem(BattleView battleView, CancellationToken token)
         {
-            _battleUI = battleUI;
+            _battleView = battleView;
             _token = token;
         }
 
@@ -37,7 +37,7 @@ namespace Duels.UI
         {
             while (_messages.Count > 0)
             {
-                _battleUI.SetStatusText(_messages.Dequeue());
+                _battleView.SetStatusText(_messages.Dequeue());
 
                 await UniTask.Delay(StatusTextDelay, cancellationToken: token);
             }

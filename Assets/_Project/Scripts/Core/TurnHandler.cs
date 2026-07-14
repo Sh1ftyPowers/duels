@@ -8,16 +8,16 @@ namespace Duels.Core
 {
     public class TurnHandler
     {
-        private readonly BattleUI _battleUI;
+        private readonly BattleView _battleView;
         private readonly EffectsManager _effects;
         private readonly VictoryHandler _victoryHandler;
         private readonly MessageSystem _message;
 
         private const int AttackDelay = 3000;
 
-        public TurnHandler(BattleUI battleUI, EffectsManager effects, VictoryHandler victoryHandler, MessageSystem message)
+        public TurnHandler(BattleView battleView, EffectsManager effects, VictoryHandler victoryHandler, MessageSystem message)
         {
-            _battleUI = battleUI;
+            _battleView = battleView;
             _effects = effects;
             _victoryHandler = victoryHandler;
             _message = message;
@@ -45,7 +45,7 @@ namespace Duels.Core
 
         private void ShowTurnText(Unit attacker)
         {
-            _battleUI.SetTurnText($"{attacker.UnitName} attacks!");
+            _battleView.SetTurnText($"{attacker.UnitName} attacks!");
         }
 
         private void ProcessTurnStart(Unit attacker, Unit defender)

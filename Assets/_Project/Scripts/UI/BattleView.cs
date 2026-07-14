@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Duels.UI
 {
-    public class BattleUI : MonoBehaviour
+    public class BattleView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _turnInfoText;
         [SerializeField] private TextMeshProUGUI _statusInfoText;

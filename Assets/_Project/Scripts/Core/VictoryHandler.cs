@@ -9,13 +9,13 @@ namespace Duels.Core
 {
     public class VictoryHandler
     {
-        private readonly BattleUI _battleUI;
+        private readonly BattleView _battleView;
         private readonly GameObject _gameOverCanvas;
         private readonly AudioManager _audio;
 
-        public VictoryHandler(BattleUI battleUI, GameObject gameOverCanvas, AudioManager audio)
+        public VictoryHandler(BattleView battleView, GameObject gameOverCanvas, AudioManager audio)
         {
-            _battleUI = battleUI;
+            _battleView = battleView;
             _gameOverCanvas = gameOverCanvas;
             _audio = audio;
         }
@@ -30,8 +30,8 @@ namespace Duels.Core
             attacker.PlayVictoryAnimation();
             defender.PlayDeathAnimation();
 
-            _battleUI.SetTurnText(attacker.UnitName + " defeated " + defender.UnitName + "!");
-            _battleUI.SetStatusText("Glory to the Winner!");
+            _battleView.SetTurnText(attacker.UnitName + " defeated " + defender.UnitName + "!");
+            _battleView.SetStatusText("Glory to the Winner!");
 
             await _audio.PlayEndBattleMusic(cancellationToken);
             _gameOverCanvas.SetActive(true);
