@@ -20,7 +20,7 @@ namespace Duels.UI
 
         private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
-        public MessageSystem(BattlePresenter battlePresenter, CancellationToken token)
+        public MessageSystem(CancellationToken token)
         {
             _token = token;
         }

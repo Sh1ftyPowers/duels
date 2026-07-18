@@ -52,7 +52,7 @@ namespace Duels.Core
 
             _audioManager = new AudioManager(_musicSource, _battleTheme, _victorySound, _restartMenuTheme);
 
-            _messageSystem = new MessageSystem(_battlePresenter, _token);
+            _messageSystem = new MessageSystem(_token);
 
             _battlePresenter = new BattlePresenter(_battleView, _messageSystem);
 
