@@ -1,16 +1,17 @@
 using System.Threading;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Duels.Units;
-using Duels.UI;
 using Duels.Audio;
+using Duels.Presentation;
+using Duels.UI;
+using Duels.Units;
 
 namespace Duels.Core
 {
     public class BattleSystem
     {
         private AudioManager _audioManager;
-        private BattleView _battleView;
+        private BattlePresenter _battlePresenter;
         private TurnHandler _turnHandler;
         private UnitSpawner _spawner;
 
@@ -33,10 +34,10 @@ namespace Duels.Core
             await SetUpBattle(cancellationToken);
         }
 
-        public void Initialize(BattleView battleView, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        public void Initialize(BattlePresenter battlePresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
         {
             _audioManager = audioManager;
-            _battleView = battleView;
+            _battlePresenter = battlePresenter;
             _spawner = spawner;
             _turnHandler = turnHandler;
         }
@@ -47,6 +48,9 @@ namespace Duels.Core
 
             _teamOneHero = _spawner.SpawnTeamOne();
             _teamTwoHero = _spawner.SpawnTeamTwo();
+
+            _battlePresenter.RegisterUnit(_teamOneHero, _teamOneHero.GetComponentInChildren<Healthbar>());
+            _battlePresenter.RegisterUnit(_teamTwoHero, _teamTwoHero.GetComponentInChildren<Healthbar>());
 
             if (turnDecider == 0)
             {
@@ -59,7 +63,7 @@ namespace Duels.Core
                 _secondTurnUnit = _teamOneHero;
             }
 
-            _battleView.SetTurnText("The Battle Begins!");
+            _battlePresenter.ShowBattleStart();
 
             await UniTask.Delay(StartDelay, cancellationToken: cancellationToken);
 

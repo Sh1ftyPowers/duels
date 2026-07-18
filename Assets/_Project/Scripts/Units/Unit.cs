@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Duels.Attacks;
 using Duels.Effects;
-using Duels.UI;
 
 namespace Duels.Units
 {
@@ -12,8 +11,6 @@ namespace Duels.Units
         [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
         [field: SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
-
-        [SerializeField] private Healthbar _healthbar;
 
         [SerializeField] private UnitConfig _config;
 
@@ -24,13 +21,13 @@ namespace Duels.Units
         public int MaxHealthPoints => _config.MaxHealthPoints;
         public int CurrentHealthPoints { get; private set; }
 
-        public event Action<float, float> HealthPointsChanged;
+        public event Action<Unit> HealthChanged;
 
         private void Start()
         {
             CurrentHealthPoints = MaxHealthPoints;
 
-            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
+            HealthChanged?.Invoke(this);
         }
 
         public AttackResult PerformAttack(Unit target)
@@ -52,14 +49,14 @@ namespace Duels.Units
 
             Debug.Log($"{UnitName} получил урон {damage}");
 
-            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
+            HealthChanged?.Invoke(this);
         }
 
         public void TakePoisonDamage(int poisonDamage)
         {
             CurrentHealthPoints -= poisonDamage;
 
-            HealthPointsChanged?.Invoke(CurrentHealthPoints, MaxHealthPoints);
+            HealthChanged?.Invoke(this);
         }
 
         public bool CanAct()

@@ -6,6 +6,7 @@ using Duels.Audio;
 using Duels.UI;
 using Duels.Units;
 using Duels.Effects;
+using Duels.Presentation;
 
 namespace Duels.Core
 {
@@ -29,6 +30,7 @@ namespace Duels.Core
         [SerializeField] private Transform _teamTwoSpawnPoint;
 
         private AudioManager _audioManager;
+        private BattlePresenter _battlePresenter;
         private BattleSystem _battleSystem;
         private EffectsManager _effectsManager;
         private GameRestarter _gameRestarter;
@@ -50,7 +52,9 @@ namespace Duels.Core
 
             _audioManager = new AudioManager(_musicSource, _battleTheme, _victorySound, _restartMenuTheme);
 
-            _messageSystem = new MessageSystem(_battleView, _token);
+            _messageSystem = new MessageSystem(_battlePresenter, _token);
+
+            _battlePresenter = new BattlePresenter(_battleView, _messageSystem);
 
             _gameRestarter = new GameRestarter(_restartButton);
 
@@ -58,13 +62,13 @@ namespace Duels.Core
 
             _unitSpawner = new UnitSpawner(_teamOnePrefabs, _teamTwoPrefabs, _teamOneSpawnPoint, _teamTwoSpawnPoint);
 
-            _victoryHandler = new VictoryHandler(_battleView, _gameOverCanvas, _audioManager);
+            _victoryHandler = new VictoryHandler(_battlePresenter, _gameOverCanvas, _audioManager);
 
-            _turnHandler = new TurnHandler(_battleView, _effectsManager, _victoryHandler, _messageSystem);
+            _turnHandler = new TurnHandler(_effectsManager, _victoryHandler, _battlePresenter);
 
             _battleSystem = new BattleSystem();
 
-            _battleSystem.Initialize(_battleView, _audioManager, _unitSpawner, _turnHandler);
+            _battleSystem.Initialize(_battlePresenter, _audioManager, _unitSpawner, _turnHandler);
 
             _battleSystem.Run(_token).Forget();
         }

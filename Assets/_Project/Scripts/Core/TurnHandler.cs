@@ -1,26 +1,24 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Duels.Effects;
-using Duels.UI;
+using Duels.Presentation;
 using Duels.Units;
 
 namespace Duels.Core
 {
     public class TurnHandler
     {
-        private readonly BattleView _battleView;
         private readonly EffectsManager _effects;
         private readonly VictoryHandler _victoryHandler;
-        private readonly MessageSystem _message;
+        private readonly BattlePresenter _battlePresenter;
 
         private const int AttackDelay = 3000;
 
-        public TurnHandler(BattleView battleView, EffectsManager effects, VictoryHandler victoryHandler, MessageSystem message)
+        public TurnHandler(EffectsManager effects, VictoryHandler victoryHandler, BattlePresenter battlePresenter)
         {
-            _battleView = battleView;
             _effects = effects;
             _victoryHandler = victoryHandler;
-            _message = message;
+            _battlePresenter = battlePresenter;
 
             _effects.EffectApplied += OnEffectApplied;
             _effects.EffectExpired += OnEffectExpired;
@@ -45,7 +43,7 @@ namespace Duels.Core
 
         private void ShowTurnText(Unit attacker)
         {
-            _battleView.SetTurnText($"{attacker.UnitName} attacks!");
+            _battlePresenter.ShowTurn(attacker);
         }
 
         private void ProcessTurnStart(Unit attacker, Unit defender)
@@ -76,12 +74,12 @@ namespace Duels.Core
 
         private void OnEffectApplied(Unit unit, StatusEffect effect)
         {
-            _message.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
+            _battlePresenter.ShowEffectApplied(unit, effect);
         }
 
         private void OnEffectExpired(Unit unit, StatusEffect effect)
         {
-            _message.ShowMessageText($"{unit.UnitName} lost {effect.EffectName}");
+            _battlePresenter.ShowEffectExpired(unit, effect);
         }
 
         public void Dispose()

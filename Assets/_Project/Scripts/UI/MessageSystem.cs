@@ -1,15 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Duels.Presentation;
 
 namespace Duels.UI
 {
     public class MessageSystem
     {
-        private readonly BattleView _battleView;
+        public event Action<string> MessageReady;
+
         private readonly CancellationToken _token;
 
-        private Queue<string> _messages = new Queue<string>();
+        private readonly Queue<string> _messages = new Queue<string>();
 
         private UniTask _showTask;
 
@@ -17,9 +20,8 @@ namespace Duels.UI
 
         private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
-        public MessageSystem(BattleView battleView, CancellationToken token)
+        public MessageSystem(BattlePresenter battlePresenter, CancellationToken token)
         {
-            _battleView = battleView;
             _token = token;
         }
 
@@ -37,7 +39,7 @@ namespace Duels.UI
         {
             while (_messages.Count > 0)
             {
-                _battleView.SetStatusText(_messages.Dequeue());
+                MessageReady?.Invoke(_messages.Dequeue()); 
 
                 await UniTask.Delay(StatusTextDelay, cancellationToken: token);
             }

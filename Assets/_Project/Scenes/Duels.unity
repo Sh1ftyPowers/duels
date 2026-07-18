@@ -4053,7 +4053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ce23f49108945429c06cbf4d0b1062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.GameCompositionRoot
-  _battleUI: {fileID: 1703717329}
+  _battleView: {fileID: 1703717329}
   _gameOverCanvas: {fileID: 1823444681}
   _musicSource: {fileID: 1073486549}
   _battleTheme: {fileID: 8300000, guid: 0dd1f91011b945748ac111d63f961016, type: 3}
@@ -6813,7 +6813,7 @@ GameObject:
   - component: {fileID: 1703717328}
   - component: {fileID: 1703717329}
   m_Layer: 0
-  m_Name: BattleUI
+  m_Name: BattleView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

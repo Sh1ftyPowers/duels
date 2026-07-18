@@ -1,21 +1,21 @@
 using System.Threading;
 using UnityEngine;
-using Duels.UI;
-using Duels.Units;
-using Duels.Audio;
 using Cysharp.Threading.Tasks;
+using Duels.Audio;
+using Duels.Presentation;
+using Duels.Units;
 
 namespace Duels.Core
 {
     public class VictoryHandler
     {
-        private readonly BattleView _battleView;
+        private readonly BattlePresenter _battlePresenter;
         private readonly GameObject _gameOverCanvas;
         private readonly AudioManager _audio;
 
-        public VictoryHandler(BattleView battleView, GameObject gameOverCanvas, AudioManager audio)
+        public VictoryHandler(BattlePresenter battlePresenter, GameObject gameOverCanvas, AudioManager audio)
         {
-            _battleView = battleView;
+            _battlePresenter = battlePresenter;
             _gameOverCanvas = gameOverCanvas;
             _audio = audio;
         }
@@ -30,8 +30,8 @@ namespace Duels.Core
             attacker.PlayVictoryAnimation();
             defender.PlayDeathAnimation();
 
-            _battleView.SetTurnText(attacker.UnitName + " defeated " + defender.UnitName + "!");
-            _battleView.SetStatusText("Glory to the Winner!");
+            _battlePresenter.AnnounceTheWinner(attacker, defender);
+            _battlePresenter.PraiseTheWinner();
 
             await _audio.PlayEndBattleMusic(cancellationToken);
             _gameOverCanvas.SetActive(true);
