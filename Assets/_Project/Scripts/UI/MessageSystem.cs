@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Duels.Presentation;
 
 namespace Duels.UI
 {
     public class MessageSystem
     {
-        public event Action<string> MessageReady;
+        public event Action<string> MessageAvailable;
 
         private readonly CancellationToken _token;
 
@@ -39,7 +38,7 @@ namespace Duels.UI
         {
             while (_messages.Count > 0)
             {
-                MessageReady?.Invoke(_messages.Dequeue()); 
+                MessageAvailable?.Invoke(_messages.Dequeue()); 
 
                 await UniTask.Delay(StatusTextDelay, cancellationToken: token);
             }

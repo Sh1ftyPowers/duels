@@ -18,7 +18,7 @@ namespace Duels.Presentation
             _battleView = battleView;
             _messageSystem = messageSystem;
 
-            _messageSystem.MessageReady += OnMessageReady;
+            _messageSystem.MessageAvailable += OnMessageAvailable;
         }
 
         public void RegisterUnit(Unit unit, Healthbar healthbar)
@@ -38,7 +38,7 @@ namespace Duels.Presentation
             _healthbars[unit].UpdateHealthBar(unit.CurrentHealthPoints, unit.MaxHealthPoints);
         }
 
-        private void OnMessageReady(string message)
+        private void OnMessageAvailable(string message)
         {
             _battleView.SetStatusText(message);
         }
@@ -65,27 +65,28 @@ namespace Duels.Presentation
 
         public void ShowEffectApplied(Unit unit, StatusEffect effect)
         {
-            SetStatusText($"{unit.UnitName} is {effect.EffectName}");
+            _messageSystem.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
         }
 
         public void ShowEffectExpired(Unit unit, StatusEffect effect)
         {
-            SetStatusText($"{unit.UnitName} is no longer {effect.EffectName}");
+            _messageSystem.ShowMessageText($"{unit.UnitName} is no longer {effect.EffectName}");
         }
 
         public void AnnounceTheWinner(Unit winner, Unit loser)
         {
-            SetStatusText($"{winner.UnitName} defeated {loser.UnitName}");
+            SetTurnText($"{winner.UnitName} defeated {loser.UnitName}");
         }
 
         public void PraiseTheWinner()
         {
-            SetStatusText("Glory to the Winner!");
+            //SetStatusText("Glory to the Winner!");
+            _messageSystem.ShowMessageText("Glory to the Winner!");
         }
 
         public void Dispose()
         {
-            _messageSystem.MessageReady -= OnMessageReady;
+            _messageSystem.MessageAvailable -= OnMessageAvailable;
 
             foreach (var unit in _healthbars.Keys)
             {
