@@ -35,7 +35,7 @@ namespace Duels.Core
             await SetUpBattle(cancellationToken);
         }
 
-        public void Initialize(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        public BattleSystem(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
         {
             _audioManager = audioManager;
             _battlePresenter = battlePresenter;

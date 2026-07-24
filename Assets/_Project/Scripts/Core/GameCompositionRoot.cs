@@ -45,6 +45,8 @@ namespace Duels.Core
         private void Awake()
         {
             Compose();
+
+            _battleSystem.Run(_token).Forget();
         }
 
         public void Compose()
@@ -69,11 +71,7 @@ namespace Duels.Core
 
             _turnHandler = new TurnHandler(_effectsManager, _victoryHandler, _battlePresenter);
 
-            _battleSystem = new BattleSystem();
-
-            _battleSystem.Initialize(_battlePresenter, _healthbarPresenter, _audioManager, _unitSpawner, _turnHandler);
-
-            _battleSystem.Run(_token).Forget();
+            _battleSystem = new BattleSystem(_battlePresenter, _healthbarPresenter, _audioManager, _unitSpawner, _turnHandler);
         }
 
         private void OnDestroy()
