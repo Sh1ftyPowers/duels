@@ -67,7 +67,7 @@ namespace Duels.Core
 
             _unitSpawner = new UnitSpawner(_teamOnePrefabs, _teamTwoPrefabs, _teamOneSpawnPoint, _teamTwoSpawnPoint);
 
-            _victoryHandler = new VictoryHandler(_battlePresenter, _gameOverCanvas, _audioManager);
+            _victoryHandler = new VictoryHandler(_battlePresenter, _audioManager);
 
             _turnHandler = new TurnHandler(_effectsManager, _victoryHandler, _battlePresenter);
 

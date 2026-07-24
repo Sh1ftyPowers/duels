@@ -1,5 +1,4 @@
 using System.Threading;
-using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Duels.Audio;
 using Duels.Presentation;
@@ -10,13 +9,11 @@ namespace Duels.Core
     public class VictoryHandler
     {
         private readonly BattlePresenter _battlePresenter;
-        private readonly GameObject _gameOverCanvas;
         private readonly AudioManager _audio;
 
-        public VictoryHandler(BattlePresenter battlePresenter, GameObject gameOverCanvas, AudioManager audio)
+        public VictoryHandler(BattlePresenter battlePresenter, AudioManager audio)
         {
             _battlePresenter = battlePresenter;
-            _gameOverCanvas = gameOverCanvas;
             _audio = audio;
         }
 
@@ -34,7 +31,7 @@ namespace Duels.Core
             _battlePresenter.PraiseTheWinner();
 
             await _audio.PlayEndBattleMusic(cancellationToken);
-            _gameOverCanvas.SetActive(true);
+            _battlePresenter.ShowRestartCanvas();
         }
     }
 }

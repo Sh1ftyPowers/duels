@@ -63,6 +63,11 @@ namespace Duels.Presentation
             _messageSystem.ShowMessageText("Glory to the Winner!");
         }
 
+        public void ShowRestartCanvas()
+        {
+            _battleView.ShowRestart();
+        }
+
         public void Dispose()
         {
             _messageSystem.MessageAvailable -= OnMessageAvailable;

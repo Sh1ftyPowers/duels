@@ -6848,6 +6848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
   _turnInfoText: {fileID: 654546806}
   _statusInfoText: {fileID: 1600142468}
+  _gameOverCanvas: {fileID: 1823444681}
 --- !u!1 &1796992555
 GameObject:
   m_ObjectHideFlags: 0
