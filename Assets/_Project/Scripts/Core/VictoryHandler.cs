@@ -20,17 +20,17 @@ namespace Duels.Core
             _audio = audio;
         }
 
-        public bool IsVictory(Unit defender)
+        public bool IsDead(Unit unit)
         {
-            return defender.CurrentHealthPoints <= 0;
+            return unit.CurrentHealthPoints <= 0;
         }
 
-        public async UniTask HandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        public async UniTask HandleVictory(Unit winner, Unit loser, CancellationToken cancellationToken)
         {
-            attacker.PlayVictoryAnimation();
-            defender.PlayDeathAnimation();
+            winner.PlayVictoryAnimation();
+            loser.PlayDeathAnimation();
 
-            _battlePresenter.AnnounceTheWinner(attacker, defender);
+            _battlePresenter.AnnounceTheWinner(winner, loser);
             _battlePresenter.PraiseTheWinner();
 
             await _audio.PlayEndBattleMusic(cancellationToken);

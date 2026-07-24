@@ -1,8 +1,9 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using Duels.Effects;
 using Duels.Presentation;
 using Duels.Units;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace Duels.Core
 {
@@ -64,12 +65,19 @@ namespace Duels.Core
 
         private async UniTask<bool> TryHandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            if (!_victoryHandler.IsVictory(defender))
-                return false;
+            if (_victoryHandler.IsDead(defender))
+            {
+                await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
+                return true;
+            }
 
-            await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
+            if (_victoryHandler.IsDead(attacker))
+            {
+                await _victoryHandler.HandleVictory(defender, attacker, cancellationToken);
+                return true;
+            }
 
-            return true;
+            return false;
         }
 
         private void OnEffectApplied(Unit unit, StatusEffect effect)
