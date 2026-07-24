@@ -34,6 +34,7 @@ namespace Duels.Core
         private BattleSystem _battleSystem;
         private EffectsManager _effectsManager;
         private GameRestarter _gameRestarter;
+        private HealthbarPresenter _healthbarPresenter;
         private MessageSystem _messageSystem;
         private TurnHandler _turnHandler;
         private UnitSpawner _unitSpawner;
@@ -54,6 +55,8 @@ namespace Duels.Core
 
             _messageSystem = new MessageSystem(_token);
 
+            _healthbarPresenter = new HealthbarPresenter();
+
             _battlePresenter = new BattlePresenter(_battleView, _messageSystem);
 
             _gameRestarter = new GameRestarter(_restartButton);
@@ -68,7 +71,7 @@ namespace Duels.Core
 
             _battleSystem = new BattleSystem();
 
-            _battleSystem.Initialize(_battlePresenter, _audioManager, _unitSpawner, _turnHandler);
+            _battleSystem.Initialize(_battlePresenter, _healthbarPresenter, _audioManager, _unitSpawner, _turnHandler);
 
             _battleSystem.Run(_token).Forget();
         }

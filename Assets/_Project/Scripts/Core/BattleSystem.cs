@@ -12,6 +12,7 @@ namespace Duels.Core
     {
         private AudioManager _audioManager;
         private BattlePresenter _battlePresenter;
+        private HealthbarPresenter _healthbarPresenter;
         private TurnHandler _turnHandler;
         private UnitSpawner _spawner;
 
@@ -34,10 +35,11 @@ namespace Duels.Core
             await SetUpBattle(cancellationToken);
         }
 
-        public void Initialize(BattlePresenter battlePresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        public void Initialize(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
         {
             _audioManager = audioManager;
             _battlePresenter = battlePresenter;
+            _healthbarPresenter = healthbarPresenter;
             _spawner = spawner;
             _turnHandler = turnHandler;
         }
@@ -49,8 +51,8 @@ namespace Duels.Core
             _teamOneHero = _spawner.SpawnTeamOne();
             _teamTwoHero = _spawner.SpawnTeamTwo();
 
-            _battlePresenter.RegisterUnit(_teamOneHero, _teamOneHero.GetComponentInChildren<Healthbar>());
-            _battlePresenter.RegisterUnit(_teamTwoHero, _teamTwoHero.GetComponentInChildren<Healthbar>());
+            _healthbarPresenter.RegisterUnit(_teamOneHero, _teamOneHero.GetComponentInChildren<Healthbar>());
+            _healthbarPresenter.RegisterUnit(_teamTwoHero, _teamTwoHero.GetComponentInChildren<Healthbar>());
 
             if (turnDecider == 0)
             {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Duels.Effects;
 using Duels.UI;
 using Duels.Units;
@@ -11,31 +10,12 @@ namespace Duels.Presentation
 
         private readonly MessageSystem _messageSystem;
 
-        private readonly Dictionary<Unit, Healthbar> _healthbars = new();
-
         public BattlePresenter(BattleView battleView, MessageSystem messageSystem)
         {
             _battleView = battleView;
             _messageSystem = messageSystem;
 
             _messageSystem.MessageAvailable += OnMessageAvailable;
-        }
-
-        public void RegisterUnit(Unit unit, Healthbar healthbar)
-        {
-            if (_healthbars.ContainsKey(unit))
-                return;
-
-            _healthbars.Add(unit, healthbar);
-
-            unit.HealthChanged += OnHealthChanged;
-
-            OnHealthChanged(unit);
-        }
-
-        private void OnHealthChanged(Unit unit)
-        {
-            _healthbars[unit].UpdateHealthBar(unit.CurrentHealthPoints, unit.MaxHealthPoints);
         }
 
         private void OnMessageAvailable(string message)
@@ -80,20 +60,12 @@ namespace Duels.Presentation
 
         public void PraiseTheWinner()
         {
-            //SetStatusText("Glory to the Winner!");
             _messageSystem.ShowMessageText("Glory to the Winner!");
         }
 
         public void Dispose()
         {
             _messageSystem.MessageAvailable -= OnMessageAvailable;
-
-            foreach (var unit in _healthbars.Keys)
-            {
-                unit.HealthChanged -= OnHealthChanged;
-            }
-
-            _healthbars.Clear();
         }
     }
 }
