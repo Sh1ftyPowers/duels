@@ -1,8 +1,10 @@
 using UnityEngine;
 using Duels.Units;
-using Duels.Attacks;
 
-public abstract class BaseAttack : ScriptableObject
+namespace Duels.Attacks
 {
-    public abstract AttackResult AttackEnemy(Unit attacker, Unit target);
+    public abstract class BaseAttack : ScriptableObject
+    {
+        public abstract AttackResult AttackEnemy(Unit attacker, Unit target);
+    }
 }
