@@ -13,11 +13,9 @@ namespace Duels.UI
 
         private readonly Queue<string> _messages = new Queue<string>();
 
-        private UniTask _showTask;
+        private bool _isShowing;
 
         private const int StatusTextDelay = 1000;
-
-        private bool _isBusy => _showTask.Status is UniTaskStatus.Pending;
 
         public MessageSystem(CancellationToken token)
         {
@@ -28,7 +26,7 @@ namespace Duels.UI
         {
             _messages.Enqueue(message);
 
-            if (_isBusy)
+            if (_isShowing)
                 return;
 
             ShowMessages(_token).Forget();
@@ -36,11 +34,21 @@ namespace Duels.UI
 
         private async UniTask ShowMessages(CancellationToken token)
         {
-            while (_messages.Count > 0)
-            {
-                MessageAvailable?.Invoke(_messages.Dequeue()); 
+            _isShowing = true;
 
-                await UniTask.Delay(StatusTextDelay, cancellationToken: token);
+            try
+            {
+                while (_messages.Count > 0)
+                {
+                    MessageAvailable?.Invoke(_messages.Dequeue());
+
+                    await UniTask.Delay(StatusTextDelay, cancellationToken: token);
+                }
+            }
+
+            finally
+            {
+                _isShowing = false;
             }
         }
     }
