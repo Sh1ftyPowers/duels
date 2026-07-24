@@ -79,6 +79,8 @@ namespace Duels.Core
         private void OnDestroy()
         {
             _gameRestarter?.Dispose();
+            _battlePresenter?.Dispose();
+            _healthbarPresenter?.Dispose();
         }
     }
 }
