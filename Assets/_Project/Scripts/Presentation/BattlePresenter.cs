@@ -23,14 +23,9 @@ namespace Duels.Presentation
             _battleView.SetStatusText(message);
         }
 
-        public void SetTurnText(string text)
+        private void SetTurnText(string text)
         {
             _battleView.SetTurnText(text);
-        }
-
-        public void SetStatusText(string text)
-        {
-            _battleView.SetStatusText(text);
         }
 
         public void ShowTurn(Unit attacker)

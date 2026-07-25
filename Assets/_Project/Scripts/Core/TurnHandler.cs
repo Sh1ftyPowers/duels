@@ -64,15 +64,15 @@ namespace Duels.Core
 
         private async UniTask<bool> TryHandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            if (_victoryHandler.IsDead(defender))
-            {
-                await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
-                return true;
-            }
-
             if (_victoryHandler.IsDead(attacker))
             {
                 await _victoryHandler.HandleVictory(defender, attacker, cancellationToken);
+                return true;
+            }
+
+            if (_victoryHandler.IsDead(defender))
+            {
+                await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
                 return true;
             }
 
