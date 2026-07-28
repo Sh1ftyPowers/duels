@@ -668,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 179792570}
   m_Layer: 0
-  m_Name: _Environment
+  m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3046,7 +3046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807099976}
   m_Layer: 0
-  m_Name: _UI
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7558,7 +7558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934217663}
   m_Layer: 0
-  m_Name: _Battle
+  m_Name: Battle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7656,7 +7656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1984949164}
   m_Layer: 0
-  m_Name: _Lightning
+  m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7975,7 +7975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2060615376}
   m_Layer: 0
-  m_Name: _Game
+  m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8007,7 +8007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2100641455}
   m_Layer: 0
-  m_Name: _Camera
+  m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
