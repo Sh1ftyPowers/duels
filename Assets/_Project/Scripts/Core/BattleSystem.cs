@@ -26,6 +26,15 @@ namespace Duels.Core
 
         private const int StartDelay = 500;
 
+        public BattleSystem(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        {
+            _audioManager = audioManager;
+            _battlePresenter = battlePresenter;
+            _healthbarPresenter = healthbarPresenter;
+            _spawner = spawner;
+            _turnHandler = turnHandler;
+        }
+
         public async UniTaskVoid Run(CancellationToken cancellationToken)
         {
             try
@@ -41,15 +50,6 @@ namespace Duels.Core
             {
                 CleanBattleUp();
             }
-        }
-
-        public BattleSystem(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
-        {
-            _audioManager = audioManager;
-            _battlePresenter = battlePresenter;
-            _healthbarPresenter = healthbarPresenter;
-            _spawner = spawner;
-            _turnHandler = turnHandler;
         }
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
