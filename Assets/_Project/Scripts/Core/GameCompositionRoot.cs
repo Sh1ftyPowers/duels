@@ -13,8 +13,6 @@ namespace Duels.Core
     public class GameCompositionRoot : MonoBehaviour
     {
         [SerializeField] private BattleView _battleView;
-        [SerializeField] private UnitSpawner _spawner;
-        [SerializeField] private GameObject _gameOverCanvas;
 
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioClip _battleTheme;
