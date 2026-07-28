@@ -28,11 +28,19 @@ namespace Duels.Core
 
         public async UniTaskVoid Run(CancellationToken cancellationToken)
         {
-            _audioManager.PlayBattleMusic();
+            try
+            {
+                _audioManager.PlayBattleMusic();
 
-            _state = BattleState.Start;
-            
-            await SetUpBattle(cancellationToken);
+                _state = BattleState.Start;
+
+                await SetUpBattle(cancellationToken);
+            }
+
+            finally
+            {
+                CleanBattleUp();
+            }
         }
 
         public BattleSystem(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
@@ -87,8 +95,6 @@ namespace Duels.Core
                     await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.TeamOneTurn, cancellationToken);
                 }
             }
-
-            CleanBattleUp();
         }
 
         private async UniTask PerformTurn(Unit attacker, Unit defender, BattleState nextState, CancellationToken cancellationToken)
