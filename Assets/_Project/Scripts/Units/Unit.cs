@@ -23,7 +23,7 @@ namespace Duels.Units
 
         public event Action<Unit> HealthChanged;
 
-        private void Start()
+        public void Initialize()
         {
             CurrentHealthPoints = MaxHealthPoints;
 

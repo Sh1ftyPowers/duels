@@ -57,7 +57,10 @@ namespace Duels.Core
             int turnDecider = Random.Range(0, 2);
 
             _teamOneHero = _spawner.SpawnTeamOne();
+            _teamOneHero.Initialize();
+
             _teamTwoHero = _spawner.SpawnTeamTwo();
+            _teamTwoHero.Initialize();
 
             _healthbarPresenter.RegisterUnit(_teamOneHero, _teamOneHero.GetComponentInChildren<Healthbar>());
             _healthbarPresenter.RegisterUnit(_teamTwoHero, _teamTwoHero.GetComponentInChildren<Healthbar>());
