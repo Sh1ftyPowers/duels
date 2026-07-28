@@ -1,5 +1,6 @@
 using Duels.Effects;
 using Duels.Units;
+using UnityEngine;
 
 namespace Duels.Attacks
 {
@@ -18,7 +19,7 @@ namespace Duels.Attacks
 
         public override int ModifyDamage(int damage)
         {
-            return damage - DamageReduction;
+            return Mathf.Max(0, damage - DamageReduction);
         }
 
         public override void Apply(Unit target)

@@ -10,7 +10,7 @@ namespace Duels.Units
     {
         [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
-        [field: SerializeField] public UnitAnimationManager UnitAnimationManager { get; private set; }
+        [field: SerializeField] private UnitAnimationManager _unitAnimationManager;
 
         [SerializeField] private UnitConfig _config;
 
@@ -45,7 +45,9 @@ namespace Duels.Units
 
         public void TakeDamage(int damage)
         {
-            CurrentHealthPoints -= damage;
+            damage = Mathf.Max(0, damage);
+            
+            CurrentHealthPoints = Mathf.Max(0, CurrentHealthPoints - damage);
 
             Debug.Log($"{UnitName} получил урон {damage}");
 
@@ -54,7 +56,9 @@ namespace Duels.Units
 
         public void TakePoisonDamage(int poisonDamage)
         {
-            CurrentHealthPoints -= poisonDamage;
+            poisonDamage = Mathf.Max(0, poisonDamage);
+
+            CurrentHealthPoints = Mathf.Max(0, CurrentHealthPoints - poisonDamage);
 
             HealthChanged?.Invoke(this);
         }
@@ -78,22 +82,22 @@ namespace Duels.Units
 
         public void PlayAttackAnimation()
         {
-            UnitAnimationManager.PlayAttackAnimation();
+            _unitAnimationManager.PlayAttackAnimation();
         }
 
         public void PlayDeathAnimation()
         {
-            UnitAnimationManager.PlayDeathAnimation();
+            _unitAnimationManager.PlayDeathAnimation();
         }
 
         public void PlayVictoryAnimation()
         {
-            UnitAnimationManager.PlayVictoryAnimation();
+            _unitAnimationManager.PlayVictoryAnimation();
         }
 
         public void PlayStunAnimation()
         {
-            UnitAnimationManager.PlayStunAnimation();
+            _unitAnimationManager.PlayStunAnimation();
         }
     }
 }
