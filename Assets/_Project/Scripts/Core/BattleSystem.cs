@@ -35,21 +35,25 @@ namespace Duels.Core
             _turnHandler = turnHandler;
         }
 
-        public async UniTaskVoid Run(CancellationToken cancellationToken)
+        public async UniTask Run(CancellationToken cancellationToken)
         {
             try
             {
-                _audioManager.PlayBattleMusic();
-
-                _state = BattleState.Start;
+                StartBattle();
 
                 await SetUpBattle(cancellationToken);
             }
 
             finally
             {
-                CleanBattleUp();
+                Dispose();
             }
+        }
+
+        private void StartBattle()
+        {
+            _audioManager.PlayBattleMusic();
+            _state = BattleState.Start;
         }
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
@@ -121,7 +125,7 @@ namespace Duels.Core
             return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
         }
 
-        private void CleanBattleUp()
+        private void Dispose()
         {
             _turnHandler?.Dispose();
         }
