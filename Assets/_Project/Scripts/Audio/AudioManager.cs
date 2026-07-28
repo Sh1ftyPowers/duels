@@ -11,8 +11,8 @@ namespace Duels.Audio
         private readonly AudioClip _victorySound;
         private readonly AudioClip _restartMenuTheme;
 
-        private const int ConversionFactorForSecondsToMilliseconds = 1000;
-        private int _delayBetweenVictorySoundAndRestartTheme = 500;
+        private const int MillisecondsPerSecond = 1000;
+        private const int DelayBetweenVictorySoundAndRestartTheme = 500;
 
         public AudioManager(AudioSource musicSource, AudioClip battleTheme, AudioClip victorySound, AudioClip restartMenuTheme)
         {
@@ -35,7 +35,9 @@ namespace Duels.Audio
             _musicSource.clip = _victorySound;
             _musicSource.Play();
 
-            await UniTask.Delay(Mathf.RoundToInt(_victorySound.length * ConversionFactorForSecondsToMilliseconds) - _delayBetweenVictorySoundAndRestartTheme, cancellationToken: token);
+            int delay = Mathf.Max(0, Mathf.RoundToInt(_victorySound.length * MillisecondsPerSecond) - DelayBetweenVictorySoundAndRestartTheme);
+
+            await UniTask.Delay(delay, cancellationToken: token);
 
             _musicSource.clip = _restartMenuTheme;
             _musicSource.loop = true;
