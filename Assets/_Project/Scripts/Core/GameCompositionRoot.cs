@@ -47,7 +47,7 @@ namespace Duels.Core
             _battleSystem.Run(_token).Forget();
         }
 
-        public void Compose()
+        private void Compose()
         {
             _token = this.GetCancellationTokenOnDestroy();
 

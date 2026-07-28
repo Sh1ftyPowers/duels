@@ -40,18 +40,5 @@ namespace Duels.Effects
 
             return false;
         }
-
-        public EffectType GetEffect<EffectType>() where EffectType : StatusEffect
-        {
-            foreach (StatusEffect effect in _effects)
-            {
-                if (effect is EffectType typedEffect)
-                {
-                    return typedEffect;
-                }
-            }
-
-            return null;
-        }
     }
 }

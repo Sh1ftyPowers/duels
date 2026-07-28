@@ -1,3 +1,4 @@
+using Duels.Attacks;
 using Duels.Units;
 using System;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace Duels.Effects
         public void ApplyEffect(Unit unit, StatusEffect effect)
         {
             unit.AddEffect(effect);
+
             effect.Apply(unit);
+
+            if (effect is StunningAttack)
+            {
+                unit.PlayStunAnimation();
+            }
 
             EffectApplied?.Invoke(unit, effect);
         }

@@ -1525,7 +1525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Healthbar
   _healthbarSprite: {fileID: 4759555454066817058}
-  _unit: {fileID: 465522511094851027}
 --- !u!1 &2141231566747775212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,8 +2426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   <BaseAttack>k__BackingField: {fileID: 11400000, guid: 514b422f1ec2e7147b312d7db5ffd0c5, type: 2}
-  <UnitAnimationManager>k__BackingField: {fileID: 3077148545769899187}
-  _healthbar: {fileID: 7724475778055600815}
+  _unitAnimationManager: {fileID: 3077148545769899187}
   _config: {fileID: 11400000, guid: 90a828517a6f3094f9b5f5a0a4d264d2, type: 2}
 --- !u!1 &3942609020630197049
 GameObject:
