@@ -19,7 +19,7 @@ namespace Duels.Core
 
         public bool IsDead(Unit unit)
         {
-            return unit.CurrentHealthPoints <= 0;
+            return unit.CurrentHealthPoints == 0;
         }
 
         public async UniTask HandleVictory(Unit winner, Unit loser, CancellationToken cancellationToken)
