@@ -94,10 +94,5 @@ namespace Duels.Units
         {
             _unitAnimationManager.PlayVictoryAnimation();
         }
-
-        public void PlayStunAnimation()
-        {
-            _unitAnimationManager.PlayStunAnimation();
-        }
     }
 }

@@ -9,7 +9,6 @@ namespace Duels.Units
         private static readonly int _attackTrigger = Animator.StringToHash("attack");
         private static readonly int _deathTrigger = Animator.StringToHash("isDead");
         private static readonly int _winTrigger = Animator.StringToHash("isWinner");
-        private static readonly int _stunTrigger = Animator.StringToHash("isStunned");
 
         public void PlayAttackAnimation()
         {
@@ -24,11 +23,6 @@ namespace Duels.Units
         public void PlayVictoryAnimation()
         {
             _animator.SetTrigger(_winTrigger);
-        }
-
-        public void PlayStunAnimation()
-        {
-            _animator.SetTrigger(_stunTrigger);
         }
     }
 }
