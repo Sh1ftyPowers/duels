@@ -28,6 +28,7 @@ namespace Duels.Core
         [SerializeField] private Transform _teamTwoSpawnPoint;
 
         private AudioManager _audioManager;
+        private BattleEvents _battleEvents;
         private BattlePresenter _battlePresenter;
         private BattleSystem _battleSystem;
         private EffectsManager _effectsManager;
@@ -52,27 +53,29 @@ namespace Duels.Core
         {
             _token = this.GetCancellationTokenOnDestroy();
 
-            _audioManager = new AudioManager(_musicSource, _battleTheme, _victorySound, _restartMenuTheme);
+            _battleEvents = new BattleEvents();
+
+            _audioManager = new AudioManager(_musicSource, _battleTheme, _victorySound, _restartMenuTheme, _battleEvents, _token);
 
             _messageSystem = new MessageSystem(_token);
 
             _healthbarPresenter = new HealthbarPresenter();
 
-            _battlePresenter = new BattlePresenter(_battleView, _messageSystem);
+            _effectsManager = new EffectsManager();           
 
-            _gameRestarter = new GameRestarter(_restartButton);
-
-            _effectsManager = new EffectsManager();
+            _gameRestarter = new GameRestarter(_restartButton);          
 
             _unitSpawner = new UnitSpawner(_teamOnePrefabs, _teamTwoPrefabs, _teamOneSpawnPoint, _teamTwoSpawnPoint);
 
             _unitFactory = new UnitFactory(_unitSpawner, _healthbarPresenter);
 
-            _victoryHandler = new VictoryHandler(_battlePresenter, _audioManager);
+            _victoryHandler = new VictoryHandler(_battleEvents);
 
-            _turnHandler = new TurnHandler(_effectsManager, _victoryHandler, _battlePresenter);
+            _turnHandler = new TurnHandler(_effectsManager, _victoryHandler);
 
-            _battleSystem = new BattleSystem(_battlePresenter, _unitFactory, _audioManager, _turnHandler);
+            _battleSystem = new BattleSystem(_unitFactory, _turnHandler, _battleEvents);
+
+            _battlePresenter = new BattlePresenter(_battleView, _messageSystem, _effectsManager, _turnHandler, _battleEvents); 
         }
 
         private void OnDestroy()
@@ -80,6 +83,7 @@ namespace Duels.Core
             _gameRestarter?.Dispose();
             _battlePresenter?.Dispose();
             _healthbarPresenter?.Dispose();
+            _audioManager?.Dispose();
         }
     }
 }

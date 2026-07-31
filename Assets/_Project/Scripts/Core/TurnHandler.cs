@@ -1,8 +1,8 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Duels.Effects;
-using Duels.Presentation;
 using Duels.Units;
-using System.Threading;
 
 namespace Duels.Core
 {
@@ -10,18 +10,15 @@ namespace Duels.Core
     {
         private readonly EffectsManager _effects;
         private readonly VictoryHandler _victoryHandler;
-        private readonly BattlePresenter _battlePresenter;
+
+        public event Action<Unit> TurnStarted;
 
         private const int AttackDelay = 3000;
 
-        public TurnHandler(EffectsManager effects, VictoryHandler victoryHandler, BattlePresenter battlePresenter)
+        public TurnHandler(EffectsManager effects, VictoryHandler victoryHandler)
         {
             _effects = effects;
             _victoryHandler = victoryHandler;
-            _battlePresenter = battlePresenter;
-
-            _effects.EffectApplied += OnEffectApplied;
-            _effects.EffectExpired += OnEffectExpired;
         }
 
         public async UniTask<bool> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
@@ -30,7 +27,7 @@ namespace Duels.Core
 
             ProcessTurnStart(attacker, defender);
 
-            if (await TryHandleVictory(attacker, defender, cancellationToken))
+            if (TryHandleVictory(attacker, defender))
                 return true;
 
             if (!attacker.CanAct())
@@ -38,12 +35,12 @@ namespace Duels.Core
 
             await AttackTheEnemy(attacker, defender, cancellationToken);
 
-            return await TryHandleVictory(attacker, defender, cancellationToken);
+            return TryHandleVictory(attacker, defender);
         }
 
         private void ShowTurnText(Unit attacker)
         {
-            _battlePresenter.ShowTurn(attacker);
+            TurnStarted?.Invoke(attacker);
         }
 
         private void ProcessTurnStart(Unit attacker, Unit defender)
@@ -62,37 +59,21 @@ namespace Duels.Core
                 _effects.ApplyEffect(defender, result.Effect);
         }
 
-        private async UniTask<bool> TryHandleVictory(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        private bool TryHandleVictory(Unit attacker, Unit defender)
         {
             if (_victoryHandler.IsDead(attacker))
             {
-                await _victoryHandler.HandleVictory(defender, attacker, cancellationToken);
+                _victoryHandler.HandleVictory(defender, attacker);
                 return true;
             }
 
             if (_victoryHandler.IsDead(defender))
             {
-                await _victoryHandler.HandleVictory(attacker, defender, cancellationToken);
+                _victoryHandler.HandleVictory(attacker, defender);
                 return true;
             }
 
             return false;
-        }
-
-        private void OnEffectApplied(Unit unit, StatusEffect effect)
-        {
-            _battlePresenter.ShowEffectApplied(unit, effect);
-        }
-
-        private void OnEffectExpired(Unit unit, StatusEffect effect)
-        {
-            _battlePresenter.ShowEffectExpired(unit, effect);
-        }
-
-        public void Dispose()
-        {
-            _effects.EffectApplied -= OnEffectApplied;
-            _effects.EffectExpired -= OnEffectExpired;
         }
     }
 }

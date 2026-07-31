@@ -1,20 +1,16 @@
+using System;
 using System.Threading;
-using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Duels.Audio;
-using Duels.Presentation;
-using Duels.UI;
 using Duels.Units;
 
 namespace Duels.Core
 {
     public class BattleSystem
     {
-        private AudioManager _audioManager;
-        private BattlePresenter _battlePresenter;
         private UnitFactory _unitFactory;
         private TurnHandler _turnHandler;
 
+        private readonly BattleEvents _battleEvents;
 
         private BattleState _state;
 
@@ -26,33 +22,25 @@ namespace Duels.Core
 
         private const int StartDelay = 500;
 
-        public BattleSystem(BattlePresenter battlePresenter, UnitFactory unitFactory, AudioManager audioManager, TurnHandler turnHandler)
+        public BattleSystem(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents)
         {
-            _audioManager = audioManager;
             _unitFactory = unitFactory;
-            _battlePresenter = battlePresenter;
             _turnHandler = turnHandler;
+            _battleEvents = battleEvents;
         }
 
         public async UniTask Run(CancellationToken cancellationToken)
         {
-            try
-            {
-                StartBattle();
+            StartBattle();
 
-                await SetUpBattle(cancellationToken);
-            }
-
-            finally
-            {
-                Dispose();
-            }
+            await SetUpBattle(cancellationToken);
         }
 
         private void StartBattle()
         {
-            _audioManager.PlayBattleMusic();
             _state = BattleState.Start;
+
+            _battleEvents.RaiseBattleStarted();
         }
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
@@ -60,7 +48,7 @@ namespace Duels.Core
             _teamOneHero = _unitFactory.CreateTeamOneHero();
             _teamTwoHero = _unitFactory.CreateTeamTwoHero();
             
-            int turnDecider = Random.Range(0, 2);
+            int turnDecider = UnityEngine.Random.Range(0, 2);
 
             if (turnDecider == 0)
             {
@@ -72,8 +60,6 @@ namespace Duels.Core
                 _firstTurnUnit = _teamTwoHero;
                 _secondTurnUnit = _teamOneHero;
             }
-
-            _battlePresenter.ShowBattleStart();
 
             await UniTask.Delay(StartDelay, cancellationToken: cancellationToken);
 
@@ -116,11 +102,6 @@ namespace Duels.Core
         private bool IsBattleOver()
         {
             return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
-        }
-
-        private void Dispose()
-        {
-            _turnHandler?.Dispose();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Duels.Core;
 using Duels.Effects;
 using Duels.UI;
 using Duels.Units;
@@ -10,17 +11,29 @@ namespace Duels.Presentation
 
         private readonly MessageSystem _messageSystem;
 
-        public BattlePresenter(BattleView battleView, MessageSystem messageSystem)
+        private readonly EffectsManager _effects;
+
+        private readonly TurnHandler _turnHandler;
+
+        private readonly BattleEvents _battleEvents;
+
+        public BattlePresenter(BattleView battleView, MessageSystem messageSystem, EffectsManager effects, TurnHandler turnHandler, BattleEvents battleEvents)
         {
             _battleView = battleView;
+            _effects = effects;
             _messageSystem = messageSystem;
+            _turnHandler = turnHandler;
+            _battleEvents = battleEvents;
 
             _messageSystem.MessageAvailable += OnMessageAvailable;
-        }
 
-        private void OnMessageAvailable(string message)
-        {
-            _battleView.SetStatusText(message);
+            _effects.EffectApplied += OnEffectApplied;
+            _effects.EffectExpired += OnEffectExpired;
+
+            _turnHandler.TurnStarted += OnTurnStarted;
+
+            _battleEvents.BattleStarted += OnBattleStarted;
+            _battleEvents.WinnerDelcared += OnWinnerDelcared;
         }
 
         private void SetTurnText(string text)
@@ -28,7 +41,7 @@ namespace Duels.Presentation
             _battleView.SetTurnText(text);
         }
 
-        public void ShowTurn(Unit attacker)
+        private void ShowTurn(Unit attacker)
         {
             SetTurnText($"{attacker.UnitName} attacks!");
         }
@@ -38,34 +51,63 @@ namespace Duels.Presentation
             SetTurnText("The Battle Begins!");
         }
 
-        public void ShowEffectApplied(Unit unit, StatusEffect effect)
-        {
-            _messageSystem.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
-        }
-
-        public void ShowEffectExpired(Unit unit, StatusEffect effect)
-        {
-            _messageSystem.ShowMessageText($"{unit.UnitName} is no longer {effect.EffectName}");
-        }
-
-        public void AnnounceTheWinner(Unit winner, Unit loser)
+        private void AnnounceTheWinner(Unit winner, Unit loser)
         {
             SetTurnText($"{winner.UnitName} defeated {loser.UnitName}");
         }
-
-        public void PraiseTheWinner()
+        private void PraiseTheWinner()
         {
             _messageSystem.ShowMessageText("Glory to the Winner!");
         }
 
-        public void ShowRestartCanvas()
+        private void ShowRestartCanvas()
         {
             _battleView.ShowRestart();
+        }
+
+        private void OnMessageAvailable(string message)
+        {
+            _battleView.SetStatusText(message);
+        }
+
+        private void OnEffectApplied(Unit unit, StatusEffect effect)
+        {
+            _messageSystem.ShowMessageText($"{unit.UnitName} is {effect.EffectName}");
+        }
+
+        private void OnEffectExpired(Unit unit, StatusEffect effect)
+        {
+            _messageSystem.ShowMessageText($"{unit.UnitName} is no longer {effect.EffectName}");
+        }
+
+        private void OnTurnStarted(Unit attacker)
+        {
+            ShowTurn(attacker);
+        }
+
+        private void OnWinnerDelcared(Unit winner, Unit loser)
+        {
+            AnnounceTheWinner(winner, loser);
+            PraiseTheWinner();
+            ShowRestartCanvas();
+        }
+
+        private void OnBattleStarted()
+        {
+            ShowBattleStart();
         }
 
         public void Dispose()
         {
             _messageSystem.MessageAvailable -= OnMessageAvailable;
+
+            _effects.EffectApplied -= OnEffectApplied;
+            _effects.EffectExpired -= OnEffectExpired;
+
+            _turnHandler.TurnStarted -= OnTurnStarted;
+
+            _battleEvents.BattleStarted -= OnBattleStarted;
+            _battleEvents.WinnerDelcared -= OnWinnerDelcared;
         }
     }
 }

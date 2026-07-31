@@ -1,20 +1,15 @@
 using System.Threading;
-using Cysharp.Threading.Tasks;
-using Duels.Audio;
-using Duels.Presentation;
 using Duels.Units;
 
 namespace Duels.Core
 {
     public class VictoryHandler
     {
-        private readonly BattlePresenter _battlePresenter;
-        private readonly AudioManager _audio;
+        private readonly BattleEvents _battleEvents;
 
-        public VictoryHandler(BattlePresenter battlePresenter, AudioManager audio)
+        public VictoryHandler(BattleEvents battleEvents)
         {
-            _battlePresenter = battlePresenter;
-            _audio = audio;
+            _battleEvents = battleEvents;
         }
 
         public bool IsDead(Unit unit)
@@ -22,16 +17,13 @@ namespace Duels.Core
             return unit.CurrentHealthPoints == 0;
         }
 
-        public async UniTask HandleVictory(Unit winner, Unit loser, CancellationToken cancellationToken)
+        public void HandleVictory(Unit winner, Unit loser)
         {
             winner.PlayVictoryAnimation();
             loser.PlayDeathAnimation();
 
-            _battlePresenter.AnnounceTheWinner(winner, loser);
-            _battlePresenter.PraiseTheWinner();
-
-            await _audio.PlayEndBattleMusic(cancellationToken);
-            _battlePresenter.ShowRestartCanvas();
+            _battleEvents.RaiseWinnerDelcared(winner, loser);
+            _battleEvents.RaiseBattleEnded();
         }
     }
 }
