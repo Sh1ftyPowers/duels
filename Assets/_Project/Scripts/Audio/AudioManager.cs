@@ -1,9 +1,8 @@
-using Cysharp.Threading.Tasks;
-using Duels.Core;
 using System;
 using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using Duels.Core;
 
 namespace Duels.Audio
 {
@@ -24,7 +23,6 @@ namespace Duels.Audio
 
         public AudioManager(AudioSource musicSource, AudioConfig audioConfig, BattleEvents battleEvents, CancellationToken token)
         {
-            Debug.Log("AudioManager created");
 
             _musicSource = musicSource;
 
@@ -39,6 +37,7 @@ namespace Duels.Audio
             _battleEvents.BattleStarted += OnBattleStarted;
             _battleEvents.BattleEnded += OnBattleEnded;
         }
+
 
         public void PlayBattleMusic()
         {
