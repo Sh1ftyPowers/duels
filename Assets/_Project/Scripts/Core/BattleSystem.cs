@@ -1,5 +1,5 @@
-using System;
 using System.Threading;
+using Zenject;
 using Cysharp.Threading.Tasks;
 using Duels.Units;
 
@@ -10,7 +10,7 @@ namespace Duels.Core
         private UnitFactory _unitFactory;
         private TurnHandler _turnHandler;
 
-        private readonly BattleEvents _battleEvents;
+        private BattleEvents _battleEvents;
 
         private BattleState _state;
 
@@ -22,7 +22,8 @@ namespace Duels.Core
 
         private const int StartDelay = 500;
 
-        public BattleSystem(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents)
+        [Inject]
+        public void Construct(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents)
         {
             _unitFactory = unitFactory;
             _turnHandler = turnHandler;

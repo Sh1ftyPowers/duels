@@ -23,11 +23,11 @@ namespace Duels.Core
 
         public async UniTask<bool> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            ShowTurnText(attacker);
+            StartTurn(attacker);
 
             ProcessTurnStart(attacker, defender);
 
-            if (TryHandleVictory(attacker, defender))
+            if (HandleVictoryIfNeeded(attacker, defender))
                 return true;
 
             if (!attacker.CanAct())
@@ -35,10 +35,10 @@ namespace Duels.Core
 
             await AttackTheEnemy(attacker, defender, cancellationToken);
 
-            return TryHandleVictory(attacker, defender);
+            return HandleVictoryIfNeeded(attacker, defender);
         }
 
-        private void ShowTurnText(Unit attacker)
+        private void StartTurn(Unit attacker)
         {
             TurnStarted?.Invoke(attacker);
         }
@@ -59,7 +59,7 @@ namespace Duels.Core
                 _effects.ApplyEffect(defender, result.Effect);
         }
 
-        private bool TryHandleVictory(Unit attacker, Unit defender)
+        private bool HandleVictoryIfNeeded(Unit attacker, Unit defender)
         {
             if (_victoryHandler.IsDead(attacker))
             {

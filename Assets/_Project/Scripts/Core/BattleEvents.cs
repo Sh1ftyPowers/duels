@@ -14,7 +14,7 @@ namespace Duels.Core
             BattleStarted?.Invoke();
         }
 
-        public void RaiseWinnerDelcared(Unit winner, Unit loser)
+        public void RaiseWinnerDeclared(Unit winner, Unit loser)
         {
             WinnerDelcared?.Invoke(winner, loser);
         }

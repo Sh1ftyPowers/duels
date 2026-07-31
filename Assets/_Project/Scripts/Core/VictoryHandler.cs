@@ -1,4 +1,3 @@
-using System.Threading;
 using Duels.Units;
 
 namespace Duels.Core
@@ -22,7 +21,7 @@ namespace Duels.Core
             winner.PlayVictoryAnimation();
             loser.PlayDeathAnimation();
 
-            _battleEvents.RaiseWinnerDelcared(winner, loser);
+            _battleEvents.RaiseWinnerDeclared(winner, loser);
             _battleEvents.RaiseBattleEnded();
         }
     }

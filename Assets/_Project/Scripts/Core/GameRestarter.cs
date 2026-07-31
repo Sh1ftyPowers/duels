@@ -1,9 +1,10 @@
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Duels.Core
 {
-    public class GameRestarter
+    public class GameRestarter : IDisposable
     {
         private readonly Button _restartButton;
 

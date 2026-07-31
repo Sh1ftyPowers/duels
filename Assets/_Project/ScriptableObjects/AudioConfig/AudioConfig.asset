@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a1abd0dd5531b4c8d659559963fd1f, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Duels.Audio.AudioConfig
+  BattleTheme: {fileID: 8300000, guid: 0dd1f91011b945748ac111d63f961016, type: 3}
+  VictorySound: {fileID: 8300000, guid: c8c4c8fe1f978b04ab4b36b288c68269, type: 3}
+  RestartTheme: {fileID: 8300000, guid: 5ab60fa9d5aa1bd478a3bfb1c96a2784, type: 3}

@@ -1,3 +1,4 @@
+using System;
 using Duels.Core;
 using Duels.Effects;
 using Duels.UI;
@@ -5,7 +6,7 @@ using Duels.Units;
 
 namespace Duels.Presentation
 {
-    public class BattlePresenter
+    public class BattlePresenter : IDisposable
     {
         private readonly BattleView _battleView;
 

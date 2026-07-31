@@ -14,29 +14,25 @@ namespace Duels.Units
             _healthbarPresenter = healthbarPresenter;
         }
 
-        private void CreateHero(Unit hero)
-        {
-            hero.Initialize();
-
-            _healthbarPresenter.RegisterUnit(hero, hero.GetComponentInChildren<Healthbar>());
-        }
-
         public Unit CreateTeamOneHero()
         {
-            Unit teamOneHero = _unitSpawner.SpawnTeamOne();
-
-            CreateHero(teamOneHero);
-
-            return teamOneHero;
+            return CreateHero(_unitSpawner.SpawnTeamOne());
         }
 
         public Unit CreateTeamTwoHero()
         {
-            Unit teamTwoHero = _unitSpawner.SpawnTeamTwo();
+            return CreateHero(_unitSpawner.SpawnTeamTwo());
+        }
 
-            CreateHero(teamTwoHero);
+        private Unit CreateHero(Unit hero)
+        {
+            hero.Initialize();
 
-            return teamTwoHero;
+            Healthbar healthbar = hero.GetComponentInChildren<Healthbar>();
+
+            _healthbarPresenter.RegisterUnit(hero, healthbar);
+
+            return hero;
         }
     }
 }

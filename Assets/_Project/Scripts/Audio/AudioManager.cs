@@ -1,35 +1,40 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using Duels.Core;
-using Duels.Units;
+using System;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine;
 
 namespace Duels.Audio
 {
-    public class AudioManager
+    public class AudioManager : IDisposable
     {
         private readonly BattleEvents _battleEvents;
 
         private readonly AudioSource _musicSource;
-        private readonly AudioClip _battleTheme;
-        private readonly AudioClip _victorySound;
-        private readonly AudioClip _restartMenuTheme;
+
+        private AudioClip _battleTheme;
+        private AudioClip _victorySound;
+        private AudioClip _restartTheme;
 
         private readonly CancellationToken _token;
 
         private const int MillisecondsPerSecond = 1000;
         private const int DelayBetweenVictorySoundAndRestartTheme = 500;
 
-        public AudioManager(AudioSource musicSource, AudioClip battleTheme, AudioClip victorySound, AudioClip restartMenuTheme, BattleEvents battleEvents, CancellationToken token)
+        public AudioManager(AudioSource musicSource, AudioConfig audioConfig, BattleEvents battleEvents, CancellationToken token)
         {
-            _musicSource = musicSource;
-            _battleTheme = battleTheme;
-            _victorySound = victorySound;
-            _restartMenuTheme = restartMenuTheme;
+            Debug.Log("AudioManager created");
 
-            _token = token;
+            _musicSource = musicSource;
+
+            _battleTheme = audioConfig.BattleTheme;
+            _victorySound = audioConfig.VictorySound;
+            _restartTheme = audioConfig.RestartTheme;
 
             _battleEvents = battleEvents;
+
+            _token = token;
 
             _battleEvents.BattleStarted += OnBattleStarted;
             _battleEvents.BattleEnded += OnBattleEnded;
@@ -52,7 +57,7 @@ namespace Duels.Audio
 
             await UniTask.Delay(delay, cancellationToken: token);
 
-            _musicSource.clip = _restartMenuTheme;
+            _musicSource.clip = _restartTheme;
             _musicSource.loop = true;
             _musicSource.Play();
         }

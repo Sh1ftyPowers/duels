@@ -4,20 +4,15 @@ namespace Duels.Units
 {
     public class UnitSpawner
     {
-        private readonly GameObject[] _teamOnePrefabs;
-        private readonly GameObject[] _teamTwoPrefabs;
+        private readonly UnitSpawnConfig _spawnConfig;
+        private readonly SpawnPoints _spawnPoints;
 
-        private readonly Transform _teamOneSpawnPoint;
-        private readonly Transform _teamTwoSpawnPoint;
-
-        public UnitSpawner(GameObject[] teamOnePrefabs, GameObject[] teamTwoPrefabs, Transform teamOneSpawnPoint, Transform teamTwoSpawnPoint)
+        public UnitSpawner(UnitSpawnConfig spawnConfig, SpawnPoints spawnPoints)
         {
-            _teamOnePrefabs = teamOnePrefabs;
-            _teamTwoPrefabs = teamTwoPrefabs;
-            _teamOneSpawnPoint = teamOneSpawnPoint;
-            _teamTwoSpawnPoint = teamTwoSpawnPoint;
+            _spawnConfig = spawnConfig;
+            _spawnPoints = spawnPoints;
         }
-
+        
         private Unit Spawn(GameObject prefab, Transform point)
         {
             GameObject obj = Object.Instantiate(prefab, point);
@@ -32,14 +27,18 @@ namespace Duels.Units
 
         public Unit SpawnTeamOne()
         {
-            GameObject prefab = _teamOnePrefabs[UnityEngine.Random.Range(0, _teamOnePrefabs.Length)];
-            return Spawn(prefab, _teamOneSpawnPoint);
+            int teamOneLenght = _spawnConfig.CountTeamOnePrefabs();
+
+            GameObject prefab = _spawnConfig.TeamOnePrefabs[UnityEngine.Random.Range(0, teamOneLenght)];
+            return Spawn(prefab, _spawnPoints.TeamOne);
         }
 
         public Unit SpawnTeamTwo()
         {
-            GameObject prefab = _teamTwoPrefabs[UnityEngine.Random.Range(0, _teamTwoPrefabs.Length)];
-            return Spawn(prefab, _teamTwoSpawnPoint);
+            int teamTwoLength = _spawnConfig.CountTeamTwoPrefabs();
+
+            GameObject prefab = _spawnConfig.TeamTwoPrefabs[UnityEngine.Random.Range(0, teamTwoLength)];
+            return Spawn(prefab, _spawnPoints.TeamTwo);
         }
     }
 }
