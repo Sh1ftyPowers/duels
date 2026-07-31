@@ -56,11 +56,7 @@ namespace Duels.Units
 
         public void TakePoisonDamage(int poisonDamage)
         {
-            poisonDamage = Mathf.Max(0, poisonDamage);
-
-            CurrentHealthPoints = Mathf.Max(0, CurrentHealthPoints - poisonDamage);
-
-            HealthChanged?.Invoke(this);
+            TakeDamage(poisonDamage);
         }
 
         public bool CanAct()
