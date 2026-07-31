@@ -35,6 +35,7 @@ namespace Duels.Core
         private HealthbarPresenter _healthbarPresenter;
         private MessageSystem _messageSystem;
         private TurnHandler _turnHandler;
+        private UnitFactory _unitFactory;
         private UnitSpawner _unitSpawner;
         private VictoryHandler _victoryHandler;
 
@@ -65,11 +66,13 @@ namespace Duels.Core
 
             _unitSpawner = new UnitSpawner(_teamOnePrefabs, _teamTwoPrefabs, _teamOneSpawnPoint, _teamTwoSpawnPoint);
 
+            _unitFactory = new UnitFactory(_unitSpawner, _healthbarPresenter);
+
             _victoryHandler = new VictoryHandler(_battlePresenter, _audioManager);
 
             _turnHandler = new TurnHandler(_effectsManager, _victoryHandler, _battlePresenter);
 
-            _battleSystem = new BattleSystem(_battlePresenter, _healthbarPresenter, _audioManager, _unitSpawner, _turnHandler);
+            _battleSystem = new BattleSystem(_battlePresenter, _unitFactory, _audioManager, _turnHandler);
         }
 
         private void OnDestroy()

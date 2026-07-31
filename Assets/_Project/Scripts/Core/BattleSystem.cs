@@ -12,9 +12,9 @@ namespace Duels.Core
     {
         private AudioManager _audioManager;
         private BattlePresenter _battlePresenter;
-        private HealthbarPresenter _healthbarPresenter;
+        private UnitFactory _unitFactory;
         private TurnHandler _turnHandler;
-        private UnitSpawner _spawner;
+
 
         private BattleState _state;
 
@@ -26,12 +26,11 @@ namespace Duels.Core
 
         private const int StartDelay = 500;
 
-        public BattleSystem(BattlePresenter battlePresenter, HealthbarPresenter healthbarPresenter, AudioManager audioManager, UnitSpawner spawner, TurnHandler turnHandler)
+        public BattleSystem(BattlePresenter battlePresenter, UnitFactory unitFactory, AudioManager audioManager, TurnHandler turnHandler)
         {
             _audioManager = audioManager;
+            _unitFactory = unitFactory;
             _battlePresenter = battlePresenter;
-            _healthbarPresenter = healthbarPresenter;
-            _spawner = spawner;
             _turnHandler = turnHandler;
         }
 
@@ -58,16 +57,10 @@ namespace Duels.Core
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
         {
+            _teamOneHero = _unitFactory.CreateTeamOneHero();
+            _teamTwoHero = _unitFactory.CreateTeamTwoHero();
+            
             int turnDecider = Random.Range(0, 2);
-
-            _teamOneHero = _spawner.SpawnTeamOne();
-            _teamOneHero.Initialize();
-
-            _teamTwoHero = _spawner.SpawnTeamTwo();
-            _teamTwoHero.Initialize();
-
-            _healthbarPresenter.RegisterUnit(_teamOneHero, _teamOneHero.GetComponentInChildren<Healthbar>());
-            _healthbarPresenter.RegisterUnit(_teamTwoHero, _teamTwoHero.GetComponentInChildren<Healthbar>());
 
             if (turnDecider == 0)
             {
