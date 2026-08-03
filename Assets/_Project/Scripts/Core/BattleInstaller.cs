@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -23,13 +22,6 @@ namespace Duels.Core
         [SerializeField] private UnitSpawnConfig _spawnConfig;
         [SerializeField] private SpawnPoints _spawnPoints;
 
-        private CancellationToken _token;
-
-        private void Awake()
-        {
-            _token = this.GetCancellationTokenOnDestroy();
-        }
-
         public override void InstallBindings()
         {
             Container.BindInstance(this.GetCancellationTokenOnDestroy());
@@ -51,7 +43,7 @@ namespace Duels.Core
             Container.BindInstance(_audioConfig);
             Container.BindInstance(_musicSource);
 
-            Container.Bind<AudioManager>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AudioManager>().AsSingle();
         }
 
         private void BindCore()
@@ -76,7 +68,7 @@ namespace Duels.Core
             Container.BindInterfacesAndSelfTo<BattlePresenter>().AsSingle();
 
             Container.BindInstance(_restartButton);
-            Container.Bind<GameRestarter>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
         }
 
         private void BindUnits()
