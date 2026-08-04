@@ -10,7 +10,7 @@ namespace Duels.Units
     {
         [field: SerializeField] public BaseAttack BaseAttack { get; private set; }
 
-        [field: SerializeField] private UnitAnimationManager _unitAnimationManager;
+        [SerializeField] private UnitAnimationManager _unitAnimationManager;
 
         [SerializeField] private UnitConfig _config;
 
