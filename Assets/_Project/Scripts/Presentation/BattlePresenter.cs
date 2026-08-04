@@ -34,7 +34,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted += OnTurnStarted;
 
             _battleEvents.BattleStarted += OnBattleStarted;
-            _battleEvents.WinnerDelcared += OnWinnerDelcared;
+            _battleEvents.WinnerDelcared += OnWinnerDeclared;
         }
 
         private void SetTurnText(string text)
@@ -86,7 +86,7 @@ namespace Duels.Presentation
             ShowTurn(attacker);
         }
 
-        private void OnWinnerDelcared(Unit winner, Unit loser)
+        private void OnWinnerDeclared(Unit winner, Unit loser)
         {
             AnnounceTheWinner(winner, loser);
             PraiseTheWinner();
@@ -108,7 +108,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted -= OnTurnStarted;
 
             _battleEvents.BattleStarted -= OnBattleStarted;
-            _battleEvents.WinnerDelcared -= OnWinnerDelcared;
+            _battleEvents.WinnerDelcared -= OnWinnerDeclared;
         }
     }
 }

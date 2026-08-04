@@ -27,9 +27,9 @@ namespace Duels.Units
 
         public Unit SpawnTeamOne()
         {
-            int teamOneLenght = _spawnConfig.CountTeamOnePrefabs();
+            int teamOneLength = _spawnConfig.CountTeamOnePrefabs();
 
-            GameObject prefab = _spawnConfig.TeamOnePrefabs[UnityEngine.Random.Range(0, teamOneLenght)];
+            GameObject prefab = _spawnConfig.TeamOnePrefabs[UnityEngine.Random.Range(0, teamOneLength)];
             return Spawn(prefab, _spawnPoints.TeamOne);
         }
 
