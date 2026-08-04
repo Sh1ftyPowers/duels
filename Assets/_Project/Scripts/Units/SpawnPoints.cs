@@ -4,7 +4,7 @@ namespace Duels.Units
 {
     public class SpawnPoints : MonoBehaviour
     {
-        public Transform TeamOne;
-        public Transform TeamTwo;
+        [field: SerializeField] public Transform TeamOne { get; private set; }
+        [field: SerializeField] public Transform TeamTwo { get; private set; }
     }
 }
