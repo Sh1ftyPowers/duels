@@ -1,16 +1,18 @@
 using UnityEngine;
 using Zenject;
 using Cysharp.Threading.Tasks;
-using Duels.Core;
 
-public class BattleStarter : MonoBehaviour
+namespace Duels.Core
 {
-    [Inject] private BattleSystem _battleSystem;
-
-    private void Start()
+    public class BattleStarter : MonoBehaviour
     {
-        Debug.Log("BattleStarter Start");
+        [Inject] private BattleSystem _battleSystem;
 
-        _battleSystem.Run(this.GetCancellationTokenOnDestroy()).Forget();
+        private void Start()
+        {
+            Debug.Log("BattleStarter Start");
+
+            _battleSystem.Run(this.GetCancellationTokenOnDestroy()).Forget();
+        }
     }
 }
