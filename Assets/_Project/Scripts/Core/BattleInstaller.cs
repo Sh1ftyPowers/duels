@@ -20,7 +20,6 @@ namespace Duels.Core
         [SerializeField] private Button _restartButton;
 
         [SerializeField] private UnitSpawnConfig _spawnConfig;
-        [SerializeField] private SpawnPoints _spawnPoints;
 
         public override void InstallBindings()
         {
