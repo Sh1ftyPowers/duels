@@ -1,18 +1,22 @@
 using System;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using Zenject;
+using Duels.UI;
 
 namespace Duels.Core
 {
-    public class GameRestarter : IDisposable
+    public class GameRestarter : IInitializable, IDisposable
     {
-        private readonly Button _restartButton;
+        private readonly RestartView _restartView;
 
-        public GameRestarter(Button restartButton)
+        public GameRestarter(RestartView restartView)
         {
-            _restartButton = restartButton;
+            _restartView = restartView;
+        }
 
-            _restartButton.onClick.AddListener(RestartGame);
+        public void Initialize()
+        {
+            _restartView.RestartButton.onClick.AddListener(RestartGame);
         }
 
         private void RestartGame()
@@ -22,7 +26,7 @@ namespace Duels.Core
 
         public void Dispose()
         {
-            _restartButton.onClick.RemoveListener(RestartGame);
+            _restartView.RestartButton.onClick.RemoveListener(RestartGame);
         }
     }
 }

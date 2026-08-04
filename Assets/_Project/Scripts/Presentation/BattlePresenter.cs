@@ -1,4 +1,5 @@
 using System;
+using Zenject;
 using Duels.Core;
 using Duels.Effects;
 using Duels.UI;
@@ -6,9 +7,11 @@ using Duels.Units;
 
 namespace Duels.Presentation
 {
-    public class BattlePresenter : IDisposable
+    public class BattlePresenter : IInitializable, IDisposable
     {
         private readonly BattleView _battleView;
+
+        private readonly RestartView _restartView;
 
         private readonly MessageSystem _messageSystem;
 
@@ -18,14 +21,18 @@ namespace Duels.Presentation
 
         private readonly BattleEvents _battleEvents;
 
-        public BattlePresenter(BattleView battleView, MessageSystem messageSystem, EffectsManager effects, TurnHandler turnHandler, BattleEvents battleEvents)
+        public BattlePresenter(BattleView battleView, RestartView restartView, MessageSystem messageSystem, EffectsManager effects, TurnHandler turnHandler, BattleEvents battleEvents)
         {
             _battleView = battleView;
+            _restartView = restartView;
             _effects = effects;
             _messageSystem = messageSystem;
             _turnHandler = turnHandler;
             _battleEvents = battleEvents;
+        }
 
+        public void Initialize()
+        {
             _messageSystem.MessageAvailable += OnMessageAvailable;
 
             _effects.EffectApplied += OnEffectApplied;
@@ -34,7 +41,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted += OnTurnStarted;
 
             _battleEvents.BattleStarted += OnBattleStarted;
-            _battleEvents.WinnerDelcared += OnWinnerDeclared;
+            _battleEvents.WinnerDeclared += OnWinnerDeclared;
         }
 
         private void SetTurnText(string text)
@@ -52,6 +59,11 @@ namespace Duels.Presentation
             SetTurnText("The Battle Begins!");
         }
 
+        public void ShowStatusAtBattleStart()
+        {
+            _battleView.SetStatusText("No active status effects");
+        }
+
         private void AnnounceTheWinner(Unit winner, Unit loser)
         {
             SetTurnText($"{winner.UnitName} defeated {loser.UnitName}");
@@ -63,7 +75,7 @@ namespace Duels.Presentation
 
         private void ShowRestartCanvas()
         {
-            _battleView.ShowRestart();
+            _restartView.ShowRestart();
         }
 
         private void OnMessageAvailable(string message)
@@ -96,6 +108,7 @@ namespace Duels.Presentation
         private void OnBattleStarted()
         {
             ShowBattleStart();
+            ShowStatusAtBattleStart();
         }
 
         public void Dispose()
@@ -108,7 +121,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted -= OnTurnStarted;
 
             _battleEvents.BattleStarted -= OnBattleStarted;
-            _battleEvents.WinnerDelcared -= OnWinnerDeclared;
+            _battleEvents.WinnerDeclared -= OnWinnerDeclared;
         }
     }
 }

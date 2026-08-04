@@ -16,8 +16,6 @@ namespace Duels.Core
 
         private void Start()
         {
-            Debug.Log("BattleStarter Start");
-
             _battleSystem.Run(this.GetCancellationTokenOnDestroy()).Forget();
         }
     }

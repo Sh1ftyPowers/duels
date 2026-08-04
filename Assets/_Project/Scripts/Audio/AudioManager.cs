@@ -1,12 +1,13 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using Zenject;
 using Cysharp.Threading.Tasks;
 using Duels.Core;
 
 namespace Duels.Audio
 {
-    public class AudioManager : IDisposable
+    public class AudioManager : IInitializable, IDisposable
     {
         private readonly BattleEvents _battleEvents;
 
@@ -33,11 +34,13 @@ namespace Duels.Audio
             _battleEvents = battleEvents;
 
             _token = token;
+        }
 
+        public void Initialize()
+        {
             _battleEvents.BattleStarted += OnBattleStarted;
             _battleEvents.BattleEnded += OnBattleEnded;
         }
-
 
         public void PlayBattleMusic()
         {

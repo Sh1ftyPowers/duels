@@ -6,7 +6,7 @@ namespace Duels.Core
     public class BattleEvents
     {
         public event Action BattleStarted;
-        public event Action<Unit, Unit> WinnerDelcared;
+        public event Action<Unit, Unit> WinnerDeclared;
         public event Action BattleEnded;
 
         public void RaiseBattleStarted()
@@ -16,7 +16,7 @@ namespace Duels.Core
 
         public void RaiseWinnerDeclared(Unit winner, Unit loser)
         {
-            WinnerDelcared?.Invoke(winner, loser);
+            WinnerDeclared?.Invoke(winner, loser);
         }
 
         public void RaiseBattleEnded()

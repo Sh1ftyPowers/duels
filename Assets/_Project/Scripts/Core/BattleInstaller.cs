@@ -1,23 +1,21 @@
-using UnityEngine;
-using UnityEngine.UI;
-using Zenject;
 using Cysharp.Threading.Tasks;
 using Duels.Audio;
 using Duels.Effects;
 using Duels.Presentation;
 using Duels.UI;
 using Duels.Units;
+using UnityEngine;
+using Zenject;
 
 namespace Duels.Core
 {
     public class BattleInstaller : MonoInstaller
     {
-        [SerializeField] private BattleView _battleView;
+        [SerializeField] private BattleView _battleViewPrefab;
+        [SerializeField] private RestartView _restartViewPrefab;
 
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioConfig _audioConfig;
-
-        [SerializeField] private Button _restartButton;
 
         [SerializeField] private UnitSpawnConfig _spawnConfig;
 
@@ -25,16 +23,10 @@ namespace Duels.Core
         {
             Container.BindInstance(this.GetCancellationTokenOnDestroy());
 
-            BindBattleView();
             BindAudio();
             BindCore();
             BindUI();
             BindUnits();
-        }
-
-        private void BindBattleView()
-        {
-            Container.BindInstance(_battleView);
         }
 
         private void BindAudio()
@@ -60,14 +52,17 @@ namespace Duels.Core
 
         private void BindUI()
         {
+            Container.BindInstance(_battleViewPrefab).WhenInjectedInto<UIFactory>();
+
+            Container.BindInstance(_restartViewPrefab).WhenInjectedInto<UIFactory>();
+
+            Container.Bind<UIFactory>().AsSingle();
+
+            Container.BindInterfacesTo<UIInitializer>().AsSingle().NonLazy();
+
+            Container.Bind<HealthbarPresenter>().AsSingle();
+
             Container.Bind<MessageSystem>().AsSingle();
-
-            Container.BindInterfacesAndSelfTo<HealthbarPresenter>().AsSingle();
-
-            Container.BindInterfacesAndSelfTo<BattlePresenter>().AsSingle();
-
-            Container.BindInstance(_restartButton);
-            Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
         }
 
         private void BindUnits()
