@@ -6,7 +6,13 @@ namespace Duels.Core
 {
     public class BattleStarter : MonoBehaviour
     {
-        [Inject] private BattleSystem _battleSystem;
+        private BattleSystem _battleSystem;
+
+        [Inject]
+        public void Construct(BattleSystem battleSystem)
+        {
+            _battleSystem = battleSystem;
+        }
 
         private void Start()
         {
