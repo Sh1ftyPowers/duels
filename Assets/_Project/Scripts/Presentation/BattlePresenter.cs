@@ -59,11 +59,6 @@ namespace Duels.Presentation
             SetTurnText("The Battle Begins!");
         }
 
-        public void ShowStatusAtBattleStart()
-        {
-            _battleView.SetStatusText("No active status effects");
-        }
-
         private void AnnounceTheWinner(Unit winner, Unit loser)
         {
             SetTurnText($"{winner.UnitName} defeated {loser.UnitName}");
@@ -108,7 +103,6 @@ namespace Duels.Presentation
         private void OnBattleStarted()
         {
             ShowBattleStart();
-            ShowStatusAtBattleStart();
         }
 
         public void Dispose()
