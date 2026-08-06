@@ -6,26 +6,26 @@ namespace Duels.UI
     {
         private readonly DiContainer _container;
 
-        private readonly BattleView _battlePrefab;
-        private readonly RestartView _restartPrefab;
+        private readonly BattleView _battleViewPrefab;
+        private readonly RestartView _restartViewPrefab;
 
 
-        public UIFactory(DiContainer container, BattleView battlePrefab, RestartView restartPrefab)
+        public UIFactory(DiContainer container, BattleView battleViewPrefab, RestartView restartViewPrefab)
         {
             _container = container;
 
-            _battlePrefab = battlePrefab;
-            _restartPrefab = restartPrefab;
+            _battleViewPrefab = battleViewPrefab;
+            _restartViewPrefab = restartViewPrefab;
         }
 
         public BattleView CreateBattleCanvas()
         {
-            return _container.InstantiatePrefabForComponent<BattleView>(_battlePrefab);
+            return _container.InstantiatePrefabForComponent<BattleView>(_battleViewPrefab);
         }
 
         public RestartView CreateRestartCanvas()
         {
-            return _container.InstantiatePrefabForComponent<RestartView>(_restartPrefab);
+            return _container.InstantiatePrefabForComponent<RestartView>(_restartViewPrefab);
         }
     }
 }

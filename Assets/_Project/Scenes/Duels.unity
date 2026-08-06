@@ -1143,50 +1143,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a34b8623fe7e914c806ae497124e232, type: 3}
---- !u!1 &303549793
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 303549795}
-  - component: {fileID: 303549794}
-  m_Layer: 0
-  m_Name: BattleStarter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &303549794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303549793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec451d1cfa6c65408c668dda9f1e0a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleStarter
---- !u!4 &303549795
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303549793}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0988798, y: 0, z: -0.6833191}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1596698101}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &317873081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5950,38 +5906,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb736a11e2ad7564eb316234731e2539, type: 3}
---- !u!1 &1596698100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1596698101}
-  m_Layer: 0
-  m_Name: Systems
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1596698101
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596698100}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.15055, y: -0, z: 56.50764}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 303549795}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1613809397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6882,7 +6806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.BattleInstaller
   _battleViewPrefab: {fileID: 2449095896588913471, guid: e95d2d8cfc1ea314f9dab66dd6cfe6a8, type: 3}
-  _restartViewPrefab: {fileID: 2919505412558028240, guid: ac2bc8cf81c81f8469f30bdefb2a582b, type: 3}
+  _restartViewPrefab: {fileID: 7839237003545387583, guid: ac2bc8cf81c81f8469f30bdefb2a582b, type: 3}
   _musicSource: {fileID: 1943346877}
   _audioConfig: {fileID: 11400000, guid: ad89a5cc8a827474d99967a81ec65202, type: 2}
   _spawnConfig: {fileID: 11400000, guid: cd4a816fddb50744997de8cf280fe18a, type: 2}
@@ -12259,7 +12183,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 361800547}
   - {fileID: 1388801619}
-  - {fileID: 1596698101}
   - {fileID: 1934217663}
   - {fileID: 326416276}
   - {fileID: 179792570}

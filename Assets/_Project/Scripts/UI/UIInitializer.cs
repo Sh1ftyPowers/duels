@@ -17,17 +17,23 @@ namespace Duels.UI
 
         public void Initialize()
         {
+            RegisterViews();
+            CreatePresenters();
+        }
+
+        private void RegisterViews()
+        {
             var battleView = _factory.CreateBattleCanvas();
             var restartView = _factory.CreateRestartCanvas();
 
             _container.BindInstance(battleView);
             _container.BindInstance(restartView);
+        }
 
-            var presenter = _container.Instantiate<BattlePresenter>();
-            var restarter = _container.Instantiate<GameRestarter>();
-
-            presenter.Initialize();
-            restarter.Initialize();
+        private void CreatePresenters()
+        {
+            _container.Instantiate<BattlePresenter>().Initialize();
+            _container.Instantiate<GameRestarter>().Initialize();
         }
     }
 }

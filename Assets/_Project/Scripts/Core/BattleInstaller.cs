@@ -1,11 +1,11 @@
-using Cysharp.Threading.Tasks;
+using System.Threading;
+using UnityEngine;
+using Zenject;
 using Duels.Audio;
 using Duels.Effects;
 using Duels.Presentation;
 using Duels.UI;
 using Duels.Units;
-using UnityEngine;
-using Zenject;
 
 namespace Duels.Core
 {
@@ -21,8 +21,6 @@ namespace Duels.Core
 
         public override void InstallBindings()
         {
-            Container.BindInstance(this.GetCancellationTokenOnDestroy());
-
             BindAudio();
             BindCore();
             BindUI();
@@ -39,6 +37,12 @@ namespace Duels.Core
 
         private void BindCore()
         {
+            Container.Bind<GameLifetime>().AsSingle();
+
+            Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.Token).AsSingle();
+
+            Container.BindInterfacesAndSelfTo<BattleStarter>().AsSingle();
+
             Container.Bind<BattleEvents>().AsSingle();
 
             Container.Bind<EffectsManager>().AsSingle();

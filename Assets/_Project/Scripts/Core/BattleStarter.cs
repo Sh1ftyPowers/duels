@@ -1,22 +1,23 @@
-using UnityEngine;
+using System.Threading;
 using Zenject;
 using Cysharp.Threading.Tasks;
 
 namespace Duels.Core
 {
-    public class BattleStarter : MonoBehaviour
+    public class BattleStarter : IInitializable
     {
-        private BattleSystem _battleSystem;
+        private readonly BattleSystem _battleSystem;
+        private readonly CancellationToken _token;
 
-        [Inject]
-        public void Construct(BattleSystem battleSystem)
+        public BattleStarter(BattleSystem battleSystem, CancellationToken token)
         {
             _battleSystem = battleSystem;
+            _token = token;
         }
 
-        private void Start()
+        public void Initialize()
         {
-            _battleSystem.Run(this.GetCancellationTokenOnDestroy()).Forget();
+            _battleSystem.Run(_token).Forget();
         }
     }
 }
