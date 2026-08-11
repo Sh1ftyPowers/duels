@@ -26,7 +26,7 @@ namespace Duels.Presentation
             if (!_healthbars.TryGetValue(unit, out Healthbar healthbar))
                 return;
 
-            _healthbars[unit].UpdateHealthBar(unit.CurrentHealthPoints, unit.MaxHealthPoints);
+            healthbar.UpdateHealthBar(unit.CurrentHealthPoints, unit.MaxHealthPoints);
         }
 
         public void Dispose()
