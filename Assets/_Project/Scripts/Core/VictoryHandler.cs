@@ -16,13 +16,17 @@ namespace Duels.Core
             return unit.CurrentHealthPoints == 0;
         }
 
-        public void HandleVictory(Unit winner, Unit loser)
+        public BattleResult HandleVictory(Unit winner, Unit loser)
         {
             winner.PlayVictoryAnimation();
             loser.PlayDeathAnimation();
 
+            var results = new BattleResult(winner, loser);
+
             _battleEvents.RaiseWinnerDeclared(winner, loser);
             _battleEvents.RaiseBattleEnded();
+
+            return results;
         }
     }
 }

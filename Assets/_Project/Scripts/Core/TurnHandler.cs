@@ -21,17 +21,19 @@ namespace Duels.Core
             _victoryHandler = victoryHandler;
         }
 
-        public async UniTask<bool> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
+        public async UniTask<BattleResult> HandleTurn(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
             StartTurn(attacker);
 
             ProcessTurnStart(attacker, defender);
 
-            if (HandleVictoryIfNeeded(attacker, defender))
-                return true;
+            var result = HandleVictoryIfNeeded(attacker, defender);
+
+            if (result.IsFinished)
+                return result;
 
             if (!attacker.CanAct())
-                return false;
+                return default;
 
             await AttackTheEnemy(attacker, defender, cancellationToken);
 
@@ -59,21 +61,15 @@ namespace Duels.Core
                 _effects.ApplyEffect(defender, result.Effect);
         }
 
-        private bool HandleVictoryIfNeeded(Unit attacker, Unit defender)
+        private BattleResult HandleVictoryIfNeeded(Unit attacker, Unit defender)
         {
             if (_victoryHandler.IsDead(attacker))
-            {
-                _victoryHandler.HandleVictory(defender, attacker);
-                return true;
-            }
+                return _victoryHandler.HandleVictory(defender, attacker);
 
             if (_victoryHandler.IsDead(defender))
-            {
-                _victoryHandler.HandleVictory(attacker, defender);
-                return true;
-            }
+                return _victoryHandler.HandleVictory(attacker, defender);
 
-            return false;
+            return default;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Duels.Core
         private Unit _firstTurnUnit;
         private Unit _secondTurnUnit;
 
+        private BattleResult _battleResult;
+
         private const int StartDelay = 500;
 
         [Inject]
@@ -71,7 +73,7 @@ namespace Duels.Core
 
         private async UniTask StartBattleLoop(CancellationToken cancellationToken)
         {
-            while (!IsBattleOver())
+            while (!_battleResult.IsFinished)
             {
                 if (_state == BattleState.TeamOneTurn)
                 {
@@ -86,23 +88,14 @@ namespace Duels.Core
 
         private async UniTask PerformTurn(Unit attacker, Unit defender, BattleState nextState, CancellationToken cancellationToken)
         {
-            bool battleEnded = await _turnHandler.HandleTurn(attacker, defender, cancellationToken);
+            _battleResult = await _turnHandler.HandleTurn(attacker, defender, cancellationToken);
 
-            if (battleEnded)
+            if (_battleResult.IsFinished)
             {
-                _state = attacker == _teamOneHero
-                    ? BattleState.TeamOneVictory
-                    : BattleState.TeamTwoVictory;
-
                 return;
             }
 
             _state = nextState;
-        }
-
-        private bool IsBattleOver()
-        {
-            return _state == BattleState.TeamOneVictory || _state == BattleState.TeamTwoVictory;
         }
     }
 }
