@@ -13,14 +13,9 @@ namespace Duels.Units
             _spawnPoints = spawnPoints;
         }
         
-        private Unit Spawn(GameObject prefab, Transform point)
+        private Unit Spawn(Unit prefab, Transform point)
         {
-            GameObject obj = Object.Instantiate(prefab, point);
-
-            if (!obj.TryGetComponent<Unit>(out Unit unit))
-            {
-                throw new MissingComponentException($"Prefab {prefab.name} has no Unit component");
-            }
+            Unit unit = Object.Instantiate(prefab, point);
 
             return unit;
         }
@@ -29,7 +24,7 @@ namespace Duels.Units
         {
             int teamOneLength = _spawnConfig.CountTeamOnePrefabs();
 
-            GameObject prefab = _spawnConfig.TeamOnePrefabs[UnityEngine.Random.Range(0, teamOneLength)];
+            Unit prefab = _spawnConfig.TeamOnePrefabs[Random.Range(0, teamOneLength)];
             return Spawn(prefab, _spawnPoints.TeamOne);
         }
 
@@ -37,7 +32,7 @@ namespace Duels.Units
         {
             int teamTwoLength = _spawnConfig.CountTeamTwoPrefabs();
 
-            GameObject prefab = _spawnConfig.TeamTwoPrefabs[UnityEngine.Random.Range(0, teamTwoLength)];
+            Unit prefab = _spawnConfig.TeamTwoPrefabs[Random.Range(0, teamTwoLength)];
             return Spawn(prefab, _spawnPoints.TeamTwo);
         }
     }

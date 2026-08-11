@@ -6,8 +6,8 @@ namespace Duels.Units
 
     public class UnitSpawnConfig : ScriptableObject
     {
-        public GameObject[] TeamOnePrefabs;
-        public GameObject[] TeamTwoPrefabs;
+        public Unit[] TeamOnePrefabs;
+        public Unit[] TeamTwoPrefabs;
 
         public int CountTeamOnePrefabs()
         {
