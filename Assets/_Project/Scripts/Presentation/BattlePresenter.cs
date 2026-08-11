@@ -11,8 +11,6 @@ namespace Duels.Presentation
     {
         private readonly BattleView _battleView;
 
-        private readonly RestartView _restartView;
-
         private readonly MessageSystem _messageSystem;
 
         private readonly EffectsManager _effects;
@@ -21,10 +19,9 @@ namespace Duels.Presentation
 
         private readonly BattleEvents _battleEvents;
 
-        public BattlePresenter(BattleView battleView, RestartView restartView, MessageSystem messageSystem, EffectsManager effects, TurnHandler turnHandler, BattleEvents battleEvents)
+        public BattlePresenter(BattleView battleView, MessageSystem messageSystem, EffectsManager effects, TurnHandler turnHandler, BattleEvents battleEvents)
         {
             _battleView = battleView;
-            _restartView = restartView;
             _effects = effects;
             _messageSystem = messageSystem;
             _turnHandler = turnHandler;
@@ -68,11 +65,6 @@ namespace Duels.Presentation
             _messageSystem.ShowMessageText("Glory to the Winner!");
         }
 
-        private void ShowRestartCanvas()
-        {
-            _restartView.ShowRestart();
-        }
-
         private void OnMessageAvailable(string message)
         {
             _battleView.SetStatusText(message);
@@ -97,7 +89,6 @@ namespace Duels.Presentation
         {
             AnnounceTheWinner(winner, loser);
             PraiseTheWinner();
-            ShowRestartCanvas();
         }
 
         private void OnBattleStarted()
@@ -116,8 +107,6 @@ namespace Duels.Presentation
 
             _battleEvents.BattleStarted -= OnBattleStarted;
             _battleEvents.WinnerDeclared -= OnWinnerDeclared;
-
-            UnityEngine.Debug.Log("BattlePresenter.Dispose");
         }
     }
 }

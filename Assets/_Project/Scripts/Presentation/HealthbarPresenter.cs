@@ -37,8 +37,6 @@ namespace Duels.Presentation
             }
 
             _healthbars.Clear();
-
-            UnityEngine.Debug.Log("HealthbarPresenter.Dispose");
         }
     }
 }
