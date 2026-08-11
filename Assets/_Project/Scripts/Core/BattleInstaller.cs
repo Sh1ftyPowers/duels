@@ -37,7 +37,7 @@ namespace Duels.Core
 
         private void BindCore()
         {
-            Container.Bind<GameLifetime>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameLifetime>().AsSingle();
 
             Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.Token).AsSingle();
 
@@ -62,16 +62,23 @@ namespace Duels.Core
 
             Container.Bind<UIFactory>().AsSingle();
 
-            Container.BindInterfacesTo<UIInitializer>().AsSingle().NonLazy();
+            Container.Bind<BattleView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateBattleCanvas()).AsCached();
+
+            Container.Bind<RestartView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateRestartCanvas()).AsCached();
 
             Container.Bind<HealthbarPresenter>().AsSingle();
 
             Container.Bind<MessageSystem>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<BattlePresenter>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
         }
 
         private void BindUnits()
         {
             Container.BindInstance(_spawnConfig);
+
             Container.Bind<SpawnPoints>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<UnitSpawner>().AsSingle();
