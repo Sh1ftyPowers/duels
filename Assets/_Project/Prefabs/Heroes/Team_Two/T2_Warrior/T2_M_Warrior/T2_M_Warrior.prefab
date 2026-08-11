@@ -2354,7 +2354,7 @@ GameObject:
   - component: {fileID: 465522511094851027}
   m_Layer: 0
   m_Name: T2_M_Warrior
-  m_TagString: Untagged
+  m_TagString: TeamTwo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

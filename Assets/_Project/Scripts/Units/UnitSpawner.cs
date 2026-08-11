@@ -25,6 +25,7 @@ namespace Duels.Units
             int teamOneLength = _spawnConfig.CountTeamOnePrefabs();
 
             Unit prefab = _spawnConfig.TeamOnePrefabs[Random.Range(0, teamOneLength)];
+
             return Spawn(prefab, _spawnPoints.TeamOne);
         }
 
@@ -33,6 +34,7 @@ namespace Duels.Units
             int teamTwoLength = _spawnConfig.CountTeamTwoPrefabs();
 
             Unit prefab = _spawnConfig.TeamTwoPrefabs[Random.Range(0, teamTwoLength)];
+
             return Spawn(prefab, _spawnPoints.TeamTwo);
         }
     }
