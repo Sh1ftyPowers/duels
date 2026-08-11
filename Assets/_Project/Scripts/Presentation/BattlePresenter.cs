@@ -116,6 +116,8 @@ namespace Duels.Presentation
 
             _battleEvents.BattleStarted -= OnBattleStarted;
             _battleEvents.WinnerDeclared -= OnWinnerDeclared;
+
+            UnityEngine.Debug.Log("BattlePresenter.Dispose");
         }
     }
 }

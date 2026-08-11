@@ -26,6 +26,7 @@ namespace Duels.Core
 
         public void Dispose()
         {
+            UnityEngine.Debug.Log("GameRestarter.Dispose");
             _restartView.RestartButton.onClick.RemoveListener(RestartGame);
         }
     }

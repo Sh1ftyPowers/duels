@@ -66,7 +66,7 @@ namespace Duels.Core
 
             Container.Bind<RestartView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateRestartCanvas()).AsCached();
 
-            Container.Bind<HealthbarPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<HealthbarPresenter>().AsSingle();
 
             Container.Bind<MessageSystem>().AsSingle();
 
