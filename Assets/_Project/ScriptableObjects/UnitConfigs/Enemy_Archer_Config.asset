@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: caa233cb71e5bea479916df1bd3eacf9, type: 3}
-  m_Name: T2_Archer_Config
+  m_Name: Enemy_Archer_Config
   m_EditorClassIdentifier: Assembly-CSharp::UnitConfig
-  Name: Player Archer
+  Name: Enemy Archer
   MaxHealthPoints: 100
   Damage: 20

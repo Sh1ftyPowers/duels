@@ -84,6 +84,8 @@ namespace Duels.Core
             Container.Bind<UnitSpawner>().AsSingle();
 
             Container.Bind<UnitFactory>().AsSingle();
+
+            Container.Bind<DamageCalculator>().AsSingle();
         }
     }
 }

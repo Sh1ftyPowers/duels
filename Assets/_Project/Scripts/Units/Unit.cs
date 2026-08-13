@@ -14,8 +14,11 @@ namespace Duels.Units
 
         [SerializeField] private UnitConfig _config;
 
+        private readonly DamageCalculator _damageCalculator = new();
+
         private readonly EffectsHolder _effects = new();
 
+        public UnitType UnitType => _config.UnitType;
         public string UnitName => _config.Name;
         public int Damage => _config.Damage;
         public int MaxHealthPoints => _config.MaxHealthPoints;
@@ -34,7 +37,9 @@ namespace Duels.Units
         {
             AttackResult result = BaseAttack.AttackEnemy(this, target);
 
-            int damageDealt = _effects.ModifyDamage(result.Damage);
+            int damageDealt = _damageCalculator.ApplyTypeAdvantage(this, target, result.Damage);
+                
+            damageDealt = _effects.ModifyDamage(damageDealt);
 
             result.Damage = damageDealt;
 
