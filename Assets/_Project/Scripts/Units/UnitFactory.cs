@@ -16,12 +16,12 @@ namespace Duels.Units
 
         public Unit CreateTeamOneHero()
         {
-            return CreateHero(_unitSpawner.SpawnTeamOne());
+            return CreateHero(_unitSpawner.SpawnEnemyTeamHero());
         }
 
         public Unit CreateTeamTwoHero()
         {
-            return CreateHero(_unitSpawner.SpawnTeamTwo());
+            return CreateHero(_unitSpawner.SpawnPlayerTeamHero());
         }
 
         private Unit CreateHero(Unit hero)

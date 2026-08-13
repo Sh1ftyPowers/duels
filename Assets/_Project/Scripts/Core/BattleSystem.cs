@@ -14,8 +14,8 @@ namespace Duels.Core
 
         private BattleState _state;
 
-        private Unit _teamOneHero;
-        private Unit _teamTwoHero;
+        private Unit _enemyTeamHero;
+        private Unit _playerTeamHero;
 
         private Unit _firstTurnUnit;
         private Unit _secondTurnUnit;
@@ -48,25 +48,25 @@ namespace Duels.Core
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
         {
-            _teamOneHero = _unitFactory.CreateTeamOneHero();
-            _teamTwoHero = _unitFactory.CreateTeamTwoHero();
+            _enemyTeamHero = _unitFactory.CreateTeamOneHero();
+            _playerTeamHero = _unitFactory.CreateTeamTwoHero();
             
             int turnDecider = UnityEngine.Random.Range(0, 2);
 
             if (turnDecider == 0)
             {
-                _firstTurnUnit = _teamOneHero;
-                _secondTurnUnit = _teamTwoHero;
+                _firstTurnUnit = _enemyTeamHero;
+                _secondTurnUnit = _playerTeamHero;
             }
             else
             {
-                _firstTurnUnit = _teamTwoHero;
-                _secondTurnUnit = _teamOneHero;
+                _firstTurnUnit = _playerTeamHero;
+                _secondTurnUnit = _enemyTeamHero;
             }
 
             await UniTask.Delay(StartDelay, cancellationToken: cancellationToken);
 
-            _state = BattleState.TeamOneTurn;
+            _state = BattleState.EnemyTeamTurn;
 
             await StartBattleLoop(cancellationToken);
         }
@@ -75,13 +75,13 @@ namespace Duels.Core
         {
             while (!_battleResult.IsFinished)
             {
-                if (_state == BattleState.TeamOneTurn)
+                if (_state == BattleState.EnemyTeamTurn)
                 {
-                    await PerformTurn(_firstTurnUnit, _secondTurnUnit, BattleState.TeamTwoTurn, cancellationToken);
+                    await PerformTurn(_firstTurnUnit, _secondTurnUnit, BattleState.PlayerTeamTurn, cancellationToken);
                 }
-                else if (_state == BattleState.TeamTwoTurn)
+                else if (_state == BattleState.PlayerTeamTurn)
                 {
-                    await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.TeamOneTurn, cancellationToken);
+                    await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.EnemyTeamTurn, cancellationToken);
                 }
             }
         }

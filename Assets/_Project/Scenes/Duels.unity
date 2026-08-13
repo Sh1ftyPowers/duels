@@ -479,8 +479,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db3e1415b369b2428b45c81047cf44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.SpawnPoints
-  <TeamOne>k__BackingField: {fileID: 733378370}
-  <TeamTwo>k__BackingField: {fileID: 1668640578}
+  <EnemyTeamSpawnPoint>k__BackingField: {fileID: 733378370}
+  <PlayerTeamSpawnPoint>k__BackingField: {fileID: 1668640578}
 --- !u!4 &54706577
 Transform:
   m_ObjectHideFlags: 0
@@ -2854,7 +2854,7 @@ GameObject:
   m_Component:
   - component: {fileID: 733378370}
   m_Layer: 0
-  m_Name: TeamOneSpawnPoint
+  m_Name: EnemyTeamSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6256,7 +6256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1668640578}
   m_Layer: 0
-  m_Name: TeamTwoSpawnPoint
+  m_Name: PlayerTeamSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

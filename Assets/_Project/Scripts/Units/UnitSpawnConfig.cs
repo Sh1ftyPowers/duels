@@ -6,19 +6,17 @@ namespace Duels.Units
 
     public class UnitSpawnConfig : ScriptableObject
     {
-        public Unit[] TeamOnePrefabs;
-        public Unit[] TeamTwoPrefabs;
+        public Unit[] EnemyTeamPrefabs;
+        public Unit[] PlayerTeamPrefabs;
 
-        public int CountTeamOnePrefabs()
+        public int CountEnemyTeamPrefabs()
         {
-            int teamOnePrefabNumber = TeamOnePrefabs.Length;
-            return teamOnePrefabNumber;
+            return EnemyTeamPrefabs.Length;
         }
 
-        public int CountTeamTwoPrefabs()
+        public int CountPlayerTeamPrefabs()
         {
-            int teamTwoPrefabNumber = TeamTwoPrefabs.Length;
-            return teamTwoPrefabNumber;
+            return PlayerTeamPrefabs.Length;
         }
     }
 }

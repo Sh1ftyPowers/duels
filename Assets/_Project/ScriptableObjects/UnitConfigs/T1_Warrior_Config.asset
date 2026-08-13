@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa233cb71e5bea479916df1bd3eacf9, type: 3}
   m_Name: T1_Warrior_Config
   m_EditorClassIdentifier: Assembly-CSharp::UnitConfig
-  Name: Red Team Warrior
+  Name: Enemy Warrior
   MaxHealthPoints: 100
   Damage: 20
-  UnitID: 2

@@ -20,22 +20,22 @@ namespace Duels.Units
             return unit;
         }
 
-        public Unit SpawnTeamOne()
+        public Unit SpawnEnemyTeamHero()
         {
-            int teamOneLength = _spawnConfig.CountTeamOnePrefabs();
+            int enemyTeamLength = _spawnConfig.CountEnemyTeamPrefabs();
 
-            Unit prefab = _spawnConfig.TeamOnePrefabs[Random.Range(0, teamOneLength)];
+            Unit enemyHeroPrefab = _spawnConfig.EnemyTeamPrefabs[Random.Range(0, enemyTeamLength)];
 
-            return Spawn(prefab, _spawnPoints.TeamOne);
+            return Spawn(enemyHeroPrefab, _spawnPoints.EnemyTeamSpawnPoint);
         }
 
-        public Unit SpawnTeamTwo()
+        public Unit SpawnPlayerTeamHero()
         {
-            int teamTwoLength = _spawnConfig.CountTeamTwoPrefabs();
+            int playerTeamLength = _spawnConfig.CountPlayerTeamPrefabs();
 
-            Unit prefab = _spawnConfig.TeamTwoPrefabs[Random.Range(0, teamTwoLength)];
+            Unit playerHeroPrefab = _spawnConfig.PlayerTeamPrefabs[Random.Range(0, playerTeamLength)];
 
-            return Spawn(prefab, _spawnPoints.TeamTwo);
+            return Spawn(playerHeroPrefab, _spawnPoints.PlayerTeamSpawnPoint);
         }
     }
 }

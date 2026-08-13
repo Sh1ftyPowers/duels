@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39497e0a4e35dc14d833a4c016811a54, type: 3}
   m_Name: UnitSpawnConfig
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Units.UnitSpawnConfig
-  TeamOnePrefabs:
+  EnemyTeamPrefabs:
   - {fileID: 9132036947628660889, guid: e2a09fa343cf16740ade7e84575117f7, type: 3}
   - {fileID: 3980571538064056112, guid: df355bb5680331148bfd60f3ed32efb1, type: 3}
   - {fileID: 6399913543789629066, guid: 2a03a569ead48194c9c83de6fe778827, type: 3}
-  TeamTwoPrefabs:
+  PlayerTeamPrefabs:
   - {fileID: 250907894681988020, guid: af736642d51f3674baf19e58c9ed0251, type: 3}
   - {fileID: 2418243322466398492, guid: a91a3d3e258a1fa4ba15bbadb5996806, type: 3}
   - {fileID: 465522511094851027, guid: f34f3b3cd4a6992458dae3fe41ad873c, type: 3}
