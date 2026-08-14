@@ -1,10 +1,9 @@
 using System.Threading;
-using Zenject;
 using Cysharp.Threading.Tasks;
 
 namespace Duels.Core
 {
-    public class BattleStarter : IInitializable
+    public class BattleStarter
     {
         private readonly BattleSystem _battleSystem;
         private readonly CancellationToken _token;
@@ -15,7 +14,7 @@ namespace Duels.Core
             _token = token;
         }
 
-        public void Initialize()
+        public void Start()
         {
             _battleSystem.Run(_token).Forget();
         }

@@ -17,5 +17,21 @@ namespace Duels.UI
         {
             _statusInfoText.text = statusText;
         }
+
+        public void HideBattleUI()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void ShowBattleUI()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Reset()
+        {
+            SetTurnText(string.Empty);
+            SetStatusText("No active negative effects");
+        }
     }
 }

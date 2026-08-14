@@ -56,9 +56,9 @@ namespace Duels.Presentation
             SetTurnText("The Battle Begins!");
         }
 
-        private void AnnounceTheWinner(Unit winner, Unit loser)
+        private void AnnounceTheWinner(Unit winner)
         {
-            SetTurnText($"{winner.UnitName} defeated {loser.UnitName}");
+            SetTurnText($"The winner is {winner.UnitName}");
         }
         private void PraiseTheWinner()
         {
@@ -85,9 +85,9 @@ namespace Duels.Presentation
             ShowTurn(attacker);
         }
 
-        private void OnWinnerDeclared(Unit winner, Unit loser)
+        private void OnWinnerDeclared(Unit winner)
         {
-            AnnounceTheWinner(winner, loser);
+            AnnounceTheWinner(winner);
             PraiseTheWinner();
         }
 

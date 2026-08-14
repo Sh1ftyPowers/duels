@@ -14,12 +14,12 @@ namespace Duels.Units
             _healthbarPresenter = healthbarPresenter;
         }
 
-        public Unit CreateTeamOneHero()
+        public Unit CreateEnemyTeamHero()
         {
             return CreateHero(_unitSpawner.SpawnEnemyTeamHero());
         }
 
-        public Unit CreateTeamTwoHero()
+        public Unit CreateHeroTeamHero()
         {
             return CreateHero(_unitSpawner.SpawnPlayerTeamHero());
         }
@@ -33,6 +33,11 @@ namespace Duels.Units
             _healthbarPresenter.RegisterUnit(hero, healthbar);
 
             return hero;
+        }
+
+        public void ClearUnits()
+        {
+            _unitSpawner.ClearUnits();
         }
     }
 }

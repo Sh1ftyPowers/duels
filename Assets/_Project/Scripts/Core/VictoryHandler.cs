@@ -23,7 +23,7 @@ namespace Duels.Core
 
             var results = new BattleResult(winner, loser);
 
-            _battleEvents.RaiseWinnerDeclared(winner, loser);
+            _battleEvents.RaiseWinnerDeclared(winner);
             _battleEvents.RaiseBattleEnded();
 
             return results;

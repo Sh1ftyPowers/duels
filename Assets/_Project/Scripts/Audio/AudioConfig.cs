@@ -7,6 +7,6 @@ namespace Duels.Audio
     {
         public AudioClip BattleTheme;
         public AudioClip VictorySound;
-        public AudioClip RestartTheme;
+        public AudioClip MainMenuTheme;
     }
 }

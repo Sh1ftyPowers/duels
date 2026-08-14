@@ -12,7 +12,7 @@ namespace Duels.Core
     public class BattleInstaller : MonoInstaller
     {
         [SerializeField] private BattleView _battleViewPrefab;
-        [SerializeField] private RestartView _restartViewPrefab;
+        //[SerializeField] private RestartView _restartViewPrefab;
 
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioConfig _audioConfig;
@@ -37,11 +37,15 @@ namespace Duels.Core
 
         private void BindCore()
         {
+            Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<Wallet>().AsSingle();
+
             Container.BindInterfacesAndSelfTo<GameLifetime>().AsSingle();
 
             Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.Token).AsSingle();
 
-            Container.BindInterfacesAndSelfTo<BattleStarter>().AsSingle();
+            Container.Bind<BattleStarter>().AsSingle();
 
             Container.Bind<BattleEvents>().AsSingle();
 
@@ -58,13 +62,13 @@ namespace Duels.Core
         {
             Container.BindInstance(_battleViewPrefab).WhenInjectedInto<UIFactory>();
 
-            Container.BindInstance(_restartViewPrefab).WhenInjectedInto<UIFactory>();
+            //Container.BindInstance(_restartViewPrefab).WhenInjectedInto<UIFactory>();
 
             Container.Bind<UIFactory>().AsSingle();
 
             Container.Bind<BattleView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateBattleCanvas()).AsCached();
 
-            Container.Bind<RestartView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateRestartCanvas()).AsCached();
+            //Container.Bind<RestartView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateRestartCanvas()).AsCached();
 
             Container.BindInterfacesAndSelfTo<HealthbarPresenter>().AsSingle();
 
@@ -72,7 +76,7 @@ namespace Duels.Core
 
             Container.BindInterfacesAndSelfTo<BattlePresenter>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
+            //Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
         }
 
         private void BindUnits()

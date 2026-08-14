@@ -18,6 +18,7 @@ namespace Duels.Units
 
         private readonly EffectsHolder _effects = new();
 
+        public TeamType TeamType => _config.TeamType;
         public UnitType UnitType => _config.UnitType;
         public string UnitName => _config.Name;
         public int Damage => _config.Damage;

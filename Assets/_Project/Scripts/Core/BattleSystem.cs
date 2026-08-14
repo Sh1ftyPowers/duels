@@ -34,6 +34,8 @@ namespace Duels.Core
 
         public async UniTask Run(CancellationToken cancellationToken)
         {
+            ResetBattle();
+
             StartBattle();
 
             await SetUpBattle(cancellationToken);
@@ -48,9 +50,11 @@ namespace Duels.Core
 
         private async UniTask SetUpBattle(CancellationToken cancellationToken)
         {
-            _enemyTeamHero = _unitFactory.CreateTeamOneHero();
-            _playerTeamHero = _unitFactory.CreateTeamTwoHero();
-            
+            _unitFactory.ClearUnits();
+
+            _enemyTeamHero = _unitFactory.CreateEnemyTeamHero();
+            _playerTeamHero = _unitFactory.CreateHeroTeamHero();
+
             int turnDecider = UnityEngine.Random.Range(0, 2);
 
             if (turnDecider == 0)
@@ -96,6 +100,17 @@ namespace Duels.Core
             }
 
             _state = nextState;
+        }
+
+        private void ResetBattle()
+        {
+            _battleResult = default;
+
+            _playerTeamHero = null;
+            _enemyTeamHero = null;
+
+            _firstTurnUnit = null;
+            _secondTurnUnit = null;
         }
     }
 }

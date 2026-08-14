@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Duels.Units
 {
@@ -6,6 +7,8 @@ namespace Duels.Units
     {
         private readonly UnitSpawnConfig _spawnConfig;
         private readonly SpawnPoints _spawnPoints;
+
+        private readonly List<Unit> _spawnedUnits = new();
 
         public UnitSpawner(UnitSpawnConfig spawnConfig, SpawnPoints spawnPoints)
         {
@@ -16,6 +19,8 @@ namespace Duels.Units
         private Unit Spawn(Unit prefab, Transform point)
         {
             Unit unit = Object.Instantiate(prefab, point);
+
+            _spawnedUnits.Add(unit);
 
             return unit;
         }
@@ -36,6 +41,17 @@ namespace Duels.Units
             Unit playerHeroPrefab = _spawnConfig.PlayerTeamPrefabs[Random.Range(0, playerTeamLength)];
 
             return Spawn(playerHeroPrefab, _spawnPoints.PlayerTeamSpawnPoint);
+        }
+
+        public void ClearUnits()
+        {
+            foreach (Unit unit in _spawnedUnits)
+            {
+                if (unit != null)
+                    Object.Destroy(unit.gameObject);
+            }
+
+            _spawnedUnits.Clear();
         }
     }
 }
