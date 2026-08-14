@@ -10,23 +10,33 @@ namespace Duels.Presentation
     {
         private readonly MainMenuView _mainMenuView;
         private readonly Wallet _wallet;
-        private readonly BattleView _battleView;
         private readonly BattleEvents _battleEvents;
+        private readonly BattleStarter _battleStarter;
 
-        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleView battleView, BattleEvents battleEvents)
+        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter)
         {
             _mainMenuView = mainMenuView;
             _wallet = wallet;
-            _battleView = battleView;
             _battleEvents = battleEvents;
+            _battleStarter = battleStarter;
         }
 
         public void Initialize()
         {
+            _mainMenuView.StartGameButton.onClick.AddListener(StartGame);
+
             _wallet.CoinsChanged += OnCoinsChanged;
+
             _battleEvents.BattleEnded += OnBattleEnded;
 
             OnCoinsChanged(_wallet.Coins);
+        }
+
+        private void StartGame()
+        {
+            _mainMenuView.HideMainMenuUI();
+
+            _battleStarter.Start();
         }
 
         private void OnCoinsChanged(int coins)
@@ -36,13 +46,15 @@ namespace Duels.Presentation
 
         private void OnBattleEnded()
         {
-            _battleView.HideBattleUI();
             _mainMenuView.ShowMainMenuUI();
         }
 
         public void Dispose()
         {
+            _mainMenuView.StartGameButton.onClick.RemoveListener(StartGame);
+
             _wallet.CoinsChanged -= OnCoinsChanged;
+
             _battleEvents.BattleEnded -= OnBattleEnded;
         }
     }

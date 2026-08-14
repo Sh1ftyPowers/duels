@@ -12,7 +12,6 @@ namespace Duels.Core
     public class BattleInstaller : MonoInstaller
     {
         [SerializeField] private BattleView _battleViewPrefab;
-        //[SerializeField] private RestartView _restartViewPrefab;
 
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioConfig _audioConfig;
@@ -45,8 +44,6 @@ namespace Duels.Core
 
             Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.Token).AsSingle();
 
-            Container.Bind<BattleStarter>().AsSingle();
-
             Container.Bind<BattleEvents>().AsSingle();
 
             Container.Bind<EffectsManager>().AsSingle();
@@ -62,21 +59,15 @@ namespace Duels.Core
         {
             Container.BindInstance(_battleViewPrefab).WhenInjectedInto<UIFactory>();
 
-            //Container.BindInstance(_restartViewPrefab).WhenInjectedInto<UIFactory>();
-
             Container.Bind<UIFactory>().AsSingle();
 
             Container.Bind<BattleView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateBattleCanvas()).AsCached();
-
-            //Container.Bind<RestartView>().FromMethod(ctx => ctx.Container.Resolve<UIFactory>().CreateRestartCanvas()).AsCached();
 
             Container.BindInterfacesAndSelfTo<HealthbarPresenter>().AsSingle();
 
             Container.Bind<MessageSystem>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<BattlePresenter>().AsSingle();
-
-            //Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
         }
 
         private void BindUnits()

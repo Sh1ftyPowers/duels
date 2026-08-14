@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
+using Cysharp.Threading.Tasks;
 using Duels.Core;
 
 namespace Duels.Audio
@@ -20,8 +20,7 @@ namespace Duels.Audio
         private const int MillisecondsPerSecond = 1000;
         private const int DelayBeforeMainMenuTheme = 500;
 
-        private int _musicTransitionId = 0;
-        private int _transitionId = 0;
+        private int _musicTransitionId;
 
         public AudioManager(AudioSource musicSource, AudioConfig audioConfig, BattleEvents battleEvents, CancellationToken token)
         {
@@ -45,24 +44,20 @@ namespace Duels.Audio
 
         private void OnBattleStarted()
         {
-            Debug.Log("AUDIO EVENT: BattleStarted");
-            _musicTransitionId++;
+            ++_musicTransitionId;
 
             PlayBattleMusic();
         }
 
         private void OnBattleEnded()
         {
-            Debug.Log("AUDIO EVENT: BattleEnded");
-            
-            _transitionId = ++_musicTransitionId;
+            int transitionId = ++_musicTransitionId;
 
-            PlayEndBattleMusic(_token).Forget();
+            PlayEndBattleMusic(_token, transitionId).Forget();
         }
 
         private void PlayBattleMusic()
         {
-            Debug.Log("AUDIO: BattleTheme");
             _musicSource.clip = _battleTheme;
             _musicSource.loop = true;
             _musicSource.Play();
@@ -70,13 +65,12 @@ namespace Duels.Audio
 
         private void PlayMainMenuMusic()
         {
-            Debug.Log("AUDIO: MainMenuTheme");
             _musicSource.clip = _mainMenuTheme;
             _musicSource.loop = true;
             _musicSource.Play();
         }
 
-        private async UniTask PlayEndBattleMusic(CancellationToken cancellationToken)
+        private async UniTask PlayEndBattleMusic(CancellationToken cancellationToken, int transitionId)
         {
             _musicSource.loop = false;
             _musicSource.clip = _victorySound;
@@ -86,11 +80,8 @@ namespace Duels.Audio
 
             await UniTask.Delay(delay, cancellationToken: cancellationToken);
 
-            if (_transitionId != _musicTransitionId)
-            {
-                Debug.Log("AUDIO: Old menu transition cancelled");
+            if (transitionId != _musicTransitionId)
                 return;
-            }
 
             PlayMainMenuMusic();
         }

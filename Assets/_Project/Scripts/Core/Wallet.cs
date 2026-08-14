@@ -10,7 +10,7 @@ namespace Duels.Core
 
         public void AddCoins(int amount)
         {
-            if (amount < 0)
+            if (amount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
 
             Coins += amount;
@@ -20,7 +20,7 @@ namespace Duels.Core
 
         public bool TrySpendCoins(int amount)
         {
-            if (amount < 0)
+            if (amount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
 
             if (Coins < amount)

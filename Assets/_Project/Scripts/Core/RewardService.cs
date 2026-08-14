@@ -6,7 +6,7 @@ namespace Duels.Core
 {
     public class RewardService : IInitializable, IDisposable
     {
-        private const int RewardInCoins = 100;
+        private const int RewardCoins = 100;
 
         private readonly Wallet _wallet;
         private readonly BattleEvents _battleEvents;
@@ -24,10 +24,10 @@ namespace Duels.Core
 
         private void OnWinnerDeclared(Unit winner)
         {
-            if (winner.TeamType == TeamType.Enemy)
+            if (winner.TeamType != TeamType.Player)
                 return;
 
-            _wallet.AddCoins(RewardInCoins);
+            _wallet.AddCoins(RewardCoins);
         }
 
         public void Dispose()

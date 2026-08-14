@@ -24,7 +24,7 @@ namespace Duels.Core
         {
             Container.BindInterfacesAndSelfTo<MainMenuPresenter>().AsSingle().NonLazy();
 
-            Container.BindInterfacesAndSelfTo<GameStarter>().AsSingle();
+            Container.Bind<BattleStarter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameExiter>().AsSingle();
         }

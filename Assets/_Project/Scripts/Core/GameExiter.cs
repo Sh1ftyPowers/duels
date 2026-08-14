@@ -7,19 +7,19 @@ namespace Duels.Core
 {
     public class GameExiter : IInitializable, IDisposable
     {
-        private readonly MainMenuView _view;
+        private readonly MainMenuView _mainMenuView;
 
         public GameExiter(MainMenuView view)
         {
-            _view = view;
+            _mainMenuView = view;
         }
 
         public void Initialize()
         {
-            _view.ExitGameButton.onClick.AddListener(QuitGame);
+            _mainMenuView.ExitGameButton.onClick.AddListener(ExitGame);
         }
 
-        private void QuitGame()
+        private void ExitGame()
         {
 #if UNITY_EDITOR
             Debug.Log("Quit button pressed");
@@ -30,7 +30,7 @@ namespace Duels.Core
 
         public void Dispose()
         {
-            _view.ExitGameButton.onClick.RemoveListener(QuitGame);
+            _mainMenuView.ExitGameButton.onClick.RemoveListener(ExitGame);
         }
     }
 }

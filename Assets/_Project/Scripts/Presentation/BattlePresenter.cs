@@ -38,6 +38,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted += OnTurnStarted;
 
             _battleEvents.BattleStarted += OnBattleStarted;
+
             _battleEvents.WinnerDeclared += OnWinnerDeclared;
         }
 
@@ -51,7 +52,7 @@ namespace Duels.Presentation
             SetTurnText($"{attacker.UnitName} attacks!");
         }
 
-        public void ShowBattleStart()
+        private void ShowBattleStart()
         {
             SetTurnText("The Battle Begins!");
         }
@@ -93,6 +94,9 @@ namespace Duels.Presentation
 
         private void OnBattleStarted()
         {
+            _battleView.Reset();
+            _battleView.ShowBattleUI();
+
             ShowBattleStart();
         }
 
@@ -106,6 +110,7 @@ namespace Duels.Presentation
             _turnHandler.TurnStarted -= OnTurnStarted;
 
             _battleEvents.BattleStarted -= OnBattleStarted;
+
             _battleEvents.WinnerDeclared -= OnWinnerDeclared;
         }
     }
