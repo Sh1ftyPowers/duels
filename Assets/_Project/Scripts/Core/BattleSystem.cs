@@ -46,8 +46,6 @@ namespace Duels.Core
 
         private void StartBattle()
         {
-            _state = BattleState.Start;
-
             _battleEvents.RaiseBattleStarted();
         }
 
@@ -75,7 +73,7 @@ namespace Duels.Core
 
             await UniTask.Delay(StartDelay, cancellationToken: cancellationToken);
 
-            _state = BattleState.EnemyTeamTurn;
+            _state = BattleState.FirstUnitTurn;
 
             await StartBattleLoop(cancellationToken);
         }
@@ -84,13 +82,13 @@ namespace Duels.Core
         {
             while (!_battleResult.IsFinished)
             {
-                if (_state == BattleState.EnemyTeamTurn)
+                if (_state == BattleState.FirstUnitTurn)
                 {
-                    await PerformTurn(_firstTurnUnit, _secondTurnUnit, BattleState.PlayerTeamTurn, cancellationToken);
+                    await PerformTurn(_firstTurnUnit, _secondTurnUnit, BattleState.SecondUnitTurn, cancellationToken);
                 }
-                else if (_state == BattleState.PlayerTeamTurn)
+                else if (_state == BattleState.SecondUnitTurn)
                 {
-                    await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.EnemyTeamTurn, cancellationToken);
+                    await PerformTurn(_secondTurnUnit, _firstTurnUnit, BattleState.FirstUnitTurn, cancellationToken);
                 }
             }
         }
@@ -100,9 +98,7 @@ namespace Duels.Core
             _battleResult = await _turnHandler.HandleTurn(attacker, defender, cancellationToken);
 
             if (_battleResult.IsFinished)
-            {
                 return;
-            }
 
             _state = nextState;
         }
