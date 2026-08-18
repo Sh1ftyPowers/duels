@@ -10,11 +10,13 @@ namespace Duels.Core
 
         private readonly Wallet _wallet;
         private readonly BattleEvents _battleEvents;
+        private readonly BattleContext _battleContext;
 
-        public RewardService(Wallet wallet, BattleEvents battleEvents)
+        public RewardService(Wallet wallet, BattleEvents battleEvents, BattleContext battleContext)
         {
             _wallet = wallet;
             _battleEvents = battleEvents;
+            _battleContext = battleContext;
         }
 
         public void Initialize()
@@ -24,7 +26,7 @@ namespace Duels.Core
 
         private void OnWinnerDeclared(Unit winner)
         {
-            if (winner.TeamType != TeamType.Player)
+            if (winner != _battleContext.PlayerHero)
                 return;
 
             _wallet.AddCoins(RewardCoins);

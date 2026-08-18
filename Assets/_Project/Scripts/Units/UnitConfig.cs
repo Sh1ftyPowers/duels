@@ -6,7 +6,7 @@ namespace Duels.Units
 
     public class UnitConfig : ScriptableObject
     {
-        public TeamType TeamType;
+        //public TeamType TeamType;
         
         public UnitType UnitType;
         

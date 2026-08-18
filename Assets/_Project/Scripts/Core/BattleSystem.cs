@@ -14,6 +14,8 @@ namespace Duels.Core
 
         private BattleState _state;
 
+        private BattleContext _battleContext;
+
         private Unit _enemyTeamHero;
         private Unit _playerTeamHero;
 
@@ -25,11 +27,12 @@ namespace Duels.Core
         private const int StartDelay = 500;
 
         [Inject]
-        public void Construct(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents)
+        public void Construct(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents, BattleContext battleContext)
         {
             _unitFactory = unitFactory;
             _turnHandler = turnHandler;
             _battleEvents = battleEvents;
+            _battleContext = battleContext;
         }
 
         public async UniTask Run(CancellationToken cancellationToken)
@@ -54,6 +57,8 @@ namespace Duels.Core
 
             _enemyTeamHero = _unitFactory.CreateEnemyTeamHero();
             _playerTeamHero = _unitFactory.CreateHeroTeamHero();
+
+            _battleContext.SetPlayerHero(_playerTeamHero);
 
             int turnDecider = UnityEngine.Random.Range(0, 2);
 

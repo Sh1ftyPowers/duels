@@ -36,6 +36,8 @@ namespace Duels.Core
 
         private void BindCore()
         {
+            Container.Bind<BattleContext>().AsSingle();
+
             Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<Wallet>().AsSingle();
