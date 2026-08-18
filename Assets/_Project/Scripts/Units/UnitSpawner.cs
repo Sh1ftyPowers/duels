@@ -10,6 +10,8 @@ namespace Duels.Units
 
         private readonly List<Unit> _spawnedUnits = new();
 
+        public IReadOnlyList<Unit> SpawnedUnits => _spawnedUnits;
+
         public UnitSpawner(UnitSpawnConfig spawnConfig, SpawnPoints spawnPoints)
         {
             _spawnConfig = spawnConfig;

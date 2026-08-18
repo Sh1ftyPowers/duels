@@ -21,6 +21,14 @@ namespace Duels.Presentation
             OnHealthChanged(unit);
         }
 
+        public void UnregisterUnit(Unit unit)
+        {
+            if (!_healthbars.Remove(unit))
+                return;
+
+            unit.HealthChanged -= OnHealthChanged;
+        }
+
         private void OnHealthChanged(Unit unit)
         {
             if (!_healthbars.TryGetValue(unit, out Healthbar healthbar))

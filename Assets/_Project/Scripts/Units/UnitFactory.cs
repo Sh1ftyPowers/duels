@@ -37,6 +37,11 @@ namespace Duels.Units
 
         public void ClearUnits()
         {
+            foreach (Unit unit in _unitSpawner.SpawnedUnits)
+            {
+                _healthbarPresenter.UnregisterUnit(unit);
+            }
+
             _unitSpawner.ClearUnits();
         }
     }
