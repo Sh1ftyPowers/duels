@@ -8,15 +8,5 @@ namespace Duels.Units
     {
         public Unit[] EnemyTeamPrefabs;
         public Unit[] PlayerTeamPrefabs;
-
-        public int CountEnemyTeamPrefabs()
-        {
-            return EnemyTeamPrefabs.Length;
-        }
-
-        public int CountPlayerTeamPrefabs()
-        {
-            return PlayerTeamPrefabs.Length;
-        }
     }
 }
