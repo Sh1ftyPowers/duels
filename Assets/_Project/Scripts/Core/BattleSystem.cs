@@ -2,6 +2,7 @@ using System.Threading;
 using Zenject;
 using Cysharp.Threading.Tasks;
 using Duels.Units;
+using System;
 
 namespace Duels.Core
 {
@@ -25,6 +26,8 @@ namespace Duels.Core
         private BattleResult _battleResult;
 
         private const int StartDelay = 500;
+
+        private readonly Random _random = new();
 
         [Inject]
         public void Construct(UnitFactory unitFactory, TurnHandler turnHandler, BattleEvents battleEvents, BattleContext battleContext)
@@ -58,9 +61,9 @@ namespace Duels.Core
 
             _battleContext.SetPlayerHero(_playerTeamHero);
 
-            int turnDecider = UnityEngine.Random.Range(0, 2);
+            bool enemyGoesFirst = _random.Next(0, 2) == 0;
 
-            if (turnDecider == 0)
+            if (enemyGoesFirst)
             {
                 _firstTurnUnit = _enemyTeamHero;
                 _secondTurnUnit = _playerTeamHero;
