@@ -4,18 +4,18 @@ namespace Duels.UI
 {
     public class UIFactory
     {
-        private readonly DiContainer _container;
+        private readonly IInstantiator _instantiator;
         private readonly BattleView _battleViewPrefab;
 
-        public UIFactory(DiContainer container, BattleView battleViewPrefab)
+        public UIFactory(IInstantiator instantiator, BattleView battleViewPrefab)
         {
-            _container = container;
+            _instantiator = instantiator;
             _battleViewPrefab = battleViewPrefab;
         }
 
         public BattleView CreateBattleCanvas()
         {
-            var battleView = _container.InstantiatePrefabForComponent<BattleView>(_battleViewPrefab);
+            var battleView = _instantiator.InstantiatePrefabForComponent<BattleView>(_battleViewPrefab);
 
             battleView.HideBattleUI();
 
