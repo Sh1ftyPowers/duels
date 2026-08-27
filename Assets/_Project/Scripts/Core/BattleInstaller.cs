@@ -44,7 +44,7 @@ namespace Duels.Core
 
             Container.BindInterfacesAndSelfTo<GameLifetime>().AsSingle();
 
-            Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.Token).AsSingle();
+            Container.Bind<CancellationToken>().FromResolveGetter<GameLifetime>(x => x.CancellationToken).AsSingle();
 
             Container.Bind<BattleEvents>().AsSingle();
 

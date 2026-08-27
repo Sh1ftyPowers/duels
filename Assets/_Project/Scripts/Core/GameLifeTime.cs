@@ -7,7 +7,7 @@ namespace Duels.Core
     {
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-        public CancellationToken Token => _cancellationTokenSource.Token;
+        public CancellationToken CancellationToken => _cancellationTokenSource.Token;
 
         public void Dispose()
         {
