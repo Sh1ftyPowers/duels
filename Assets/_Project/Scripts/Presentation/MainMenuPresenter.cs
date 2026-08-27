@@ -12,18 +12,22 @@ namespace Duels.Presentation
         private readonly Wallet _wallet;
         private readonly BattleEvents _battleEvents;
         private readonly BattleStarter _battleStarter;
+        private readonly GameExiter _gameExiter;
 
-        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter)
+        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter, GameExiter gameExiter)
         {
             _mainMenuView = mainMenuView;
             _wallet = wallet;
             _battleEvents = battleEvents;
             _battleStarter = battleStarter;
+            _gameExiter = gameExiter;
         }
 
         public void Initialize()
         {
             _mainMenuView.StartGameButton.onClick.AddListener(StartGame);
+
+            _mainMenuView.ExitGameButton.onClick.AddListener(_gameExiter.ExitGame);
 
             _wallet.CoinsChanged += OnCoinsChanged;
 
@@ -52,6 +56,8 @@ namespace Duels.Presentation
         public void Dispose()
         {
             _mainMenuView.StartGameButton.onClick.RemoveListener(StartGame);
+
+            _mainMenuView.ExitGameButton.onClick.RemoveListener(_gameExiter.ExitGame);
 
             _wallet.CoinsChanged -= OnCoinsChanged;
 
