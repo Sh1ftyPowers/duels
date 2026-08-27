@@ -28,7 +28,7 @@ namespace Duels.UI
             gameObject.SetActive(true);
         }
 
-        public void Reset()
+        public void ResetBattleUI()
         {
             SetTurnText(string.Empty);
             SetStatusText("No active negative effects");

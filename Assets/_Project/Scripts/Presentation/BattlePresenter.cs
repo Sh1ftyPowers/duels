@@ -94,7 +94,7 @@ namespace Duels.Presentation
 
         private void OnBattleStarted()
         {
-            _battleView.Reset();
+            _battleView.ResetBattleUI();
             _battleView.ShowBattleUI();
 
             ShowBattleStart();
