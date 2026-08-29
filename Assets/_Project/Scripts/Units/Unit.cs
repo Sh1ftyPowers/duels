@@ -18,10 +18,15 @@ namespace Duels.Units
 
         private readonly EffectsHolder _effects = new();
 
+        private float _healthMultiplier = 1f;
+        private float _damageMultiplier = 1f;
+        private float _attackSpeedMultiplier = 1f;
+
         public UnitType UnitType => _config.UnitType;
         public string UnitName => _config.Name;
-        public int Damage => _config.Damage;
-        public int MaxHealthPoints => _config.MaxHealthPoints;
+        public int MaxHealthPoints => Mathf.RoundToInt(_config.MaxHealthPoints * _healthMultiplier);
+        public int Damage => Mathf.RoundToInt(_config.Damage * _damageMultiplier);
+        public float AttackSpeedMultiplier => _attackSpeedMultiplier;
         public int CurrentHealthPoints { get; private set; }
 
         public event Action<Unit> HealthChanged;
@@ -31,6 +36,13 @@ namespace Duels.Units
             CurrentHealthPoints = MaxHealthPoints;
 
             HealthChanged?.Invoke(this);
+        }
+
+        public void ApplyUpgrades(float healthMultiplier, float damageMultiplier, float attackSpeedMultiplier)
+        {
+            _healthMultiplier = healthMultiplier;
+            _damageMultiplier = damageMultiplier;
+            _attackSpeedMultiplier = attackSpeedMultiplier;
         }
 
         public AttackResult PerformAttack(Unit target)

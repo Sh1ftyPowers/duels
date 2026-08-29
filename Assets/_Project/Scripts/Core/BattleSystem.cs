@@ -57,7 +57,7 @@ namespace Duels.Core
             _unitFactory.ClearUnits();
 
             _enemyTeamHero = _unitFactory.CreateEnemyTeamHero();
-            _playerTeamHero = _unitFactory.CreateHeroTeamHero();
+            _playerTeamHero = _unitFactory.CreatePlayerTeamHero();
 
             _battleContext.SetPlayerHero(_playerTeamHero);
 

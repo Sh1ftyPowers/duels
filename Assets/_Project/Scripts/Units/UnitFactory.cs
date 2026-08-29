@@ -1,3 +1,4 @@
+using Duels.Core;
 using Duels.Presentation;
 using Duels.UI;
 
@@ -7,11 +8,13 @@ namespace Duels.Units
     {
         private readonly UnitSpawner _unitSpawner;
         private readonly HealthbarPresenter _healthbarPresenter;
+        private readonly UpgradeService _upgradeService;
 
-        public UnitFactory(UnitSpawner unitSpawner, HealthbarPresenter healthbarPresenter)
+        public UnitFactory(UnitSpawner unitSpawner, HealthbarPresenter healthbarPresenter, UpgradeService upgradeService)
         {
             _unitSpawner = unitSpawner;
             _healthbarPresenter = healthbarPresenter;
+            _upgradeService = upgradeService;
         }
 
         public Unit CreateEnemyTeamHero()
@@ -19,9 +22,13 @@ namespace Duels.Units
             return CreateHero(_unitSpawner.SpawnEnemyTeamHero());
         }
 
-        public Unit CreateHeroTeamHero()
+        public Unit CreatePlayerTeamHero()
         {
-            return CreateHero(_unitSpawner.SpawnPlayerTeamHero());
+            Unit playerHero = _unitSpawner.SpawnPlayerTeamHero();
+
+            playerHero.ApplyUpgrades(_upgradeService.HealthMultiplier, _upgradeService.DamageMultiplier, _upgradeService.AttackSpeedMultiplier);
+
+            return CreateHero(playerHero);
         }
 
         private Unit CreateHero(Unit hero)

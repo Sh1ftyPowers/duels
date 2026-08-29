@@ -14,6 +14,8 @@ namespace Duels.Presentation
         private readonly BattleStarter _battleStarter;
         private readonly GameExiter _gameExiter;
 
+        public event Action UpgradesRequested;
+
         public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter, GameExiter gameExiter)
         {
             _mainMenuView = mainMenuView;
@@ -29,6 +31,8 @@ namespace Duels.Presentation
 
             _mainMenuView.ExitGameButton.onClick.AddListener(_gameExiter.ExitGame);
 
+            _mainMenuView.UpgradesButton.onClick.AddListener(OpenUpgrades);
+
             _wallet.CoinsChanged += OnCoinsChanged;
 
             _battleEvents.BattleEnded += OnBattleEnded;
@@ -36,11 +40,22 @@ namespace Duels.Presentation
             OnCoinsChanged(_wallet.Coins);
         }
 
+        public void ShowMainMenu()
+        {
+            _mainMenuView.ShowMainMenuUI();
+        }
+
         private void StartGame()
         {
             _mainMenuView.HideMainMenuUI();
 
             _battleStarter.Start();
+        }
+
+        private void OpenUpgrades()
+        {
+            _mainMenuView.HideMainMenuUI();
+            UpgradesRequested?.Invoke();
         }
 
         private void OnCoinsChanged(int coins)
@@ -58,6 +73,8 @@ namespace Duels.Presentation
             _mainMenuView.StartGameButton.onClick.RemoveListener(StartGame);
 
             _mainMenuView.ExitGameButton.onClick.RemoveListener(_gameExiter.ExitGame);
+
+            _mainMenuView.UpgradesButton.onClick.RemoveListener(OpenUpgrades);
 
             _wallet.CoinsChanged -= OnCoinsChanged;
 

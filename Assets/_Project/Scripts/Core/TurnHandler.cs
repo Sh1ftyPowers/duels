@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Duels.Effects;
 using Duels.Units;
@@ -13,7 +14,7 @@ namespace Duels.Core
 
         public event Action<Unit> TurnStarted;
 
-        private const int AttackDelay = 3000;
+        private const int BaseAttackDelay = 3000;
 
         public TurnHandler(EffectsManager effects, VictoryHandler victoryHandler)
         {
@@ -53,7 +54,9 @@ namespace Duels.Core
 
         private async UniTask AttackTheEnemy(Unit attacker, Unit defender, CancellationToken cancellationToken)
         {
-            await UniTask.Delay(AttackDelay, cancellationToken: cancellationToken);
+            int attackDelay = Mathf.RoundToInt(BaseAttackDelay / attacker.AttackSpeedMultiplier);
+
+            await UniTask.Delay(attackDelay, cancellationToken: cancellationToken);
 
             var result = attacker.PerformAttack(defender);
 

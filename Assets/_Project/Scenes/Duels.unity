@@ -6808,9 +6808,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.BattleInstaller
   _battleViewPrefab: {fileID: 2449095896588913471, guid: e95d2d8cfc1ea314f9dab66dd6cfe6a8, type: 3}
-  _restartViewPrefab: {fileID: 7839237003545387583, guid: ac2bc8cf81c81f8469f30bdefb2a582b, type: 3}
   _musicSource: {fileID: 1943346877}
   _audioConfig: {fileID: 11400000, guid: ad89a5cc8a827474d99967a81ec65202, type: 2}
+  _walletConfig: {fileID: 11400000, guid: d81ea026fc6b5fa4baea73cb9cc51287, type: 2}
   _spawnConfig: {fileID: 11400000, guid: cd4a816fddb50744997de8cf280fe18a, type: 2}
 --- !u!82 &1943346877
 AudioSource:
@@ -7354,6 +7354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.MainMenuInstaller
   _mainMenuViewPrefab: {fileID: 340912055103716091, guid: cc132265d0005bf45a4a7688f82b6378, type: 3}
+  _upgradeViewViewPrefab: {fileID: 2520254838289190541, guid: bcb287b71cb42a84bb11c1ae2f8ae0ca, type: 3}
 --- !u!1 &2100641454
 GameObject:
   m_ObjectHideFlags: 0

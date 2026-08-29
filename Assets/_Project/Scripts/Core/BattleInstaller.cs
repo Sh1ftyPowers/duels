@@ -16,6 +16,8 @@ namespace Duels.Core
         [SerializeField] private AudioSource _musicSource;
         [SerializeField] private AudioConfig _audioConfig;
 
+        [SerializeField] private WalletConfig _walletConfig;
+
         [SerializeField] private UnitSpawnConfig _spawnConfig;
 
         public override void InstallBindings()
@@ -40,6 +42,7 @@ namespace Duels.Core
 
             Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
 
+            Container.BindInstance(_walletConfig);
             Container.BindInterfacesAndSelfTo<Wallet>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameLifetime>().AsSingle();
@@ -55,6 +58,8 @@ namespace Duels.Core
             Container.Bind<TurnHandler>().AsSingle();
 
             Container.Bind<BattleSystem>().AsSingle();
+
+            Container.Bind<UpgradeService>().AsSingle();
         }
 
         private void BindUI()

@@ -9,9 +9,12 @@ namespace Duels.UI
         [SerializeField] private TMP_Text _coinsText;
         [SerializeField] private Button _startGameButton;
         [SerializeField] private Button _exitGameButton;
+        [SerializeField] private Button _upgradesButton;
+
 
         public Button StartGameButton => _startGameButton;
         public Button ExitGameButton => _exitGameButton;
+        public Button UpgradesButton => _upgradesButton;
 
         public void SetCoins(int coins)
         {
