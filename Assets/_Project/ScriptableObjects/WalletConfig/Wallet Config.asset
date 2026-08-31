@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b458571f8f9042408e43be8646d50cd, type: 3}
   m_Name: Wallet Config
   m_EditorClassIdentifier: Assembly-CSharp::Duels.Core.WalletConfig
-  <StartingCoins>k__BackingField: 1000
+  <StartingCoins>k__BackingField: 100
   <VictoryReward>k__BackingField: 100

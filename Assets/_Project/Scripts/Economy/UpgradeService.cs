@@ -1,11 +1,11 @@
-using System;
-using Duels.Economy;
+using Duels.Core;
 
-namespace Duels.Core
+namespace Duels.Economy
 {
     public class UpgradeService
     {
         private readonly Wallet _wallet;
+        private readonly PlayerProgressEvents _playerProgressEvents;
 
         private const int BaseUpgradeCost = 100;
         private const int UpgradeCostIncrease = 20;
@@ -26,11 +26,10 @@ namespace Duels.Core
         public float DamageMultiplier => 1f + _damageLevel * DamageMultiplierIncreasePerLevel;
         public float AttackSpeedMultiplier => 1f + _attackSpeedLevel * AttackSpeedMultiplierIncreasePerLevel;
 
-        public event Action UpgradePurchased;
-
-        public UpgradeService(Wallet wallet)
+        public UpgradeService(Wallet wallet, PlayerProgressEvents playerProgressEvents)
         {
             _wallet = wallet;
+            _playerProgressEvents = playerProgressEvents;
         }
 
         public bool TryUpgradeHealth()
@@ -42,7 +41,7 @@ namespace Duels.Core
 
             _healthLevel++;
 
-            UpgradePurchased?.Invoke();
+            _playerProgressEvents.RaiseProgressChanged();
 
             return true;
         }
@@ -56,7 +55,7 @@ namespace Duels.Core
 
             _damageLevel++;
 
-            UpgradePurchased?.Invoke();
+            _playerProgressEvents.RaiseProgressChanged();
 
             return true;
         }
@@ -70,7 +69,7 @@ namespace Duels.Core
 
             _attackSpeedLevel++;
 
-            UpgradePurchased?.Invoke();
+            _playerProgressEvents.RaiseProgressChanged();
 
             return true;
         }

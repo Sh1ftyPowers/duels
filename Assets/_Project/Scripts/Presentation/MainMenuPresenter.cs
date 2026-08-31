@@ -14,16 +14,18 @@ namespace Duels.Presentation
         private readonly BattleEvents _battleEvents;
         private readonly BattleStarter _battleStarter;
         private readonly GameExiter _gameExiter;
+        private readonly PlayerProgressEvents _playerProgressEvents;
 
         public event Action UpgradesRequested;
 
-        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter, GameExiter gameExiter)
+        public MainMenuPresenter(MainMenuView mainMenuView, Wallet wallet, BattleEvents battleEvents, BattleStarter battleStarter, GameExiter gameExiter, PlayerProgressEvents playerProgressEvents)
         {
             _mainMenuView = mainMenuView;
             _wallet = wallet;
             _battleEvents = battleEvents;
             _battleStarter = battleStarter;
             _gameExiter = gameExiter;
+            _playerProgressEvents = playerProgressEvents;
         }
 
         public void Initialize()
@@ -34,11 +36,11 @@ namespace Duels.Presentation
 
             _mainMenuView.UpgradesButton.onClick.AddListener(OpenUpgrades);
 
-            _wallet.CoinsChanged += OnCoinsChanged;
-
             _battleEvents.BattleEnded += OnBattleEnded;
 
-            OnCoinsChanged(_wallet.Coins);
+            _playerProgressEvents.ProgressChanged += OnProgressChanged;
+
+            OnProgressChanged();
         }
 
         public void ShowMainMenu()
@@ -59,9 +61,9 @@ namespace Duels.Presentation
             UpgradesRequested?.Invoke();
         }
 
-        private void OnCoinsChanged(int coins)
+        private void OnProgressChanged()
         {
-            _mainMenuView.SetCoins(coins);
+            _mainMenuView.SetCoins(_wallet.Coins);
         }
 
         private void OnBattleEnded()
@@ -77,7 +79,7 @@ namespace Duels.Presentation
 
             _mainMenuView.UpgradesButton.onClick.RemoveListener(OpenUpgrades);
 
-            _wallet.CoinsChanged -= OnCoinsChanged;
+            _playerProgressEvents.ProgressChanged += OnProgressChanged;
 
             _battleEvents.BattleEnded -= OnBattleEnded;
         }

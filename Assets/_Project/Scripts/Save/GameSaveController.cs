@@ -1,38 +1,29 @@
 using System;
 using Zenject;
 using Duels.Core;
-using Duels.Economy;
 
 namespace Duels.Save
 {
     public class GameSaveController : IInitializable, IDisposable
     {
-        private readonly Wallet _wallet;
-        private readonly UpgradeService _upgradeService;
         private readonly PlayerDataService _playerDataService;
         private readonly GameExiter _gameExiter;
+        private readonly PlayerProgressEvents _playerProgressEvents;
 
-        public GameSaveController(Wallet wallet, UpgradeService upgradeService, PlayerDataService playerDataService, GameExiter gameExiter)
+        public GameSaveController(PlayerDataService playerDataService, GameExiter gameExiter, PlayerProgressEvents playerProgressEvents)
         {
-            _wallet = wallet;
-            _upgradeService = upgradeService;
             _playerDataService = playerDataService;
             _gameExiter = gameExiter;
+            _playerProgressEvents = playerProgressEvents;
         }
 
         public void Initialize()
         {
-            _wallet.WalletChanged += OnWalletChanged;
-            _upgradeService.UpgradePurchased += OnUpgradePurchased;
+            _playerProgressEvents.ProgressChanged  += OnProgressChanged;
             _gameExiter.ExitRequested += OnExitRequested;
         }
 
-        private void OnWalletChanged()
-        {
-            _playerDataService.Save();
-        }
-
-        private void OnUpgradePurchased()
+        private void OnProgressChanged()
         {
             _playerDataService.Save();
         }
@@ -44,8 +35,7 @@ namespace Duels.Save
 
         public void Dispose()
         {
-            _wallet.WalletChanged -= OnWalletChanged;
-            _upgradeService.UpgradePurchased -= OnUpgradePurchased;
+            _playerProgressEvents.ProgressChanged -= OnProgressChanged;
             _gameExiter.ExitRequested -= OnExitRequested;
         }
     }

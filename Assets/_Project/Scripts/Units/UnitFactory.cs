@@ -1,4 +1,4 @@
-using Duels.Core;
+using Duels.Economy;
 using Duels.Presentation;
 using Duels.UI;
 

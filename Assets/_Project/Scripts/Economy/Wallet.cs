@@ -1,4 +1,4 @@
-using System;
+using Duels.Core;
 using UnityEngine;
 
 namespace Duels.Economy
@@ -7,15 +7,12 @@ namespace Duels.Economy
     {
         private readonly WalletConfig _walletConfig;
 
-        public event Action WalletChanged;
-
         public int Coins { get; private set; }
-
-        public event Action<int> CoinsChanged;
 
         public Wallet(WalletConfig config)
         {
             _walletConfig = config;
+
             Coins = _walletConfig.StartingCoins;
         }
 
@@ -25,9 +22,6 @@ namespace Duels.Economy
                 return;
 
             Coins += amount;
-
-            CoinsChanged?.Invoke(Coins);
-            WalletChanged?.Invoke();
         }
 
         public bool TrySpendCoins(int amount)
@@ -37,17 +31,12 @@ namespace Duels.Economy
 
             Coins -= amount;
 
-            CoinsChanged?.Invoke(Coins);
-            WalletChanged?.Invoke();
-
             return true;
         }
 
         public void SetCoins(int coins)
         {
             Coins = Mathf.Max(0, coins);
-
-            CoinsChanged?.Invoke(Coins);
         }
     }
 }

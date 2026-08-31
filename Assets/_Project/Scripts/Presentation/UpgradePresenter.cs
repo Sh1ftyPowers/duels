@@ -1,8 +1,8 @@
 using System;
 using Zenject;
-using Duels.UI;
 using Duels.Core;
 using Duels.Economy;
+using Duels.UI;
 
 namespace Duels.Presentation
 {
@@ -11,14 +11,16 @@ namespace Duels.Presentation
         private readonly UpgradeView _upgradeView;
         private readonly UpgradeService _upgradeService;
         private readonly Wallet _wallet;
+        private readonly PlayerProgressEvents _playerProgressEvents;
 
         public event Action MainMenuRequested;
 
-        public UpgradePresenter(UpgradeView upgradeView, UpgradeService upgradeService, Wallet wallet)
+        public UpgradePresenter(UpgradeView upgradeView, UpgradeService upgradeService, Wallet wallet, PlayerProgressEvents playerProgressEvents)
         {
             _upgradeView = upgradeView;
             _upgradeService = upgradeService;
             _wallet = wallet;
+            _playerProgressEvents = playerProgressEvents;
         }
 
         public void Initialize()
@@ -28,11 +30,11 @@ namespace Duels.Presentation
             _upgradeView.AttackSpeedUpgradeButton.onClick.AddListener(UpgradeAttackSpeed);
             _upgradeView.BackToMainMenuButton.onClick.AddListener(BackToMainMenu);
 
-            _wallet.CoinsChanged += OnCoinsChanged;
-
             UpdateUpgradeView();
 
-            OnCoinsChanged(_wallet.Coins);
+            _playerProgressEvents.ProgressChanged += OnProgressChanged;
+
+            OnProgressChanged();
 
             _upgradeView.HideUpgradeMenuUI();
         }
@@ -43,9 +45,10 @@ namespace Duels.Presentation
             _upgradeView.ShowUpgradeMenuUI();
         }
 
-        private void OnCoinsChanged(int coins)
+        private void OnProgressChanged()
         {
-            _upgradeView.SetCoins(coins);
+            UpdateUpgradeView();
+            _upgradeView.SetCoins(_wallet.Coins);
         }
 
         private void UpgradeHealth()
@@ -87,11 +90,12 @@ namespace Duels.Presentation
 
         public void Dispose()
         {
+            _playerProgressEvents.ProgressChanged -= OnProgressChanged;
+
             _upgradeView.HealthUpgradeButton.onClick.RemoveListener(UpgradeHealth);
             _upgradeView.DamageUpgradeButton.onClick.RemoveListener(UpgradeDamage);
             _upgradeView.AttackSpeedUpgradeButton.onClick.RemoveListener(UpgradeAttackSpeed);
             _upgradeView.BackToMainMenuButton.onClick.RemoveListener(BackToMainMenu);
-            _wallet.CoinsChanged -= OnCoinsChanged;
         }
     }
 }

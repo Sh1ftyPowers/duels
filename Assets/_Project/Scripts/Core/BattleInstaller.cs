@@ -26,6 +26,8 @@ namespace Duels.Core
         {
             BindAudio();
             BindCore();
+            BindEconomy();
+            BindSave();
             BindUI();
             BindUnits();
         }
@@ -40,20 +42,7 @@ namespace Duels.Core
 
         private void BindCore()
         {
-            Container.Bind<ISaveService>().To<SaveService>().AsSingle();
-
-            Container.Bind<PlayerDataService>().AsSingle();
-
-            Container.BindInterfacesAndSelfTo<SavedGameInitializer>().AsSingle().NonLazy();
-
-            Container.BindInterfacesAndSelfTo<GameSaveController>().AsSingle().NonLazy();
-
             Container.Bind<BattleContext>().AsSingle();
-
-            Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
-
-            Container.BindInstance(_walletConfig);
-            Container.BindInterfacesAndSelfTo<Wallet>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameLifetime>().AsSingle();
 
@@ -69,7 +58,29 @@ namespace Duels.Core
 
             Container.Bind<BattleSystem>().AsSingle();
 
+            Container.Bind<PlayerProgressEvents>().AsSingle();
+
+        }
+
+        private void BindEconomy()
+        {
+            Container.BindInstance(_walletConfig);
+            Container.BindInterfacesAndSelfTo<Wallet>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
+
             Container.Bind<UpgradeService>().AsSingle();
+        }
+
+        private void BindSave()
+        {
+            Container.Bind<ISaveService>().To<SaveService>().AsSingle();
+
+            Container.Bind<PlayerDataService>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<SavedGameInitializer>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<GameSaveController>().AsSingle();
         }
 
         private void BindUI()

@@ -11,13 +11,15 @@ namespace Duels.Economy
         private readonly WalletConfig _walletConfig;
         private readonly BattleEvents _battleEvents;
         private readonly BattleContext _battleContext;
+        private readonly PlayerProgressEvents _playerProgressEvents;
 
-        public RewardService(Wallet wallet, WalletConfig walletConfig, BattleEvents battleEvents, BattleContext battleContext)
+        public RewardService(Wallet wallet, WalletConfig walletConfig, BattleEvents battleEvents, BattleContext battleContext, PlayerProgressEvents playerProgressEvents)
         {
             _wallet = wallet;
             _walletConfig = walletConfig;
             _battleEvents = battleEvents;
             _battleContext = battleContext;
+            _playerProgressEvents = playerProgressEvents;
         }
 
         public void Initialize()
@@ -31,6 +33,8 @@ namespace Duels.Economy
                 return;
 
             _wallet.AddCoins(_walletConfig.VictoryReward);
+            _playerProgressEvents.RaiseProgressChanged();
+
         }
 
         public void Dispose()
