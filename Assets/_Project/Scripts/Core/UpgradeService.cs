@@ -1,3 +1,5 @@
+using System;
+
 namespace Duels.Core
 {
     public class UpgradeService
@@ -23,6 +25,8 @@ namespace Duels.Core
         public float DamageMultiplier => 1f + _damageLevel * DamageMultiplierIncreasePerLevel;
         public float AttackSpeedMultiplier => 1f + _attackSpeedLevel * AttackSpeedMultiplierIncreasePerLevel;
 
+        public event Action UpgradePurchased;
+
         public UpgradeService(Wallet wallet)
         {
             _wallet = wallet;
@@ -37,6 +41,8 @@ namespace Duels.Core
 
             _healthLevel++;
 
+            UpgradePurchased?.Invoke();
+
             return true;
         }
 
@@ -48,6 +54,8 @@ namespace Duels.Core
                 return false;
 
             _damageLevel++;
+
+            UpgradePurchased?.Invoke();
 
             return true;
         }
@@ -61,7 +69,16 @@ namespace Duels.Core
 
             _attackSpeedLevel++;
 
+            UpgradePurchased?.Invoke();
+
             return true;
+        }
+
+        public void SetLevels(int healthLevel, int damageLevel, int attackSpeedLevel)
+        {
+            _healthLevel = healthLevel;
+            _damageLevel = damageLevel;
+            _attackSpeedLevel = attackSpeedLevel;
         }
 
         public int GetHealthUpgradeCost()

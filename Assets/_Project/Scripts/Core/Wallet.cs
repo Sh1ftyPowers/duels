@@ -1,10 +1,13 @@
 using System;
+using UnityEngine;
 
 namespace Duels.Core
 {
     public class Wallet
     {
         private readonly WalletConfig _walletConfig;
+
+        public event Action WalletChanged;
 
         public int Coins { get; private set; }
 
@@ -24,6 +27,7 @@ namespace Duels.Core
             Coins += amount;
 
             CoinsChanged?.Invoke(Coins);
+            WalletChanged?.Invoke();
         }
 
         public bool TrySpendCoins(int amount)
@@ -34,8 +38,16 @@ namespace Duels.Core
             Coins -= amount;
 
             CoinsChanged?.Invoke(Coins);
+            WalletChanged?.Invoke();
 
             return true;
+        }
+
+        public void SetCoins(int coins)
+        {
+            Coins = Mathf.Max(0, coins);
+
+            CoinsChanged?.Invoke(Coins);
         }
     }
 }

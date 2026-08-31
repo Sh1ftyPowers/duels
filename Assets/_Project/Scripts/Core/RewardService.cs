@@ -6,15 +6,15 @@ namespace Duels.Core
 {
     public class RewardService : IInitializable, IDisposable
     {
-        private const int RewardCoins = 100;
-
         private readonly Wallet _wallet;
+        private readonly WalletConfig _walletConfig;
         private readonly BattleEvents _battleEvents;
         private readonly BattleContext _battleContext;
 
-        public RewardService(Wallet wallet, BattleEvents battleEvents, BattleContext battleContext)
+        public RewardService(Wallet wallet, WalletConfig walletConfig, BattleEvents battleEvents, BattleContext battleContext)
         {
             _wallet = wallet;
+            _walletConfig = walletConfig;
             _battleEvents = battleEvents;
             _battleContext = battleContext;
         }
@@ -29,7 +29,7 @@ namespace Duels.Core
             if (winner != _battleContext.PlayerHero)
                 return;
 
-            _wallet.AddCoins(RewardCoins);
+            _wallet.AddCoins(_walletConfig.VictoryReward);
         }
 
         public void Dispose()

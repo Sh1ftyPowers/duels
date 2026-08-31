@@ -38,6 +38,14 @@ namespace Duels.Core
 
         private void BindCore()
         {
+            Container.Bind<ISaveService>().To<SaveService>().AsSingle();
+
+            Container.Bind<PlayerDataService>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<SavedGameInitializer>().AsSingle().NonLazy();
+
+            Container.BindInterfacesAndSelfTo<GameSaveController>().AsSingle().NonLazy();
+
             Container.Bind<BattleContext>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<RewardService>().AsSingle();
