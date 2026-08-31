@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Duels.Core
+namespace Duels.Economy
 {
     [CreateAssetMenu(menuName = "Configs/WalletConfig")]
     public class WalletConfig : ScriptableObject

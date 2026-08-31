@@ -2,6 +2,7 @@ using System;
 using Zenject;
 using Duels.UI;
 using Duels.Core;
+using Duels.Economy;
 
 namespace Duels.Presentation
 {

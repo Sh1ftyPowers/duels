@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Duels.Core
+namespace Duels.Save
 {
     public class SaveService : ISaveService
     {

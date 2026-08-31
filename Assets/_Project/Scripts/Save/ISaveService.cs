@@ -1,4 +1,4 @@
-namespace Duels.Core
+namespace Duels.Save
 {
     public interface ISaveService
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Duels.Core
+namespace Duels.Economy
 {
     public class Wallet
     {

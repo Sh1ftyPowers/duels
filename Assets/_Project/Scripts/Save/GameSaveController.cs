@@ -1,7 +1,9 @@
 using System;
 using Zenject;
+using Duels.Core;
+using Duels.Economy;
 
-namespace Duels.Core
+namespace Duels.Save
 {
     public class GameSaveController : IInitializable, IDisposable
     {
@@ -37,7 +39,6 @@ namespace Duels.Core
 
         private void OnExitRequested()
         {
-            UnityEngine.Debug.Log("GameSaveController: ExitRequested");
             _playerDataService.Save();
         }
 

@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace Duels.Core
+namespace Duels.Save
 {
     public class SavedGameInitializer : IInitializable
     {

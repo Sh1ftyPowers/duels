@@ -1,8 +1,9 @@
 using System;
 using Zenject;
+using Duels.Core;
 using Duels.Units;
 
-namespace Duels.Core
+namespace Duels.Economy
 {
     public class RewardService : IInitializable, IDisposable
     {
